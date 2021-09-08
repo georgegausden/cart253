@@ -1,22 +1,25 @@
 "use strict";
 
 /**************************************************
-Template p5 project
-Pippin Barr
+Drawing Experiments
+George Gausden
 
-Here is a description of this template p5 project.
+Experimenting with p5's drawing and colour functions
+
+Currently draws shapes
 **************************************************/
 
 // setup()
 //
-// Description of setup() goes here.
+// Draws shapes
+
 function setup() {
 
   createCanvas(500,500);
 
   background(255,127,0);
 
-  //fill applies to all the shapes after it
+  //fill applies to all the shapes after it, the fourth value is the transparency 0-100 (most transparent)
   stroke(0,255,0);
   fill(127,0,200, 50);
 
@@ -33,7 +36,7 @@ function setup() {
 
 // draw()
 //
-// Description of draw() goes here.
+// Does nothing
 function draw() {
 
 }
