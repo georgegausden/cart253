@@ -14,7 +14,7 @@ let circleSpeed = 2;
 let circleAcceleration = 0.25;
 
 // setup()
-//
+//6
 // Description of setup() goes here.
 function setup() {
   createCanvas(500,500);
@@ -27,6 +27,6 @@ function setup() {
 function draw() {
   background(backgroundShade);
   circleX += circleSpeed;
-  circleSpeed += circleAcceleration;
+  circleSpeed + circleAcceleration;
   ellipse(circleX, circleY,circleSize);
 }
