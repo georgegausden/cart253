@@ -31,4 +31,8 @@ function draw() {
   background(backgroundShade);
   circle.x += circle.speed;
   ellipse(circle.x, circle.y,circle.size);
+//see what values our variable has in the jvascript console
+  console.log("circleX:" + circle.x)
+  //another way to write it with dollar sign
+  //console.log(`circleX: ${circle.x}`)
 }
