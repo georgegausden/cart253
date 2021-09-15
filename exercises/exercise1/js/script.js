@@ -78,12 +78,16 @@ function draw() {
   fill(circle1.fill);
   circle(circle1.x,circle1.y,circle1.size);
   circle1.x += circle1.speed;
+  //make the first circle's size change depending on the x position of the mouse
+  circle1.size = mouseX;
+  //map the values of the size so that it goes to the edge at a good size not too big
+  circle1.size = map(mouseX,0,500,10,200);
 
   //add the second circle to the program
   fill(circle2.fill);
   circle(circle2.x,circle2.y,circle2.size);
   circle2.y += circle2.speed;
-
+  
   //add the triangle to the program
   fill(triangle1.fill);
   triangle(triangle1.x1,triangle1.y1,triangle1.x2,triangle1.y2,triangle1.x3,triangle1.y3);
