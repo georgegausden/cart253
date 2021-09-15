@@ -29,7 +29,7 @@ let circle1 = {
   y:250,
   size:100,
   speed:1,
-  fill:(200,0,0)
+  fill:(255)
 };
 
 let circle2 = {
@@ -55,7 +55,7 @@ let triangle1 = {
 // Description of setup() goes here.
 function setup() {
   createCanvas(500,500);
-  background(0);
+
 
 }
 
@@ -64,9 +64,12 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   noStroke();
+  background(0);
+
   //add the first circle to the program
   fill(circle1.fill);
-  circle1(circle1.x,circle1.y,circle1.size);
+  circle(circle1.x,circle1.y,circle1.size);
+  circle1.x += circle1.speed;
 
 
 
