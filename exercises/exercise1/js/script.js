@@ -18,13 +18,13 @@ Respond to the mouse position using mouseX and mouseY
 **************************************************/
 
 //create JavaScript Objects for the different parameters we're going to change in draw()
-let backgroundColor:{
+let backgroundColor = {
   r:0,
   g:0,
   b:0
 };
 
-let circle1:{
+let circle1 = {
   x:0,
   y:250,
   size:100,
@@ -32,7 +32,7 @@ let circle1:{
   fill:(200,0,0)
 };
 
-let circle2:{
+let circle2 = {
   x:500,
   y:250,
   size:50,
@@ -40,7 +40,7 @@ let circle2:{
   fill:(0,200,0)
 };
 
-let triangle1:{
+let triangle1 = {
   x1:100,
   y1:250,
   x2:200,
@@ -55,7 +55,7 @@ let triangle1:{
 // Description of setup() goes here.
 function setup() {
   createCanvas(500,500);
-  background(0)
+  background(0);
 
 }
 
@@ -64,6 +64,10 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   noStroke();
+  //add the first circle to the program
+  fill(circle1.fill);
+  circle1(circle1.x,circle1.y,circle1.size);
+
 
 
 
