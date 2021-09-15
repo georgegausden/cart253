@@ -41,13 +41,13 @@ let circle2 = {
 };
 
 let triangle1 = {
-  x1:100,
+  x1:50,
   y1:250,
   x2:200,
   y2:300,
   x3:400,
   y3:400,
-  fill:(120,20,30)
+  fill:(255)
 };
 
 // setup()
@@ -76,7 +76,11 @@ function draw() {
   circle(circle2.x,circle2.y,circle2.size);
   circle2.y += circle2.speed;
 
-  
+  //add the triangle to the program
+  fill(triangle1.fill);
+  triangle(triangle1.x1,triangle1.y1,triangle1.x2,triangle1.y2,triangle1.x3,triangle1.y3);
+
+
 
 
 
