@@ -47,7 +47,7 @@ let triangle1 = {
   y2: 500/3,
   x3: 500*3/4,
   y3: 2/3*500,
-  fill:(255,0,0,255)
+  fill:(255)
 };
 
 // setup()
@@ -87,10 +87,14 @@ function draw() {
   fill(circle2.fill);
   circle(circle2.x,circle2.y,circle2.size);
   circle2.y += circle2.speed;
-  
+
   //add the triangle to the program
   fill(triangle1.fill);
   triangle(triangle1.x1,triangle1.y1,triangle1.x2,triangle1.y2,triangle1.x3,triangle1.y3);
+  //make the color of the triangle change depending on the y position of the mouse
+  triangle1.fill = mouseY
+  //make sure the color is within the bounds of the createCanvas
+  triangle1.fill = map(mouseY, 0, 500, 0, 255);
 
 
 
