@@ -37,7 +37,7 @@ let circle2 = {
   y:250,
   size:50,
   speed:0.5,
-  fill:(0,200,0)
+  fill:(255)
 };
 
 let triangle1 = {
@@ -70,6 +70,13 @@ function draw() {
   fill(circle1.fill);
   circle(circle1.x,circle1.y,circle1.size);
   circle1.x += circle1.speed;
+
+  //add the second circle to the program
+  fill(circle2.fill);
+  circle(circle2.x,circle2.y,circle2.size);
+  circle2.y += circle2.speed;
+
+  
 
 
 
