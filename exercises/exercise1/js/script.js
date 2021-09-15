@@ -64,7 +64,15 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   noStroke();
-  background(0);
+
+  //set up the background color and make it change over time
+  background(backgroundColor.r,backgroundColor.g,backgroundColor.b);
+  backgroundColor.r += 1;
+  backgroundColor.g += 1;
+  //limit the color so it doesn't get too ugly
+  backgroundColor.r = constrain(backgroundColor.r, 0, 100);
+  backgroundColor.g = constrain(backgroundColor.g, 0, 70);
+
 
   //add the first circle to the program
   fill(circle1.fill);
