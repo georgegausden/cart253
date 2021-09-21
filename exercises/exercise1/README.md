@@ -1,5 +1,3 @@
 # Exercise 1
 
-
-
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+This project creates an artwork with three different shapes. It's interactive, using the x and y position of the user's mouse to determine certain characteristics of the piece.

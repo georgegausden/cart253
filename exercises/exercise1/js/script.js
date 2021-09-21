@@ -4,18 +4,9 @@
 Exercise 1: I like to move it!
 George Gausden
 
-Here is a description of this template p5 project.
+This project creates an artwork that is interactive with a mouse
 **************************************************/
 
-
-/**************************************************
-Include three shapes
-Include movement
-Include size changes
-Include color changes
-Use map() and constrain()
-Respond to the mouse position using mouseX and mouseY
-**************************************************/
 
 //create JavaScript Objects for the different parameters we're going to change in draw()
 let backgroundColor = {
@@ -52,7 +43,7 @@ let triangle1 = {
 
 // setup()
 //
-// Description of setup() goes here.
+// setup() creates a canvas of size 500pixels x 500 pixels
 function setup() {
   createCanvas(500,500);
 
@@ -61,7 +52,7 @@ function setup() {
 
 // draw()
 //
-// Description of draw() goes here.
+// draw() creates all the shapes (the two circles and the triangle), colours them and makes them move around the canvas
 function draw() {
   noStroke();
 
