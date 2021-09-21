@@ -43,7 +43,7 @@ let triangle1 = {
 
 // setup()
 //
-// Description of setup() goes here.
+// setup() creates a canvas of size 500pixels x 500 pixels
 function setup() {
   createCanvas(500,500);
 
@@ -52,7 +52,7 @@ function setup() {
 
 // draw()
 //
-// Description of draw() goes here.
+// draw() creates all the shapes (the two circles and the triangle), colours them and makes them move around the canvas
 function draw() {
   noStroke();
 
