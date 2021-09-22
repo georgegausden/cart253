@@ -1,36 +1,37 @@
-let backgroundShade = 0;
-let circle = {
-  x:0,
+let caterpillar = {
+  x:100,
   y:250,
-  size:100,
-  speed:1
+  segmentSize:50,
 }
-
-
 
 function setup() {
   createCanvas(500,500);
 
 }
 
-// draw()
-//
-// Description of draw() goes here.
+
 function draw() {
-  background(backgroundShade);
+  background(0);
+  noStroke();
+  fill(100,200,100);
 
-  circle.x = circle.x + circle.speed;
+  //let x = caterpillar.x;
+  //let numSegments = 10;
+  //let segmentsDrawn = 0;
 
-  fill(255,255,255);
+  //while (segmentsDrawn < numSegments){
+  //  ellipse(x,caterpillar.y,caterpillar.segmentSize);
+  //  x += 40;
+  //  segmentsDrawn++;
+  //}
 
-  if (!(circle.x > width/3)){
-      fill(255,0,0);
-    }
+  let x = caterpillar.x;
+  let numSegments = 10;
+
+  for (let i = 0; i < numSegments; i++){
+    ellipse(x,caterpillar.y,caterpillar.segmentSize);
+    x+=40
+  }
 
 
-  ellipse(circle.x,circle.y,circle.size);
 }
-
-// && is and
-// || is or, on the backward slash key
-// ! is not
