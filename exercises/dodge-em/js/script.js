@@ -31,6 +31,11 @@ let policeCar1 = {
   ay: 0,
   acceleration: 0.1,
   maxSpeed: 4,
+  fill: {
+    r:255,
+    g:0,
+    b:0
+  }
 }
 
 let policeCar2 = {
@@ -45,6 +50,11 @@ let policeCar2 = {
   ay: 0,
   acceleration: 0.2,
   maxSpeed: 4,
+  fill: {
+    r:0,
+    g:0,
+    b:255,
+  }
 }
 //
 
@@ -71,9 +81,24 @@ function setup() {
 function draw() {
   background(255);
   //draw the police cars
-  fill(255,0,0);
+  //make the police car lights flash
+  //create a random number between 0 and 1
+  let y = random(0,1);
+  if (y < 0.5) {
+    policeCar1.fill.r = 0;
+    policeCar1.fill.b = 255;
+  }
+  else {
+    policeCar1.fill.r = 255;
+    policeCar1.fill.b = 0;
+  }
+  
+  fill(policeCar1.fill.r, policeCar1.fill.g, policeCar1.fill.b);
+
   rect(policeCar1.x, policeCar1.y, policeCar1.width, policeCar1.height);
   rect(policeCar2.x, policeCar2.y, policeCar2.width, policeCar2.height);
+
+
 
   //draw the user's car
   fill(0);
@@ -98,7 +123,7 @@ function draw() {
     policeCar1.ay = policeCar1.acceleration;
   }
 
-  //same thing for the second police car
+
   policeCar1.vx = policeCar1.vx + policeCar1.ax;
   policeCar1.vx = constrain(policeCar1.vx, -policeCar1.maxSpeed, policeCar1.maxSpeed);
   policeCar1.vy = policeCar1.vy + policeCar1.ay;
@@ -107,6 +132,7 @@ function draw() {
   policeCar1.x = policeCar1.x + policeCar1.vx;
   policeCar1.y = policeCar1.y + policeCar1.vy;
 
+  //same thing for the second police car
   if (user.x < policeCar2.x){
     policeCar2.ax = -policeCar2.acceleration;
   }
@@ -128,6 +154,8 @@ function draw() {
 
   policeCar2.x = policeCar2.x + policeCar2.vx;
   policeCar2.y = policeCar2.y + policeCar2.vy;
+
+
 
 
 }
