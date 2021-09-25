@@ -24,12 +24,13 @@ let policeCar1 = {
   y: 0,
   width: 100,
   height: 50,
-  vx: undefined,
-  vy: undefined,
-  speed: undefined,
-  ax:undefined ,
-  ay: undefined,
-  acceleration: undefined,
+  vx: 0,
+  vy: 0,
+  speed: 0,
+  ax:0 ,
+  ay: 0,
+  acceleration: 0.1,
+  maxSpeed: 4,
 }
 
 let policeCar2 = {
@@ -37,12 +38,13 @@ let policeCar2 = {
   y: 0,
   width: 100,
   height: 50,
-  vx: undefined,
-  vy: undefined,
-  speed: undefined,
-  ax: undefined,
-  ay: undefined,
-  acceleration: undefined,
+  vx: 0,
+  vy: 0,
+  speed: 0,
+  ax: 0,
+  ay: 0,
+  acceleration: 0.2,
+  maxSpeed: 4,
 }
 //
 
@@ -82,6 +84,50 @@ function draw() {
   user.y = mouseY;
 
   //make each police car follow the user's car to catch them
-  
+  if (user.x < policeCar1.x){
+    policeCar1.ax = -policeCar1.acceleration;
+  }
+  else{
+    policeCar1.ax = policeCar1.acceleration;
+  }
+
+  if (user.y < policeCar1.y){
+    policeCar1.ay = -policeCar1.acceleration;
+  }
+  else{
+    policeCar1.ay = policeCar1.acceleration;
+  }
+
+  //same thing for the second police car
+  policeCar1.vx = policeCar1.vx + policeCar1.ax;
+  policeCar1.vx = constrain(policeCar1.vx, -policeCar1.maxSpeed, policeCar1.maxSpeed);
+  policeCar1.vy = policeCar1.vy + policeCar1.ay;
+  policeCar1.vy = constrain(policeCar1.vy, -policeCar1.maxSpeed, policeCar1.maxSpeed);
+
+  policeCar1.x = policeCar1.x + policeCar1.vx;
+  policeCar1.y = policeCar1.y + policeCar1.vy;
+
+  if (user.x < policeCar2.x){
+    policeCar2.ax = -policeCar2.acceleration;
+  }
+  else{
+    policeCar2.ax = policeCar2.acceleration;
+  }
+
+  if (user.y < policeCar2.y){
+    policeCar2.ay = -policeCar2.acceleration;
+  }
+  else{
+    policeCar2.ay = policeCar2.acceleration;
+  }
+
+  policeCar2.vx = policeCar2.vx + policeCar2.ax;
+  policeCar2.vx = constrain(policeCar2.vx, -policeCar2.maxSpeed, policeCar2.maxSpeed);
+  policeCar2.vy = policeCar2.vy + policeCar2.ay;
+  policeCar2.vy = constrain(policeCar2.vy, -policeCar2.maxSpeed, policeCar2.maxSpeed);
+
+  policeCar2.x = policeCar2.x + policeCar2.vx;
+  policeCar2.y = policeCar2.y + policeCar2.vy;
+
 
 }
