@@ -1,7 +1,7 @@
 let circle = {
   x: 250,
   y: 250,
-  size: 100,
+  size: 10,
   vx: 0,
   vy: 0,
   ax: 0,
@@ -13,13 +13,15 @@ let circle = {
 
 
 function setup() {
-  createCanvas(500,500);
+  createCanvas(windowWidth,windowHeight);
+  background(0);
 
 }
 
 
 function draw() {
-  background(0);
+
+  noStroke();
 
   if (mouseX < circle.x){
     circle.ax = -circle.acceleration;
