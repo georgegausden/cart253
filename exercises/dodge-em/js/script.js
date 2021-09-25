@@ -29,7 +29,7 @@ let policeCar1 = {
   speed: 0,
   ax:0 ,
   ay: 0,
-  acceleration: 0.1,
+  acceleration: 0.3,
   maxSpeed: 4,
   fill: {
     r:255,
@@ -48,7 +48,7 @@ let policeCar2 = {
   speed: 0,
   ax: 0,
   ay: 0,
-  acceleration: 0.2,
+  acceleration: 0.8,
   maxSpeed: 4,
   fill: {
     r:0,
@@ -83,6 +83,7 @@ function draw() {
   //draw the police cars
   //make the police car lights flash
   //create a random number between 0 and 1
+  noStroke();
   let y = random(0,1);
   if (y < 0.5) {
     policeCar1.fill.r = 0;
@@ -92,7 +93,7 @@ function draw() {
     policeCar1.fill.r = 255;
     policeCar1.fill.b = 0;
   }
-  
+
   fill(policeCar1.fill.r, policeCar1.fill.g, policeCar1.fill.b);
 
   rect(policeCar1.x, policeCar1.y, policeCar1.width, policeCar1.height);
