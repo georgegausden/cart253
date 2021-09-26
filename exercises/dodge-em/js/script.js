@@ -2,28 +2,37 @@
 
 /**************************************************
 Template p5 project
-Pippin Barr
+George Gausden
 
 A program where the user has to run away from cars
 **************************************************/
+let city;
+
+let cityLight = {
+  r: 0,
+  g: 0,
+  b: 0,
+}
+
 let user = {
   x: 0,
   y: 0,
   width: 75,
-  height: 25,
+  height: 75,
   vx: undefined,
   vy: undefined,
   speed: undefined,
   ax:undefined ,
   ay: undefined,
   acceleration: undefined,
+  image: undefined
 }
 
 let policeCar1 = {
   x: 0,
   y: 0,
-  width: 100,
-  height: 50,
+  width: 75,
+  height: 75,
   vx: 0,
   vy: 0,
   speed: 0,
@@ -35,14 +44,15 @@ let policeCar1 = {
     r:255,
     g:0,
     b:0
-  }
+  },
+  image: undefined
 }
 
 let policeCar2 = {
   x: 0,
   y: 0,
-  width: 100,
-  height: 50,
+  width: 75,
+  height: 75,
   vx: 0,
   vy: 0,
   speed: 0,
@@ -54,10 +64,16 @@ let policeCar2 = {
     r:0,
     g:0,
     b:255,
-  }
+  },
+  image:undefined
 }
 //
-
+function preload(){
+  user.image = loadImage('assets/images/usercar.png');
+  city = loadImage('assets/images/city.png');
+  policeCar1.image = loadImage('assets/images/policeship.png')
+  policeCar2.image = loadImage('assets/images/policeship.png')
+}
 // setup()
 //
 // Description of setup() goes here.
@@ -79,33 +95,42 @@ function setup() {
 //
 // Description of draw() goes here.
 function draw() {
-  background(255);
+  //make the background color flash between red and blue like police lights
+  let y = random(0,1);
+  if (y < 0.5) {
+    cityLight.r = 0;
+    cityLight.b = 255;
+  }
+  else {
+    cityLight.r = 255;
+    cityLight.b = 0;
+  }
+
+  background(cityLight.r,cityLight.g,cityLight.b);
+  //make the city skyline appear
+
+  image(city, 0, 0, width, height);
   //draw the police cars
   //make the police car lights flash
   //create a random number between 0 and 1
-  let y = random(0,1);
-  if (y < 0.5) {
-    policeCar1.fill.r = 0;
-    policeCar1.fill.b = 255;
-  }
-  else {
-    policeCar1.fill.r = 255;
-    policeCar1.fill.b = 0;
-  }
-  
+
   fill(policeCar1.fill.r, policeCar1.fill.g, policeCar1.fill.b);
 
-  rect(policeCar1.x, policeCar1.y, policeCar1.width, policeCar1.height);
-  rect(policeCar2.x, policeCar2.y, policeCar2.width, policeCar2.height);
+  image(policeCar1.image, policeCar1.x, policeCar1.y, policeCar1.width, policeCar1.height);
+  image(policeCar1.image, policeCar2.x, policeCar2.y, policeCar2.width, policeCar2.height);
 
 
 
   //draw the user's car
   fill(0);
-  rect(user.x, user.y, user.width, user.height);
+  image(user.image, user.x, user.y, user.width, user.height);
 
-  //make the mouse x and y be the user car's position
-  user.x = mouseX;
+  //add a background of a city
+
+
+  //make the mouse be the user's control of the cars
+  //the x will control the y and the y will control the x to make it harder
+  user.x = mouseX + 9;
   user.y = mouseY;
 
   //make each police car follow the user's car to catch them
@@ -155,6 +180,13 @@ function draw() {
   policeCar2.x = policeCar2.x + policeCar2.vx;
   policeCar2.y = policeCar2.y + policeCar2.vy;
 
+
+  //if the police catch you, lose the game
+  //find the distance between the police and your ship
+  let distanceUserPolice1;
+  let distanceUserPolice2;
+
+  distanceUserPolice1 = dist()
 
 
 
