@@ -6,6 +6,9 @@ Pippin Barr
 
 Here is a description of this template p5 project.
 **************************************************/
+
+let jumpingHeight = 0;
+
 //create the basic character
 let character = {
   //create the initial position variables for the character
@@ -64,7 +67,7 @@ function draw() {
   line(0,height/2,width,height/2);
 
   //set the jumpingHeight
-  let jumpingHeight = 10;
+
 
   //if the character jumped, make sure they land again
 
@@ -87,6 +90,7 @@ function draw() {
     //make sure we reinitialize it at the beginning again
     character.heady -= jumpingHeight
     character.legheight += jumpingHeight;
+    jumpingHeight += 10
   };
 
 
