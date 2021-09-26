@@ -8,6 +8,8 @@ A program where the user has to run away from cars
 **************************************************/
 let city;
 
+let distanceCaught = 20;
+
 let cityLight = {
   r: 0,
   g: 0,
@@ -186,7 +188,13 @@ function draw() {
   let distanceUserPolice1;
   let distanceUserPolice2;
 
-  distanceUserPolice1 = dist()
+  distanceUserPolice1 = dist(user.x, user.y, policeCar1.x, policeCar1.y);
+  distanceUserPolice2 = dist(user.x, user.y, policeCar2.x, policeCar2.y);
+
+  //if the distance between the user and the police is smaller than distance to be caught at, stop the program
+  if (distanceUserPolice1 <= distanceCaught | distanceUserPolice2 <= distanceCaught){
+    noLoop();
+  }
 
 
 
