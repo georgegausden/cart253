@@ -1,3 +1,3 @@
 # Template p5 project
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+Exercise:Dogde-em, a game where the user controls a spaceship that must escape from the police from the city below. The user controls their spaceship with their mouse. If you get caught, you lose and the program will end. 
