@@ -38,7 +38,8 @@ let policeCar1 = {
   ay: 0,
   acceleration: 0.3,
   maxSpeed: 4,
-  image: undefined
+  image: undefined,
+
 }
 
 let policeCar2 = {
@@ -99,7 +100,6 @@ function draw() {
     cityLight.b = 0;
   }
 
-  fill(policeCar1.fill.r, policeCar1.fill.g, policeCar1.fill.b);
 
   background(cityLight.r, cityLight.g, cityLight.b);
 
