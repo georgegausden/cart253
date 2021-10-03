@@ -51,7 +51,7 @@ function preload(){
 // Description of draw() goes here.
 function draw() {
 
-  changeBackground();
+  setupBackground();
 
   if (state === "title"){
     title();
@@ -169,7 +169,6 @@ function sadness(){
 }
 
 function changeBackground(){
-  image(livingRoom, width/2, height/2, width, height);
   //make the background color change as time progresses
   timeMilli = millis();
   let heartRacing = 0.1;
@@ -184,4 +183,15 @@ function changeBackground(){
 
   background(bg.r,bg.g,bg.b);
 
+}
+
+function createLivingRoom(){
+  //set the living room up
+  imageMode(CENTER);
+  image(livingRoom, width/2, height/2, width, height);
+}
+
+function setupBackground(){
+  changeBackground();
+  createLivingRoom();
 }
