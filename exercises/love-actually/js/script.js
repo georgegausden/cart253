@@ -15,8 +15,8 @@ let circle1 = {
   x:undefined,
   y:250,
   size:150,
-  vx:3,
-  vy:3,
+  vx:0,
+  vy:0,
   speed:3,
   image: undefined
 }
@@ -74,7 +74,7 @@ function title(){
   textSize(64);
   fill(200,100,100);
   textAlign(CENTER,CENTER);
-  text("Babes escaped!\nGo find her!", width/2, height/2);
+  text("Babes escaped!\nGo catch her!", width/2, height/2);
   pop();
 }
 
@@ -91,22 +91,26 @@ function move(){
   //let user control the circle 1 position with the arrow keys
 
   if (keyIsDown(37)){
+    circle1.vx = circle1.speed;
     circle1.x -= circle1.vx;
   }
   else if (keyIsDown(39)){
+    circle1.vx = circle1.speed;
     circle1.x += circle1.vx;
   }
   else if (keyIsDown(38)){
+    circle1.vy = circle1.speed;
     circle1.y -= circle1.vy;
   }
   else if (keyIsDown(40)){
+    circle1.vy = circle1.speed;
     circle1.y += circle1.vy;
   }
 
-  //make the other circle pop up in random places on the screen
+  //make the cat run away from the user
 
-  circle2.x+=circle2.vx;
-  circle2.y+=circle2.vy;
+  circle2.x += circle1.vx/2;
+  circle2.y += circle1.vy/2;
 }
 
 function checkOffscreen(){
@@ -164,7 +168,7 @@ function sadness(){
   textSize(64);
   fill(255,150,150);
   textAlign(CENTER,CENTER);
-  text("Babes is gone :(", width/2, height/2);
+  text("Babes escaped :(", width/2, height/2);
   pop();
 }
 
