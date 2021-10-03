@@ -2,7 +2,7 @@
 
 /**************************************************
 Exercise: Love, actually
-Pippin Barr
+George Gausden
 
 Here is a description of this template p5 project.
 **************************************************/
@@ -31,7 +31,7 @@ let circle2 = {
   image: undefined
 }
 
-let state = "title"; // can be:title, simulation, love, sadness
+let state = "title"; // can be: title, simulation, caught, escaped, sofa
 // setup()
 //
 // Description of setup() goes here.
@@ -59,11 +59,11 @@ function draw() {
   else if (state === "simulation"){
     simulation();
   }
-  else if (state === "love"){
-    love();
+  else if (state === "caught"){
+    caught();
   }
-  else if (state === "sadness"){
-    sadness();
+  else if (state === "escaped"){
+    escaped();
   }
   else if (state === "sofa"){
     sofa();
@@ -121,7 +121,7 @@ function checkOffscreen(){
   //check if theyve gone off screen
   if (circle1.x<0||circle1.x>width||circle1.y<0||circle1.y>height||circle2.x<0||circle2.x>width||circle2.y<0||circle2.y>height){
     //sad ending
-    state = "sadness";
+    state = "escaped";
   }
 
 }
@@ -131,7 +131,7 @@ function checkOverlap(){
   let d = dist(circle1.x,circle1.y,circle2.x,circle2.y)
   if (d<circle1.size/2+circle2.size/2){
     //love ending
-    state = "love";
+    state = "caught";
   }
 
 }
@@ -167,7 +167,7 @@ function mousePressed(){
   }
 }
 
-function love(){
+function caught(){
   push();
   textSize(64);
   fill(255,150,150);
@@ -176,7 +176,7 @@ function love(){
   pop();
 }
 
-function sadness(){
+function escaped(){
   push();
   textSize(64);
   fill(0,0,255);
