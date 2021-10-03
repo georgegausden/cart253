@@ -4,7 +4,7 @@
 Exercise: Love, actually
 George Gausden
 
-Here is a description of this template p5 project.
+This is a game where the user must catch the cat in their house. The user controls the movement of their character using the arrow keys on the keyboard.
 **************************************************/
 
 //set the javascript objects and variables
@@ -12,6 +12,8 @@ Here is a description of this template p5 project.
 let timeMilli = undefined;
 
 let livingRoom = undefined;
+
+let catLove = undefined;
 
 let circle1 = {
   x: undefined,
@@ -49,6 +51,7 @@ function preload() {
   circle1.image = loadImage('assets/images/user.png');
   circle2.image = loadImage('assets/images/cat.png');
   livingRoom = loadImage('assets/images/livingRoom.png');
+  catLove = loadImage('assets/images/cat.png');
 
 }
 // draw()
@@ -176,12 +179,21 @@ function mousePressed() {
 
 //caught() ends the program when the cat is caught and displays the info
 function caught() {
+
+  //add a fun crazy ending with tons of cats
+  for (let i = 0; i<10; i++){
+    imageMode(CENTER);
+    image(catLove, random(0,width), random(0,height), 100,100);
+  };
+
   push();
   textSize(64);
   fill(255, 150, 150);
   textAlign(CENTER, CENTER);
   text("You found babes!", width / 2, height / 2);
   pop();
+
+
 }
 
 //escaped() displays the state of the cat when it's caught

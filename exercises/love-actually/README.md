@@ -1,3 +1,3 @@
-# Template p5 project
+# Exercise: Love, actually
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+In this program, the user must catch the cat before it escapes. To move the character, simply use the arrow keys on the keyboard, but beware, the cat moves more depending on which direction you go. 
