@@ -82,7 +82,7 @@ function title() {
   textSize(64);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("Babes escaped!\nGo catch her!", width / 2, height / 2);
+  text("Babes escaped!\nGo catch her!\nUse the arrow\nkeys to move", width / 2, height / 2);
   pop();
 }
 
