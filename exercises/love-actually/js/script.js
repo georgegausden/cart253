@@ -1,7 +1,7 @@
 "use strict";
 
 /**************************************************
-Template p5 project
+Exercise: Love, actually
 Pippin Barr
 
 Here is a description of this template p5 project.
@@ -65,6 +65,9 @@ function draw() {
   else if (state === "sadness"){
     sadness();
   }
+  else if (state === "sofa"){
+    sofa();
+  }
 
 }
 
@@ -72,7 +75,7 @@ function draw() {
 function title(){
   push();
   textSize(64);
-  fill(200,100,100);
+  fill(100,100,255);
   textAlign(CENTER,CENTER);
   text("Babes escaped!\nGo catch her!", width/2, height/2);
   pop();
@@ -82,6 +85,7 @@ function simulation(){
   move();
   checkOffscreen();
   checkOverlap();
+  checkSofa();
   display();
 
 }
@@ -132,6 +136,15 @@ function checkOverlap(){
 
 }
 
+function checkSofa(){
+  //check to see if the cat is on the sofa
+  //stroke(100);
+  //if the cat touches this line, then we are in sofa state
+  if (circle2.x >= 200 && circle2.x <= 425 && circle2.y >= 350 && circle2.y <= 390){
+    state = "sofa";
+  }
+
+}
 function display(){
   //display the characters (the cat and the user)
   image(circle1.image,circle1.x,circle1.y,circle1.size, circle1.size);
@@ -166,7 +179,7 @@ function love(){
 function sadness(){
   push();
   textSize(64);
-  fill(255,150,150);
+  fill(0,0,255);
   textAlign(CENTER,CENTER);
   text("Babes escaped :(", width/2, height/2);
   pop();
@@ -198,4 +211,13 @@ function createLivingRoom(){
 function setupBackground(){
   changeBackground();
   createLivingRoom();
+}
+
+function sofa(){
+  push();
+  textSize(64);
+  fill(0,0,255);
+  textAlign(CENTER,CENTER);
+  text("Babes is\n on the sofa!", width/2, height/2);
+  pop();
 }
