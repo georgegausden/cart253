@@ -7,6 +7,8 @@ Pippin Barr
 Here is a description of this template p5 project.
 **************************************************/
 
+let timeMilli = undefined;
+
 let circle1 = {
   x:undefined,
   y:250,
@@ -38,7 +40,8 @@ function setup() {
 //
 // Description of draw() goes here.
 function draw() {
-  background(0);
+
+  changeBackground();
 
   if (state === "title"){
     title();
@@ -90,6 +93,7 @@ function move(){
     circle1.y -= circle1.vy;
   }
 
+  //make the other circle pop up in random places on the screen
 
   circle2.x+=circle2.vx;
   circle2.y+=circle2.vy;
@@ -152,4 +156,21 @@ function sadness(){
   textAlign(CENTER,CENTER);
   text("D:", width/2, height/2);
   pop();
+}
+
+function changeBackground(){
+  //make the background color change as time progresses
+  timeMilli = millis();
+  let heartRacing = 0.1;
+  heartRacing += timeMilli/100000;
+
+  let bg = {
+    //as time progresses make the red get faster and faster like a heart racing
+    r: sin(heartRacing*(radians(timeMilli)))*1000,
+    g: 0,
+    b: 0,
+  };
+
+  background(bg.r,bg.g,bg.b);
+
 }
