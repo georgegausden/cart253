@@ -9,13 +9,16 @@ Here is a description of this template p5 project.
 
 let timeMilli = undefined;
 
+let livingRoom = undefined;
+
 let circle1 = {
   x:undefined,
   y:250,
-  size:100,
+  size:150,
   vx:3,
   vy:3,
-  speed:3
+  speed:3,
+  image: undefined
 }
 
 let circle2 = {
@@ -24,7 +27,8 @@ let circle2 = {
   size:100,
   vx:0,
   vy:0,
-  speed:0
+  speed:0,
+  image: undefined
 }
 
 let state = "title"; // can be:title, simulation, love, sadness
@@ -36,6 +40,12 @@ function setup() {
   setupCircles();
 }
 
+function preload(){
+  circle1.image = loadImage('assets/images/user.png');
+  circle2.image = loadImage('assets/images/cat.png');
+  livingRoom = loadImage('assets/images/livingRoom.png');
+
+}
 // draw()
 //
 // Description of draw() goes here.
@@ -64,7 +74,7 @@ function title(){
   textSize(64);
   fill(200,100,100);
   textAlign(CENTER,CENTER);
-  text("LOVE?", width/2, height/2);
+  text("Babes escaped!\nGo find her!", width/2, height/2);
   pop();
 }
 
@@ -87,10 +97,10 @@ function move(){
     circle1.x += circle1.vx;
   }
   else if (keyIsDown(38)){
-    circle1.y += circle1.vy;
+    circle1.y -= circle1.vy;
   }
   else if (keyIsDown(40)){
-    circle1.y -= circle1.vy;
+    circle1.y += circle1.vy;
   }
 
   //make the other circle pop up in random places on the screen
@@ -119,9 +129,9 @@ function checkOverlap(){
 }
 
 function display(){
-  //display the circles
-  ellipse(circle1.x,circle1.y,circle1.size);
-  ellipse(circle2.x,circle2.y,circle2.size);
+  //display the characters (the cat and the user)
+  image(circle1.image,circle1.x,circle1.y,circle1.size, circle1.size);
+  image(circle2.image, circle2.x,circle2.y,circle2.size, circle2.size);
 }
 
 function setupCircles(){
@@ -145,7 +155,7 @@ function love(){
   textSize(64);
   fill(255,150,150);
   textAlign(CENTER,CENTER);
-  text("LOVE!", width/2, height/2);
+  text("You found babes!", width/2, height/2);
   pop();
 }
 
@@ -154,11 +164,12 @@ function sadness(){
   textSize(64);
   fill(255,150,150);
   textAlign(CENTER,CENTER);
-  text("D:", width/2, height/2);
+  text("Babes is gone :(", width/2, height/2);
   pop();
 }
 
 function changeBackground(){
+  image(livingRoom, width/2, height/2, width, height);
   //make the background color change as time progresses
   timeMilli = millis();
   let heartRacing = 0.1;
