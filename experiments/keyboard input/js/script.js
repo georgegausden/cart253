@@ -13,7 +13,7 @@ function draw(){
 
 }
 
-/**
+
 function keyPressed(){
   if (keyCode === 38){
     bg += 10;

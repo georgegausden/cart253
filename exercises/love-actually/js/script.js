@@ -11,8 +11,8 @@ let circle1 = {
   x:undefined,
   y:250,
   size:100,
-  vx:0,
-  vy:0,
+  vx:3,
+  vy:3,
   speed:3
 }
 
@@ -22,7 +22,7 @@ let circle2 = {
   size:100,
   vx:0,
   vy:0,
-  speed:3
+  speed:0
 }
 
 let state = "title"; // can be:title, simulation, love, sadness
@@ -75,8 +75,21 @@ function simulation(){
 
 function move(){
   //move the circles
-  circle1.x+=circle1.vx;
-  circle1.y+=circle1.vy;
+  //let user control the circle 1 position with the arrow keys
+
+  if (keyIsDown(37)){
+    circle1.x -= circle1.vx;
+  }
+  else if (keyIsDown(39)){
+    circle1.x += circle1.vx;
+  }
+  else if (keyIsDown(38)){
+    circle1.y += circle1.vy;
+  }
+  else if (keyIsDown(40)){
+    circle1.y -= circle1.vy;
+  }
+
 
   circle2.x+=circle2.vx;
   circle2.y+=circle2.vy;
@@ -112,8 +125,6 @@ function setupCircles(){
   circle1.x = width/3;
   circle2.x = 2* width/3;
   //setup sppeds in random directions
-  circle1.vx = random(-circle1.speed, circle1.speed);
-  circle2.vx = random(-circle2.speed, circle2.speed);
 
   circle1.vy = random(-circle1.speed, circle1.speed);
   circle2.vy = random(-circle2.speed, circle2.speed);
