@@ -7,6 +7,8 @@ George Gausden
 Here is a description of this template p5 project.
 **************************************************/
 
+//set the javascript objects and variables
+
 let timeMilli = undefined;
 
 let livingRoom = undefined;
@@ -31,15 +33,18 @@ let circle2 = {
   image: undefined
 }
 
+//set the initial state of the program
+
 let state = "title"; // can be: title, simulation, caught, escaped, sofa
 // setup()
 //
-// Description of setup() goes here.
+// setup() creates the canvas and the user and cat
 function setup() {
   createCanvas(500,500);
   setupCircles();
 }
 
+//preload() sets the images we're using in the program
 function preload(){
   circle1.image = loadImage('assets/images/user.png');
   circle2.image = loadImage('assets/images/cat.png');
@@ -48,11 +53,12 @@ function preload(){
 }
 // draw()
 //
-// Description of draw() goes here.
+// draw() runs the program, including all the different possible states of the program
 function draw() {
 
   setupBackground();
 
+  //the different states of the program which depend on the movement of the user and the cat
   if (state === "title"){
     title();
   }
@@ -71,7 +77,7 @@ function draw() {
 
 }
 
-
+//title() sets the title of the program and the goal of the game
 function title(){
   push();
   textSize(64);
@@ -81,6 +87,7 @@ function title(){
   pop();
 }
 
+//simulation() makes the program interactive, checks the position of the cat and sets the speeds and positions of each character
 function simulation(){
   move();
   checkOffscreen();
@@ -90,9 +97,10 @@ function simulation(){
 
 }
 
+//move() alters the x and y position as well as velocities of each character
 function move(){
   //move the circles
-  //let user control the circle 1 position with the arrow keys
+  //let user control the user position with the arrow keys
 
   if (keyIsDown(37)){
     circle1.vx = circle1.speed;
@@ -117,25 +125,28 @@ function move(){
   circle2.y += circle1.vy/2;
 }
 
+//checkOffscreen() checks to see if the cat has escaped the scene
 function checkOffscreen(){
-  //check if theyve gone off screen
-  if (circle1.x<0||circle1.x>width||circle1.y<0||circle1.y>height||circle2.x<0||circle2.x>width||circle2.y<0||circle2.y>height){
-    //sad ending
+  //check if the cat has gone off the screen
+  if (circle2.x<0||circle2.x>width||circle2.y<0||circle2.y>height){
+    //the cat escaped state
     state = "escaped";
   }
 
 }
 
+//checkOverlap() checks to see if the user has caught the cat
 function checkOverlap(){
-  //check if the circles overlap
+  //check if the characters overlap
   let d = dist(circle1.x,circle1.y,circle2.x,circle2.y)
   if (d<circle1.size/2+circle2.size/2){
-    //love ending
+    //caught ending
     state = "caught";
   }
 
 }
 
+//checkSofa() checks to see if the cat has landed on the sofa
 function checkSofa(){
   //check to see if the cat is on the sofa
   //stroke(100);
@@ -143,14 +154,16 @@ function checkSofa(){
   if (circle2.x >= 200 && circle2.x <= 425 && circle2.y >= 350 && circle2.y <= 390){
     state = "sofa";
   }
-
 }
+
+//display() displays the characters with their images
 function display(){
   //display the characters (the cat and the user)
   image(circle1.image,circle1.x,circle1.y,circle1.size, circle1.size);
   image(circle2.image, circle2.x,circle2.y,circle2.size, circle2.size);
 }
 
+//setupCircles() sets the initial positions of the characters
 function setupCircles(){
   //position circles from one another
   circle1.x = width/3;
@@ -161,12 +174,14 @@ function setupCircles(){
   circle2.vy = random(-circle2.speed, circle2.speed);
 }
 
+//mousePressed() changes the initial state so that the simulation starts when the user presses the mouse
 function mousePressed(){
   if (state === "title"){
     state = "simulation";
   }
 }
 
+//caught() ends the program when the cat is caught and displays the info
 function caught(){
   push();
   textSize(64);
@@ -176,6 +191,7 @@ function caught(){
   pop();
 }
 
+//escaped() displays the state of the cat when it's caught
 function escaped(){
   push();
   textSize(64);
@@ -185,6 +201,7 @@ function escaped(){
   pop();
 }
 
+//changeBackground() changes the colour of the background as the program progresses
 function changeBackground(){
   //make the background color change as time progresses
   timeMilli = millis();
@@ -202,17 +219,20 @@ function changeBackground(){
 
 }
 
+//createLivingRoom() sets the background image of the living room
 function createLivingRoom(){
   //set the living room up
   imageMode(CENTER);
   image(livingRoom, width/2, height/2, width, height);
 }
 
+//setupBackground() sets the full background with the colour as well
 function setupBackground(){
   changeBackground();
   createLivingRoom();
 }
 
+//sofa() is the state where the cat is resting on the sofa, this function displays that info and ends the program
 function sofa(){
   push();
   textSize(64);
