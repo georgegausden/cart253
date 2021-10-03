@@ -181,16 +181,16 @@ function mousePressed() {
 function caught() {
 
   //add a fun crazy ending with tons of cats
-  for (let i = 0; i<10; i++){
+  for (let i = 0; i < 10; i++) {
     imageMode(CENTER);
-    image(catLove, random(0,width), random(0,height), 100,100);
+    image(catLove, random(0, width), random(0, height), 100, 100);
   };
 
   push();
   textSize(64);
   fill(255, 150, 150);
   textAlign(CENTER, CENTER);
-  text("You found babes!", width / 2, height / 2);
+  text("You caught\n babes!", width / 2, height / 2);
   pop();
 
 
