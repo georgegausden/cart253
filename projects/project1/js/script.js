@@ -28,8 +28,7 @@ let object ={
   y:undefined,
   vx: -2,
   vy: 0,
-  height: 10,
-  width: 20,
+  size: 20,
 }
 
 // setup()
@@ -100,7 +99,7 @@ function simulation() {
   //create an object that's randomly generated
   createObject();
   //check if the user touches one of the objects
-  
+  checkTouch();
 }
 
 //create the endscreen function
@@ -156,9 +155,36 @@ function createObject(){
   //generate the shape
   push();
   fill(0);
-  rect(object.x, object.y, object.width, object.height);
+  rect(object.x, object.y, object.size, object.size);
   pop();
 
   //make the object move towards the left as the game progresses
   object.x += object.vx;
+}
+
+//create a function to generate random objects constantly
+function computerObjects(){
+  let numberObjects;
+}
+
+//check to see if the user touched one of the objects
+function checkTouch(){
+  //check that the user and the user and the object are touching or not
+  //find the distance between the user and any object
+  let d = dist(user.x, user.y, object.x, object.y);
+
+  //the distance where they touch is equal to one radius + half side length
+  if (d <= (user.size/2 + object.size / 2)){
+    push();
+    textSize(64);
+    fill(100, 100, 255);
+    textAlign(CENTER, CENTER);
+    text("they touch", width / 2, height / 2);
+    pop();
+
+  }
+  else {
+    return false
+  }
+
 }
