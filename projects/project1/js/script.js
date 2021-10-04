@@ -21,6 +21,15 @@ let user = {
   maxSpeed: 1,
   maxAcceleration: 3,
   size: 40,
+};
+
+let object ={
+  x:undefined,
+  y:undefined,
+  vx: -2,
+  vy: 0,
+  height: 10,
+  width: 20,
 }
 
 // setup()
@@ -28,8 +37,10 @@ let user = {
 // Description of setup() goes here.
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  user.x = windowWidth/4;
-  user.y = windowHeight/2;
+  user.x = width/4;
+  user.y = height/2;
+  object.x = width;
+  object.y = height/2;
 }
 
 // draw()
@@ -86,6 +97,10 @@ function simulation() {
   displayUser();
   //move the user in the game
   moveUser();
+  //create an object that's randomly generated
+  createObject();
+  //check if the user touches one of the objects
+  
 }
 
 //create the endscreen function
@@ -134,6 +149,16 @@ function moveUser(){
   //constrain the movement so that we can't exit the frame
   constrain(user.x, 0, width);
   constrain(user.y, 0, height);
+}
 
+//create an object we need to dodge
+function createObject(){
+  //generate the shape
+  push();
+  fill(0);
+  rect(object.x, object.y, object.width, object.height);
+  pop();
 
+  //make the object move towards the left as the game progresses
+  object.x += object.vx;
 }
