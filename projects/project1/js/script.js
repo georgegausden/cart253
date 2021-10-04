@@ -97,7 +97,11 @@ function simulation() {
   displayUser();
   //move the user in the game
   moveUser();
+  //create a new object
+  createObjectInfo();
   //create an object that's randomly generated
+  createObject();
+  //generate more than one object randomly
   createObject();
   //check if the user touches one of the objects
   checkTouch();
@@ -164,8 +168,6 @@ function createObject() {
 
 }
 
-
-
 //check to see if the user touched one of the objects
 function checkTouch() {
   //check that the user and the user and the object are touching or not
@@ -199,4 +201,22 @@ function loseLife() {
     user.vx = 0;
     user.vy = 0;
   }
+}
+
+function createObjectInfo(){
+  //generate a random y position for the new object
+  let x = width;
+  let y = random(0,height);
+  //make sure it only generates one y value
+  for (let i = 0; i<2; i+=1){
+    y = random(0,height);
+    break;
+  }
+  push();
+  textSize(64);
+  fill(100, 100, 255);
+  textAlign(CENTER, CENTER);
+  text(y, width / 2, height / 2);
+  pop();
+
 }
