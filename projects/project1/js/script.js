@@ -40,7 +40,11 @@ function draw() {
   //setup the title, simulation and end states
   if (state === "title") {
     title();
-  } else if (state === "simulation") {
+  }
+  else if (state === "instructions"){
+    instructions();
+  }
+  else if (state === "simulation") {
     simulation();
   } else if (state === "end") {
     end();
@@ -57,12 +61,22 @@ function title() {
   pop();
 }
 
+//create an instructions page for the user to understand the game
+function instructions(){
+  push();
+  textSize(64);
+  fill(100, 100, 255);
+  textAlign(CENTER, CENTER);
+  text("To play, use 'A' and 'D' to move left and right\n and 'W' and 'S' to move up and down", width / 2, height / 2);
+  pop();
+}
+
 //create a way to move from the title function to the simulation function
 function mousePressed() {
   if (state === "title") {
+    state = "instructions";
+  } else if (state === "instructions") {
     state = "simulation";
-  } else if (state === "simulation") {
-    state = "end";
   }
 }
 
