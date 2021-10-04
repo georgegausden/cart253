@@ -15,8 +15,10 @@ let state = "title";
 let user = {
   x:undefined,
   y:undefined,
-  vx: undefined,
-  ax: undefined,
+  vx: 0,
+  vy: 0,
+  ax: 0.1,
+  maxSpeed: 1,
   maxAcceleration: 3,
   size: 40,
 }
@@ -34,7 +36,7 @@ function setup() {
 //
 // Description of draw() goes here.
 function draw() {
-  background(0);
+  background(255);
   //setup the title, simulation and end states
   if (state === "title") {
     title();
@@ -68,6 +70,8 @@ function mousePressed() {
 function simulation() {
   //create the user in the game
   displayUser();
+  //move the user in the game
+  moveUser();
 }
 
 //create the endscreen function
@@ -82,5 +86,40 @@ function end() {
 
 //creates the user character
 function displayUser(){
+  push();
+  fill(0);
   circle(user.x, user.y, user.size);
+  pop();
+}
+
+//moves the character
+function moveUser(){
+  //we want to make the user accelerate depending on the A and D and W and S characters of the keyboard
+  user.x += user.vx;
+  user.y += user.vy;
+
+  //make the user accelerate depending on if they have the d or the a key pressed
+  if (keyIsDown(68)){
+    user.vx += user.ax;
+    //cap the speed so we're not going too fast
+    constrain(user.vx, -user.maxSpeed, user.maxSpeed);
+  }
+  else if (keyIsDown(65)){
+    user.vx -= user.ax;
+    constrain(user.vx, -user.maxSpeed, user.maxSpeed);
+  }
+  else if (keyIsDown(87)){
+    user.vy -= user.ax;
+    constrain(user.vy, -user.maxSpeed, user.maxSpeed);
+  }
+  else if (keyIsDown(83)){
+    user.vy += user.ax;
+    constrain(user.vy, -user.maxSpeed, user.maxSpeed);
+  }
+
+  //constrain the movement so that we can't exit the frame
+  constrain(user.x, 0, width);
+  constrain(user.y, 0, height);
+
+
 }
