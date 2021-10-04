@@ -1,8 +1,8 @@
 "use strict";
 
 /**************************************************
-Template p5 project
-Pippin Barr
+Project 1
+George Gausden
 
 Here is a description of this template p5 project.
 **************************************************/
@@ -18,5 +18,14 @@ function setup() {
 //
 // Description of draw() goes here.
 function draw() {
-
+  //setup the title, simulation and end states
+  if (state = "title"){
+    title();
+  }
+  else if (state = "simulation"){
+    simulation();
+  }
+  else if (state = "end"){
+    end();
+  }
 }
