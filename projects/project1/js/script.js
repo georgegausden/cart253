@@ -11,23 +11,23 @@ Here is a description of this template p5 project.
 //setup the initial state as the title
 let state = "title";
 
+let lives = 3;
 
 //create the user character as a circle to start with
 let user = {
-  x:undefined,
-  y:undefined,
+  x: undefined,
+  y: undefined,
   vx: 0,
   vy: 0,
   ax: 0.1,
   maxSpeed: 1,
   maxAcceleration: 3,
   size: 40,
-  lives: 3
 };
 
-let object ={
-  x:undefined,
-  y:undefined,
+let object = {
+  x: undefined,
+  y: undefined,
   vx: -2,
   vy: 0,
   size: 20,
@@ -39,10 +39,10 @@ let object ={
 // Description of setup() goes here.
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  user.x = width/4;
-  user.y = height/2;
+  user.x = width / 4;
+  user.y = height / 2;
   object.x = width;
-  object.y = height/2;
+  object.y = height / 2;
 }
 
 // draw()
@@ -53,11 +53,9 @@ function draw() {
   //setup the title, simulation and end states
   if (state === "title") {
     title();
-  }
-  else if (state === "instructions"){
+  } else if (state === "instructions") {
     instructions();
-  }
-  else if (state === "simulation") {
+  } else if (state === "simulation") {
     simulation();
   } else if (state === "end") {
     end();
@@ -75,7 +73,7 @@ function title() {
 }
 
 //create an instructions page for the user to understand the game
-function instructions(){
+function instructions() {
   push();
   textSize(64);
   fill(100, 100, 255);
@@ -120,7 +118,7 @@ function end() {
 }
 
 //creates the user character
-function displayUser(){
+function displayUser() {
   push();
   fill(0);
   circle(user.x, user.y, user.size);
@@ -128,26 +126,23 @@ function displayUser(){
 }
 
 //moves the character
-function moveUser(){
+function moveUser() {
   //we want to make the user accelerate depending on the A and D and W and S characters of the keyboard
   user.x += user.vx;
   user.y += user.vy;
 
   //make the user accelerate depending on if they have the d or the a key pressed
-  if (keyIsDown(68)){
+  if (keyIsDown(68)) {
     user.vx += user.ax;
     //cap the speed so we're not going too fast
     constrain(user.vx, -user.maxSpeed, user.maxSpeed);
-  }
-  else if (keyIsDown(65)){
+  } else if (keyIsDown(65)) {
     user.vx -= user.ax;
     constrain(user.vx, -user.maxSpeed, user.maxSpeed);
-  }
-  else if (keyIsDown(87)){
+  } else if (keyIsDown(87)) {
     user.vy -= user.ax;
     constrain(user.vy, -user.maxSpeed, user.maxSpeed);
-  }
-  else if (keyIsDown(83)){
+  } else if (keyIsDown(83)) {
     user.vy += user.ax;
     constrain(user.vy, -user.maxSpeed, user.maxSpeed);
   }
@@ -158,7 +153,7 @@ function moveUser(){
 }
 
 //create an object we need to dodge
-function createObject(){
+function createObject() {
   //generate the shape
   push();
   fill(0);
@@ -172,46 +167,36 @@ function createObject(){
 
 
 //check to see if the user touched one of the objects
-function checkTouch(){
+function checkTouch() {
   //check that the user and the user and the object are touching or not
   //find the distance between the user and any object
   let d = dist(user.x, user.y, object.x, object.y);
 
   //the distance where they touch is equal to one radius + half side length
-  if (d <= (user.size/2 + object.size / 2)){
+  if (d <= (user.size / 2 + object.size / 2)) {
     return true
-  }
-  else {
+  } else {
     return false
   }
 
 }
 
-//checks the number of lives left for the user
-function checkLives(){
-  if (user.lives = 0){
+//checks the number of lives left for the user. If it's equal to 0, lose
+function checkLives() {
+  if (lives === 0) {
     state = "end";
   }
 }
 
-function loseLife(){
+//makes the user lose a life if it's touching an object
+function loseLife() {
 
-  if (checkTouch()){
-    user.lives -= 1;
+  if (checkTouch()) {
+    lives = lives - 1;
     //reposition the user immediately and stop the movement
-    user.x = width/4;
-    user.y = height/2;
+    user.x = width / 4;
+    user.y = height / 2;
     user.vx = 0;
     user.vy = 0;
   }
-
-
-  push();
-  textSize(64);
-  fill(100, 100, 255);
-  textAlign(CENTER, CENTER);
-  text(user.lives, width / 2, height / 2);
-  pop();
-
-
 }
