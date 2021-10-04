@@ -42,7 +42,7 @@ function title(){
   textSize(64);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("Babes escaped!\nGo catch her!\nUse the arrow\nkeys to move", width / 2, height / 2);
+  text("This is the title", width / 2, height / 2);
   pop();
 }
 
@@ -50,6 +50,9 @@ function title(){
 function mousePressed(){
   if (state === "title"){
     state = "simulation";
+  }
+  else if (state === "simulation"){
+    state = "end";
   }
 }
 
@@ -60,5 +63,15 @@ function simulation(){
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
   text("This is a simulation", width / 2, height / 2);
+  pop();
+}
+
+//create the endscreen function
+function end(){
+  push();
+  textSize(64);
+  fill(100, 100, 255);
+  textAlign(CENTER, CENTER);
+  text("This is the end", width / 2, height / 2);
   pop();
 }
