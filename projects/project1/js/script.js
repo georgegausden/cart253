@@ -11,6 +11,7 @@ Here is a description of this template p5 project.
 //setup the initial state as the title
 let state = "title";
 
+
 //create the user character as a circle to start with
 let user = {
   x:undefined,
@@ -21,6 +22,7 @@ let user = {
   maxSpeed: 1,
   maxAcceleration: 3,
   size: 40,
+  lives: 3
 };
 
 let object ={
@@ -30,6 +32,7 @@ let object ={
   vy: 0,
   size: 20,
 }
+
 
 // setup()
 //
@@ -100,6 +103,10 @@ function simulation() {
   createObject();
   //check if the user touches one of the objects
   checkTouch();
+  //if check touch is true, lose one life for the user
+  loseLife();
+  //check the amount of lives left for the user
+  checkLives();
 }
 
 //create the endscreen function
@@ -158,14 +165,11 @@ function createObject(){
   rect(object.x, object.y, object.size, object.size);
   pop();
 
-  //make the object move towards the left as the game progresses
   object.x += object.vx;
+
 }
 
-//create a function to generate random objects constantly
-function computerObjects(){
-  let numberObjects;
-}
+
 
 //check to see if the user touched one of the objects
 function checkTouch(){
@@ -175,16 +179,39 @@ function checkTouch(){
 
   //the distance where they touch is equal to one radius + half side length
   if (d <= (user.size/2 + object.size / 2)){
-    push();
-    textSize(64);
-    fill(100, 100, 255);
-    textAlign(CENTER, CENTER);
-    text("they touch", width / 2, height / 2);
-    pop();
-
+    return true
   }
   else {
     return false
   }
+
+}
+
+//checks the number of lives left for the user
+function checkLives(){
+  if (user.lives = 0){
+    state = "end";
+  }
+}
+
+function loseLife(){
+
+  if (checkTouch()){
+    user.lives -= 1;
+    //reposition the user immediately and stop the movement
+    user.x = width/4;
+    user.y = height/2;
+    user.vx = 0;
+    user.vy = 0;
+  }
+
+
+  push();
+  textSize(64);
+  fill(100, 100, 255);
+  textAlign(CENTER, CENTER);
+  text(user.lives, width / 2, height / 2);
+  pop();
+
 
 }
