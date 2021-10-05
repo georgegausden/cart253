@@ -31,6 +31,8 @@ let user = {
 };
 
 let object = {
+  xi: undefined,
+  yi: undefined,
   x: undefined,
   y: undefined,
   vx: -2,
@@ -52,8 +54,10 @@ function setup() {
   createCanvas(600, 600);
   user.x = width / 4;
   user.y = height / 2;
-  object.x = width;
-  object.y = height / 2;
+  object.xi = width;
+  object.yi = height / 2;
+  object.x = object.xi;
+  object.y = object.yi;
 }
 
 // draw()
@@ -198,8 +202,11 @@ function end() {
   text("Play again", width / 2, height / 2);
   pop();
 
+  //reset the lives and the position of the objects
   if (checkInButton(width/2, height/2, 200, 100)){
     sounds.click.play();
+    object.x = object.xi;
+    object.y = object.yi;
     lives = 4;
     state = "simulation";
   }
