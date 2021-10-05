@@ -159,6 +159,8 @@ function instructions() {
 
 //create the simulation function
 function simulation() {
+  //create the UI of the simulation
+  gameInterface();
   //create the user in the game
   displayUser();
   //move the user in the game
@@ -205,10 +207,7 @@ function end() {
   //reset the lives and the position of the objects
   if (checkInButton(width/2, height/2, 200, 100)){
     sounds.click.play();
-    object.x = object.xi;
-    object.y = object.yi;
-    lives = 4;
-    state = "simulation";
+    resetGame();
   }
 }
 
@@ -289,10 +288,7 @@ function loseLife() {
     //play the sound of explosion
     sounds.explosion.play();
     //reposition the user immediately and stop the movement
-    user.x = width / 4;
-    user.y = height / 2;
-    user.vx = 0;
-    user.vy = 0;
+    resetUserPosition();
     state = "lostLifeScreen";
   }
 }
@@ -339,6 +335,7 @@ function lostLifeScreen(){
   //let the user pick one of the other
   if (checkInButton(width/4, height/2, 200, 100)){
     sounds.click.play();
+    resetObjetPosition();
     state = "simulation";
   }
   else if (checkInButton(3*width/4, height/2, 200, 100)){
@@ -356,4 +353,31 @@ function checkInButton(xPosition, yPosition, shapeWidth,shapeHeight){
   else{
     return false;
   }
+}
+
+//create a reset button and the background
+function gameInterface(){
+  //create a reset button so the user can restart the game
+}
+
+//reset game function
+function resetGame(){
+  //reset lives and positions
+  resetObjetPosition();
+  lives = 4;
+  state = "simulation";
+}
+
+//reset the position of the object to block
+function resetObjetPosition(){
+  object.x = object.xi;
+  object.y = object.yi;
+}
+
+//reset the position and velocity of the user
+function resetUserPosition(){
+  user.x = width / 4;
+  user.y = height / 2;
+  user.vx = 0;
+  user.vy = 0;
 }
