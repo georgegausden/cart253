@@ -91,6 +91,8 @@ function draw() {
 //create the title function
 function title() {
 
+  noStroke();
+
   let instructionsButton = {
     text: "Instructions",
     x: width/4,
@@ -543,7 +545,7 @@ function checkInButton(xPosition, yPosition, shapeWidth,shapeHeight){
 //create a reset button and the background
 function simulationInterface(){
   //create a reset button so the user can restart the game
-  funBackground();
+  //funBackground();
   displayLives();
 }
 
@@ -608,17 +610,15 @@ function displayLives(){
   //display the number of lives in the top right corner
   let numberLives = lives;
   let spacing = 50;
+  let numberOfHearts = lives;
+  let heightOfHearts = height/2-250;
+  let heartSize = 50;
 
-  while (numberLives > 0){
-    push();
-    textSize(30);
-    fill(0);
-    textAlign(CENTER, CENTER);
-    text(numberLives, width/2, height/2);
-    pop();
+  while (numberOfHearts > 0){
+    //keep count of how many lives are left as heart images
     imageMode(CENTER);
-    image(heart, width/2+spacing, height/2, 50, 50);
-    numberLives -= 1;
+    image(heart, width/2+numberOfHearts*spacing+40, heightOfHearts, heartSize, heartSize);
+    numberOfHearts -= 1;
   }
 
 }
