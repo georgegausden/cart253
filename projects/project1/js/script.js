@@ -276,11 +276,37 @@ function end() {
       b: 250
     }
   }
+
+  let endText = {
+    text: "This is the end",
+    x: width/2,
+    y: height/2 -200,
+    fill: {
+      r: 100,
+      g: 100,
+      b: 255
+    },
+    fontSize: 32
+  }
+
+  let mainMenuText = {
+    text: "Main menu",
+    x: mainMenu.x,
+    y: mainMenu.y,
+    fill: {
+      r: 100,
+      g: 100,
+      b: 255
+    },
+    fontSize: 32
+  }
+
+  //display the end message at the top of the screen
   push();
-  textSize(32);
-  fill(100, 100, 255);
+  textSize(endText.fontSize);
+  fill(endText.fill.r, endText.fill.g, endText.fill.b);
   textAlign(CENTER, CENTER);
-  text("This is the end", width / 2, height / 2-200);
+  text(endText.text, endText.x, endText.y);
   pop();
 
   //create box
@@ -292,11 +318,12 @@ function end() {
 
   //let the user restart the game if they want to
   //if they click the box, restart game and reset Lives
+  //display the main menu text
   push();
-  textSize(32);
-  fill(100, 100, 255);
+  textSize(mainMenuText.fontSize);
+  fill(mainMenuText.fill.r, mainMenuText.fill.g, mainMenuText.fill.b);
   textAlign(CENTER, CENTER);
-  text("Main menu", mainMenu.x, mainMenu.y);
+  text(mainMenuText.text, mainMenuText.x, mainMenuText.y);
   pop();
 
   //reset the lives and the position of the objects
@@ -542,9 +569,17 @@ function lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fil
 function displayLives(){
   //display the number of lives in the top right corner
   let numberLives = lives;
-  let spacing = 10;
+  let spacing = 50;
 
   for (numberLives; numberLives > 0; numberLives -= 1){
-    image(heart, 300+spacing, 100, 30);
+    push();
+    textSize(30);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text(numberLives, width/2, height/2);
+    pop();
+    imageMode(CENTER);
+    image(heart, width/2+spacing, height/2, 50, 50);
   }
+
 }
