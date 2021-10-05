@@ -24,7 +24,7 @@ let user = {
   y: undefined,
   vx: 0,
   vy: 0,
-  ax: 0.1,
+  ax: 0.2,
   maxSpeed: 1,
   maxAcceleration: 3,
   size: 40,
@@ -86,13 +86,21 @@ function title() {
   text("Welcome to GAMETITLE", width / 2, height / 2 - 200);
   pop();
 
+  //create the options of either playing or clicking the instructions page
+  push();
+  fill(200,200,250);
+  rectMode(CENTER);
+  rect(width/4, height/2, 200,100,20);
+  rect(3*width/4,height/2,200,100,20);
+  pop();
+
 
   //would you like to play
   push();
   textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("Instructions", width / 2, height / 2 - 200);
+  text("Instructions", width / 4, height / 2);
   pop();
 
   //play game
@@ -100,8 +108,18 @@ function title() {
   textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("Play", width / 2, height / 2 - 200);
+  text("Play", 3*width / 4, height / 2);
   pop();
+
+  //let the user click
+  if (checkInButton(width/4, height/2, 200, 100)){
+    state = "instructions";
+    sounds.click.play();
+  }
+  else if (checkInButton(3*width/4, height/2, 200,100)){
+    state = "simulation";
+    sounds.click.play();
+  }
 }
 
 //create an instructions page for the user to understand the game
@@ -110,18 +128,30 @@ function instructions() {
   textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("To play, use 'A' and 'D' to move left and right\n and 'W' and 'S' to move up and down", width / 2, height / 2);
+  text("To play, use 'A' and 'D'\n to move left and right\n and 'W' and 'S' to move up and down", width / 2, height / 2 - 150);
   pop();
-}
 
-//create a way to move from the title function to the simulation function
-function mousePressed() {
-  if (state === "title") {
-    state = "instructions";
-  } else if (state === "instructions") {
-    state = "simulation";
+  push();
+  fill(200,200,250);
+  rectMode(CENTER);
+  rect(width/2, height/2, 200,100,20);
+  pop();
+
+  //be able to go back to the main menu
+  push();
+  textSize(30);
+  fill(100, 100, 255);
+  textAlign(CENTER, CENTER);
+  text("Back to menu", width / 2, height / 2);
+  pop();
+
+  if (checkInButton(width/2, height/2, 200, 100)){
+    sounds.click.play();
+    state = "title";
   }
 }
+
+
 
 //create the simulation function
 function simulation() {
@@ -149,8 +179,30 @@ function end() {
   textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("This is the end", width / 2, height / 2);
+  text("This is the end", width / 2, height / 2-200);
   pop();
+
+  //create box
+  push();
+  fill(200,200,250);
+  rectMode(CENTER);
+  rect(width/2, height/2, 200,100,20);
+  pop();
+
+  //let the user restart the game if they want to
+  //if they click the box, restart game and reset Lives
+  push();
+  textSize(32);
+  fill(100, 100, 255);
+  textAlign(CENTER, CENTER);
+  text("Play again", width / 2, height / 2);
+  pop();
+
+  if (checkInButton(width/2, height/2, 200, 100)){
+    sounds.click.play();
+    lives = 4;
+    state = "simulation";
+  }
 }
 
 //creates the user character
