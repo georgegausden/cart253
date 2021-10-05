@@ -46,7 +46,6 @@ function preload(){
   sounds.click = loadSound('assets/sounds/click.mov');
 }
 
-
 // setup()
 //
 // Description of setup() goes here.
@@ -65,6 +64,7 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   background(140,200,200);
+  gameInterface();
   //setup the title, simulation and end states
   if (state === "title") {
     title();
@@ -155,8 +155,6 @@ function instructions() {
   }
 }
 
-
-
 //create the simulation function
 function simulation() {
   //create the UI of the simulation
@@ -165,8 +163,6 @@ function simulation() {
   displayUser();
   //move the user in the game
   moveUser();
-  //create a new object
-  createObjectInfo();
   //create an object that's randomly generated
   createObject();
   //generate more than one object randomly
@@ -201,13 +197,14 @@ function end() {
   textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("Play again", width / 2, height / 2);
+  text("Main menu", width / 2, height / 2);
   pop();
 
   //reset the lives and the position of the objects
   if (checkInButton(width/2, height/2, 200, 100)){
     sounds.click.play();
     resetGame();
+    state = "title";
   }
 }
 
@@ -293,10 +290,6 @@ function loseLife() {
   }
 }
 
-function createObjectInfo(){
-
-}
-
 //create a new state to display that we lost a life and either we can continue or end game
 function lostLifeScreen(){
   //display the two options of continuing or ending
@@ -358,6 +351,7 @@ function checkInButton(xPosition, yPosition, shapeWidth,shapeHeight){
 //create a reset button and the background
 function gameInterface(){
   //create a reset button so the user can restart the game
+  funBackground();
 }
 
 //reset game function
@@ -380,4 +374,18 @@ function resetUserPosition(){
   user.y = height / 2;
   user.vx = 0;
   user.vy = 0;
+}
+
+//create a fun dynamic background
+function funBackground(){
+  //create different blocks randomly
+  let seconds = second();
+
+  if (seconds = 10){
+    //generate a square
+    rectMode(CENTER);
+    fill(random(0,255),random(0,255),random(0,255));
+    rect(random(0,width), random(0,height), random(50,100));
+
+  }
 }
