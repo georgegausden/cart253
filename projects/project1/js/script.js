@@ -11,6 +11,8 @@ Here is a description of this template p5 project.
 //setup the initial state as the title
 let state = "title";
 
+let lighten = 20;
+
 let lives = 4;
 
 let sounds = {
@@ -92,9 +94,13 @@ function title() {
 
   //create the options of either playing or clicking the instructions page
   push();
-  fill(200,200,250);
+  //make the boxes light up if the mouse is hovering over
+  lightenButton(width/4, height/2, 200, 100, 200, 200, 250);
   rectMode(CENTER);
   rect(width/4, height/2, 200,100,20);
+  pop();
+  push();
+  lightenButton(3*width/4, height/2, 200, 100, 200, 200, 250);
   rect(3*width/4,height/2,200,100,20);
   pop();
 
@@ -102,7 +108,7 @@ function title() {
   //would you like to play
   push();
   textSize(32);
-  fill(100, 100, 255);
+  fill(100,100,255);
   textAlign(CENTER, CENTER);
   text("Instructions", width / 4, height / 2);
   pop();
@@ -387,5 +393,25 @@ function funBackground(){
     fill(random(0,255),random(0,255),random(0,255));
     rect(random(0,width), random(0,height), random(50,100));
 
+  }
+}
+
+//check to see if mouse is hovering over a button. Returns boolean value
+function isHovering(xPosition, yPosition, shapeWidth, shapeHeight){
+  if ((mouseX >= xPosition-shapeWidth/2) && (mouseX <= xPosition + shapeWidth/2) && (mouseY < yPosition + shapeHeight/2) && (mouseY > yPosition -shapeHeight/2)){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+//create a function to lighten the box
+function lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB){
+  if (isHovering(xPosition, yPosition, shapeWidth, shapeHeight)){
+    fill(fillR+lighten, fillG+lighten, fillB+lighten);
+  }
+  else{
+    fill(fillR, fillG, fillB);
   }
 }
