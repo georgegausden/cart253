@@ -15,6 +15,7 @@ let lives = 4;
 
 let sounds = {
   explosion: undefined,
+  click: undefined,
 }
 
 //create the user character as a circle to start with
@@ -40,6 +41,7 @@ let object = {
 //preload our images and sounds for the program
 function preload(){
   sounds.explosion = loadSound('assets/sounds/explosion.mov');
+  sounds.click = loadSound('assets/sounds/click.mov');
 }
 
 
@@ -81,7 +83,24 @@ function title() {
   textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("This is the title", width / 2, height / 2);
+  text("Welcome to GAMETITLE", width / 2, height / 2 - 200);
+  pop();
+
+
+  //would you like to play
+  push();
+  textSize(32);
+  fill(100, 100, 255);
+  textAlign(CENTER, CENTER);
+  text("Instructions", width / 2, height / 2 - 200);
+  pop();
+
+  //play game
+  push();
+  textSize(32);
+  fill(100, 100, 255);
+  textAlign(CENTER, CENTER);
+  text("Play", width / 2, height / 2 - 200);
   pop();
 }
 
@@ -228,9 +247,10 @@ function lostLifeScreen(){
   //display the two options of continuing or ending
   push();
   rectMode(CENTER);
-  fill(0);
-  rect(width/4, height/2, 200,100);
-  rect(3*width/4,height/2,200,100);
+  fill(200,100,100);
+  strokeWeight(10);
+  rect(width/4, height/2, 200,100,20);
+  rect(3*width/4,height/2,200,100,20);
   pop();
 
   //continue playing option
@@ -258,11 +278,23 @@ function lostLifeScreen(){
   pop();
 
   //let the user pick one of the other
-  if ((mouseX >= width/4-100) && (mouseX <= width/4 + 100) && (mouseIsPressed) && (mouseY < height/2 + 50) && (mouseY > height/2 -50)){
+  if (checkInButton(width/4, height/2, 200, 100)){
+    sounds.click.play();
     state = "simulation";
   }
-  else if ((mouseX >= 3*width/4-100) && (mouseX <= 3*width/4 + 100) && (mouseIsPressed) && (mouseY < height/2 + 50) && (mouseY > height/2 -50)){
+  else if (checkInButton(3*width/4, height/2, 200, 100)){
+    sounds.click.play();
     state = "end";
   }
 
+}
+
+//checks if mouse is clicking and in button, returns boolean value. Works for rectangles only for now
+function checkInButton(xPosition, yPosition, shapeWidth,shapeHeight){
+  if ((mouseX >= xPosition-shapeWidth/2) && (mouseX <= xPosition + shapeWidth/2) && (mouseIsPressed) && (mouseY < yPosition + shapeHeight/2) && (mouseY > yPosition -shapeHeight/2)){
+    return true;
+  }
+  else{
+    return false;
+  }
 }
