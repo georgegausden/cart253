@@ -127,6 +127,7 @@ function title() {
       b:255
     }
   }
+  rectMode(CENTER);
 
   push();
   textSize(32);
@@ -139,7 +140,6 @@ function title() {
   push();
   //make the boxes light up if the mouse is hovering over
   lightenButton(instructionsButton.x, instructionsButton.y, instructionsButton.width, instructionsButton.height, instructionsButton.fill.r, instructionsButton.fill.g, instructionsButton.fill.b);
-  rectMode(CENTER);
   rect(instructionsButton.x, instructionsButton.y, instructionsButton.width,instructionsButton.height,buttonCurvature);
   pop();
 
@@ -442,9 +442,47 @@ function lostLifeScreen(){
       b: 100,
     }
   }
+
+  let continuePlayingText = {
+    text: "Continue Playing",
+    x: continuePlayingButton.x,
+    y: continuePlayingButton.y,
+    fill: {
+      r: 100,
+      g: 100,
+      b: 255
+    },
+    fontSize: 20
+  }
+
+  let endGameText = {
+    text: "End Game",
+    x: endGameButton.x,
+    y: endGameButton.y,
+    fill: {
+      r: 100,
+      g: 100,
+      b: 255
+    },
+    fontSize: 20
+  }
+
+  let livesLeftText = {
+    text: "Lives left: "+lives,
+    x: width / 2,
+    y: height / 2-100,
+    fill: {
+      r: 100,
+      g: 100,
+      b: 255
+    },
+    fontSize: 20
+  }
+
   rectMode(CENTER);
   noStroke();
 
+  //lighten the buttons when the user hovers their mouse over them
   push();
   lightenButton(continuePlayingButton.x, continuePlayingButton.y, continuePlayingButton.width, continuePlayingButton.height, continuePlayingButton.fill.r, continuePlayingButton.fill.g, continuePlayingButton.fill.b);
   rect(continuePlayingButton.x, continuePlayingButton.y, continuePlayingButton.width,continuePlayingButton.height,buttonCurvature);
@@ -455,28 +493,28 @@ function lostLifeScreen(){
   rect(endGameButton.x,endGameButton.y,endGameButton.width,endGameButton.height,buttonCurvature);
   pop();
 
-  //continue playing option
+  //continue playing option text
   push();
-  textSize(20);
-  fill(100, 100, 255);
+  textSize(continuePlayingText.fontSize);
+  fill(continuePlayingText.fill.r, continuePlayingText.fill.g, continuePlayingText.fill.b);
   textAlign(CENTER, CENTER);
-  text("Continue Playing", continuePlayingButton.x, continuePlayingButton.y);
+  text(continuePlayingText.text, continuePlayingText.x, continuePlayingText.y);
   pop();
 
   //end game option
   push();
-  textSize(20);
-  fill(100, 100, 255);
+  textSize(endGameText.fontSize);
+  fill(endGameText.fill.r, endGameText.fill.g, endGameText.fill.b);
   textAlign(CENTER, CENTER);
-  text("End Game", endGameButton.x, endGameButton.y);
+  text(endGameText.text, endGameText.x, endGameText.y);
   pop();
 
   //display the number of lives left for the user
   push();
-  textSize(20);
-  fill(100, 100, 255);
+  textSize(livesLeftText.fontSize);
+  fill(livesLeftText.fill.r, livesLeftText.fill.g, livesLeftText.fill.b);
   textAlign(CENTER, CENTER);
-  text("Lives left: "+lives, width / 2, height / 2-100);
+  text(livesLeftText.text, livesLeftText.x, livesLeftText.y);
   pop();
 
   //let the user pick one of the other
@@ -571,7 +609,7 @@ function displayLives(){
   let numberLives = lives;
   let spacing = 50;
 
-  for (numberLives; numberLives > 0; numberLives -= 1){
+  while (numberLives > 0){
     push();
     textSize(30);
     fill(0);
@@ -580,6 +618,17 @@ function displayLives(){
     pop();
     imageMode(CENTER);
     image(heart, width/2+spacing, height/2, 50, 50);
+    numberLives -= 1;
   }
 
+}
+
+//function to create a button and place it on the canvas and make it lighten up when the user hovers over it
+function createButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB){
+  //create the options of either playing or clicking the instructions page
+  push();
+  rectMode(CENTER);
+  lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB);
+  rect(xPosition, yPosition, shapeWidth,shapeHeight,buttonCurvature);
+  pop();
 }
