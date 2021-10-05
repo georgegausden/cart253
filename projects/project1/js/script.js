@@ -11,7 +11,11 @@ Here is a description of this template p5 project.
 //setup the initial state as the title
 let state = "title";
 
-let lives = 3;
+let lives = 4;
+
+let sounds = {
+  explosion: undefined,
+}
 
 //create the user character as a circle to start with
 let user = {
@@ -33,12 +37,17 @@ let object = {
   size: 20,
 }
 
+//preload our images and sounds for the program
+function preload(){
+  sounds.explosion = loadSound('assets/sounds/explosion.mov');
+}
+
 
 // setup()
 //
 // Description of setup() goes here.
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(600, 600);
   user.x = width / 4;
   user.y = height / 2;
   object.x = width;
@@ -49,7 +58,7 @@ function setup() {
 //
 // Description of draw() goes here.
 function draw() {
-  background(255);
+  background(140,200,200);
   //setup the title, simulation and end states
   if (state === "title") {
     title();
@@ -57,7 +66,11 @@ function draw() {
     instructions();
   } else if (state === "simulation") {
     simulation();
-  } else if (state === "end") {
+  }
+  else if (state === "lostLifeScreen"){
+    lostLifeScreen();
+  }
+  else if (state === "end") {
     end();
   }
 }
@@ -65,7 +78,7 @@ function draw() {
 //create the title function
 function title() {
   push();
-  textSize(64);
+  textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
   text("This is the title", width / 2, height / 2);
@@ -75,7 +88,7 @@ function title() {
 //create an instructions page for the user to understand the game
 function instructions() {
   push();
-  textSize(64);
+  textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
   text("To play, use 'A' and 'D' to move left and right\n and 'W' and 'S' to move up and down", width / 2, height / 2);
@@ -114,7 +127,7 @@ function simulation() {
 //create the endscreen function
 function end() {
   push();
-  textSize(64);
+  textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
   text("This is the end", width / 2, height / 2);
@@ -195,28 +208,61 @@ function loseLife() {
 
   if (checkTouch()) {
     lives = lives - 1;
+    //play the sound of explosion
+    sounds.explosion.play();
     //reposition the user immediately and stop the movement
     user.x = width / 4;
     user.y = height / 2;
     user.vx = 0;
     user.vy = 0;
+    state = "lostLifeScreen";
   }
 }
 
 function createObjectInfo(){
-  //generate a random y position for the new object
-  let x = width;
-  let y = random(0,height);
-  //make sure it only generates one y value
-  for (let i = 0; i<2; i+=1){
-    y = random(0,height);
-    break;
-  }
+
+}
+
+//create a new state to display that we lost a life and either we can continue or end game
+function lostLifeScreen(){
+  //display the two options of continuing or ending
   push();
-  textSize(64);
+  rectMode(CENTER);
+  fill(0);
+  rect(width/4, height/2, 200,100);
+  rect(3*width/4,height/2,200,100);
+  pop();
+
+  //continue playing option
+  push();
+  textSize(20);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text(y, width / 2, height / 2);
+  text("Continue Playing", width / 4, height / 2);
   pop();
+
+  //end game option
+  push();
+  textSize(20);
+  fill(100, 100, 255);
+  textAlign(CENTER, CENTER);
+  text("End Game", 3*width / 4, height / 2);
+  pop();
+
+  //display the number of lives left for the user
+  push();
+  textSize(20);
+  fill(100, 100, 255);
+  textAlign(CENTER, CENTER);
+  text("Lives left: "+lives, width / 2, height / 2-100);
+  pop();
+
+  //let the user pick one of the other
+  if ((mouseX >= width/4-100) && (mouseX <= width/4 + 100) && (mouseIsPressed) && (mouseY < height/2 + 50) && (mouseY > height/2 -50)){
+    state = "simulation";
+  }
+  else if ((mouseX >= 3*width/4-100) && (mouseX <= 3*width/4 + 100) && (mouseIsPressed) && (mouseY < height/2 + 50) && (mouseY > height/2 -50)){
+    state = "end";
+  }
 
 }
