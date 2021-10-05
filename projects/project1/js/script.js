@@ -15,6 +15,10 @@ let lighten = 50;
 
 let lives = 4;
 
+let heart;
+
+let buttonCurvature = 20;
+
 let sounds = {
   explosion: undefined,
   click: undefined,
@@ -46,6 +50,7 @@ let object = {
 function preload(){
   sounds.explosion = loadSound('assets/sounds/explosion.mov');
   sounds.click = loadSound('assets/sounds/click.mov');
+  heart = loadImage('assets/images/heart.png');
 }
 
 // setup()
@@ -66,7 +71,6 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   background(140,200,200);
-  gameInterface();
   //setup the title, simulation and end states
   if (state === "title") {
     title();
@@ -85,23 +89,62 @@ function draw() {
 
 //create the title function
 function title() {
+
+  let instructionsButton = {
+    text: "Instructions",
+    x: width/4,
+    y: height/2,
+    width: 200,
+    height: 100,
+    fill: {
+      r: 200,
+      g: 200,
+      b: 250,
+    }
+
+  }
+  let playButton = {
+    text: "Play",
+    x: 3*width/4,
+    y: height/2,
+    width: 200,
+    height: 100,
+    fill: {
+      r: 200,
+      g: 200,
+      b: 250,
+    }
+  }
+
+  let gameTitle = {
+    text: "Welcome to GAMETITLE",
+    x: width/2,
+    y: height/2 - 200,
+    fill: {
+      r:100,
+      g:100,
+      b:255
+    }
+  }
+
   push();
   textSize(32);
-  fill(100, 100, 255);
+  fill(gameTitle.fill.r, gameTitle.fill.g, gameTitle.fill.b);
   textAlign(CENTER, CENTER);
-  text("Welcome to GAMETITLE", width / 2, height / 2 - 200);
+  text(gameTitle.text, gameTitle.x, gameTitle.y);
   pop();
 
   //create the options of either playing or clicking the instructions page
   push();
   //make the boxes light up if the mouse is hovering over
-  lightenButton(width/4, height/2, 200, 100, 200, 200, 250);
+  lightenButton(instructionsButton.x, instructionsButton.y, instructionsButton.width, instructionsButton.height, instructionsButton.fill.r, instructionsButton.fill.g, instructionsButton.fill.b);
   rectMode(CENTER);
-  rect(width/4, height/2, 200,100,20);
+  rect(instructionsButton.x, instructionsButton.y, instructionsButton.width,instructionsButton.height,buttonCurvature);
   pop();
+
   push();
-  lightenButton(3*width/4, height/2, 200, 100, 200, 200, 250);
-  rect(3*width/4,height/2,200,100,20);
+  lightenButton(playButton.x, playButton.y, playButton.width, playButton.height, playButton.fill.r, playButton.fill.g, playButton.fill.b);
+  rect(playButton.x,playButton.y,playButton.width,playButton.height,buttonCurvature);
   pop();
 
 
@@ -110,7 +153,7 @@ function title() {
   textSize(32);
   fill(100,100,255);
   textAlign(CENTER, CENTER);
-  text("Instructions", width / 4, height / 2);
+  text("Instructions", instructionsButton.x, instructionsButton.y);
   pop();
 
   //play game
@@ -118,15 +161,15 @@ function title() {
   textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("Play", 3*width / 4, height / 2);
+  text("Play", playButton.x, playButton.y);
   pop();
 
   //let the user click
-  if (checkInButton(width/4, height/2, 200, 100)){
+  if (checkInButton(instructionsButton.x, instructionsButton.y, instructionsButton.width, instructionsButton.height)){
     state = "instructions";
     sounds.click.play();
   }
-  else if (checkInButton(3*width/4, height/2, 200,100)){
+  else if (checkInButton(playButton.x, playButton.y, playButton.width,playButton.height)){
     state = "simulation";
     sounds.click.play();
   }
@@ -165,7 +208,7 @@ function instructions() {
 //create the simulation function
 function simulation() {
   //create the UI of the simulation
-  gameInterface();
+  simulationInterface();
   //create the user in the game
   displayUser();
   //move the user in the game
@@ -361,9 +404,10 @@ function checkInButton(xPosition, yPosition, shapeWidth,shapeHeight){
 }
 
 //create a reset button and the background
-function gameInterface(){
+function simulationInterface(){
   //create a reset button so the user can restart the game
   funBackground();
+  displayLives();
 }
 
 //reset game function
@@ -419,5 +463,16 @@ function lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fil
   }
   else{
     fill(fillR, fillG, fillB);
+  }
+}
+
+//display the hearts (lives)
+function displayLives(){
+  //display the number of lives in the top right corner
+  let numberLives = lives;
+  let spacing = 10;
+
+  for (numberLives; numberLives > 0; numberLives -= 1){
+    image(heart, 300+spacing, 100, 30);
   }
 }
