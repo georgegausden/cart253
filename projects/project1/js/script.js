@@ -17,7 +17,8 @@ let lives = 4;
 
 let heart;
 
-let buttonCurvature = 20;
+//how curved our buttons are
+let buttonCurvature = 50;
 
 let sounds = {
   explosion: undefined,
@@ -177,6 +178,17 @@ function title() {
 
 //create an instructions page for the user to understand the game
 function instructions() {
+  let backToMenu = {
+    x: width/2,
+    y: height/2+200,
+    width: 200,
+    height: 100,
+    fill: {
+      r: 200,
+      g: 200,
+      b: 250,
+    }
+  }
   push();
   textSize(32);
   fill(100, 100, 255);
@@ -187,8 +199,8 @@ function instructions() {
   push();
   fill(200,200,250);
   rectMode(CENTER);
-  lightenButton(width/2, height/2, 200, 100, 200, 200, 250);
-  rect(width/2, height/2, 200,100,20);
+  lightenButton(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height, backToMenu.fill.r, backToMenu.fill.g, backToMenu.fill.b);
+  rect(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height,buttonCurvature);
   pop();
 
   //be able to go back to the main menu
@@ -196,10 +208,10 @@ function instructions() {
   textSize(30);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("Back to menu", width / 2, height / 2);
+  text("Back to menu", backToMenu.x, backToMenu.y);
   pop();
 
-  if (checkInButton(width/2, height/2, 200, 100)){
+  if (checkInButton(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height)){
     sounds.click.play();
     state = "title";
   }
@@ -227,6 +239,18 @@ function simulation() {
 
 //create the endscreen function
 function end() {
+
+  let mainMenu = {
+    x:width/2,
+    y: height/2-100,
+    width: 200,
+    height: 100,
+    fill: {
+      r:200,
+      g: 200,
+      b: 250
+    }
+  }
   push();
   textSize(32);
   fill(100, 100, 255);
@@ -237,8 +261,8 @@ function end() {
   //create box
   push();
   rectMode(CENTER);
-  lightenButton(width/2, height/2, 200, 100, 200,200,250);
-  rect(width/2, height/2, 200,100,20);
+  lightenButton(mainMenu.x, mainMenu.y, mainMenu.width, mainMenu.height, mainMenu.fill.r,mainMenu.fill.g,mainMenu.fill.b);
+  rect(mainMenu.x, mainMenu.y, mainMenu.width,mainMenu.height,buttonCurvature);
   pop();
 
   //let the user restart the game if they want to
@@ -247,11 +271,11 @@ function end() {
   textSize(32);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("Main menu", width / 2, height / 2);
+  text("Main menu", mainMenu.x, mainMenu.y);
   pop();
 
   //reset the lives and the position of the objects
-  if (checkInButton(width/2, height/2, 200, 100)){
+  if (checkInButton(mainMenu.x, mainMenu.y, mainMenu.width, mainMenu.height)){
     sounds.click.play();
     resetGame();
     state = "title";
@@ -343,17 +367,40 @@ function loseLife() {
 //create a new state to display that we lost a life and either we can continue or end game
 function lostLifeScreen(){
   //display the two options of continuing or ending
+  let continuePlayingButton = {
+    x: width/4,
+    y: height/2,
+    width: 200,
+    height: 100,
+    fill: {
+      r: 200,
+      g: 100,
+      b: 100,
+    }
+  }
+
+  let endGameButton = {
+    x: 3*width/4,
+    y: height/2,
+    width: 200,
+    height: 100,
+    fill: {
+      r: 200,
+      g: 100,
+      b: 100,
+    }
+  }
   rectMode(CENTER);
   noStroke();
 
   push();
-  lightenButton(width/4, height/2, 200, 100, 200, 100, 100);
-  rect(width/4, height/2, 200,100,20);
+  lightenButton(continuePlayingButton.x, continuePlayingButton.y, continuePlayingButton.width, continuePlayingButton.height, continuePlayingButton.fill.r, continuePlayingButton.fill.g, continuePlayingButton.fill.b);
+  rect(continuePlayingButton.x, continuePlayingButton.y, continuePlayingButton.width,continuePlayingButton.height,buttonCurvature);
   pop();
 
   push();
-  lightenButton(3*width/4, height/2, 200, 100, 200, 100, 100);
-  rect(3*width/4,height/2,200,100,20);
+  lightenButton(endGameButton.x, endGameButton.y, endGameButton.width, endGameButton.height, endGameButton.fill.r, endGameButton.fill.g, endGameButton.fill.b);
+  rect(endGameButton.x,endGameButton.y,endGameButton.width,endGameButton.height,buttonCurvature);
   pop();
 
   //continue playing option
@@ -361,7 +408,7 @@ function lostLifeScreen(){
   textSize(20);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("Continue Playing", width / 4, height / 2);
+  text("Continue Playing", continuePlayingButton.x, continuePlayingButton.y);
   pop();
 
   //end game option
@@ -369,7 +416,7 @@ function lostLifeScreen(){
   textSize(20);
   fill(100, 100, 255);
   textAlign(CENTER, CENTER);
-  text("End Game", 3*width / 4, height / 2);
+  text("End Game", endGameButton.x, endGameButton.y);
   pop();
 
   //display the number of lives left for the user
@@ -381,12 +428,12 @@ function lostLifeScreen(){
   pop();
 
   //let the user pick one of the other
-  if (checkInButton(width/4, height/2, 200, 100)){
+  if (checkInButton(continuePlayingButton.x, continuePlayingButton.y, continuePlayingButton.width, continuePlayingButton.height)){
     sounds.click.play();
     resetObjetPosition();
     state = "simulation";
   }
-  else if (checkInButton(3*width/4, height/2, 200, 100)){
+  else if (checkInButton(endGameButton.x, endGameButton.y, endGameButton.width, endGameButton.height)){
     sounds.click.play();
     state = "end";
   }
