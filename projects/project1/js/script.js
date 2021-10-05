@@ -11,7 +11,7 @@ Here is a description of this template p5 project.
 //setup the initial state as the title
 let state = "title";
 
-let lighten = 20;
+let lighten = 50;
 
 let lives = 4;
 
@@ -144,6 +144,7 @@ function instructions() {
   push();
   fill(200,200,250);
   rectMode(CENTER);
+  lightenButton(width/2, height/2, 200, 100, 200, 200, 250);
   rect(width/2, height/2, 200,100,20);
   pop();
 
@@ -192,8 +193,8 @@ function end() {
 
   //create box
   push();
-  fill(200,200,250);
   rectMode(CENTER);
+  lightenButton(width/2, height/2, 200, 100, 200,200,250);
   rect(width/2, height/2, 200,100,20);
   pop();
 
@@ -299,11 +300,16 @@ function loseLife() {
 //create a new state to display that we lost a life and either we can continue or end game
 function lostLifeScreen(){
   //display the two options of continuing or ending
-  push();
   rectMode(CENTER);
-  fill(200,100,100);
-  strokeWeight(10);
+  noStroke();
+
+  push();
+  lightenButton(width/4, height/2, 200, 100, 200, 100, 100);
   rect(width/4, height/2, 200,100,20);
+  pop();
+
+  push();
+  lightenButton(3*width/4, height/2, 200, 100, 200, 100, 100);
   rect(3*width/4,height/2,200,100,20);
   pop();
 
