@@ -118,11 +118,11 @@ function title() {
   }
 
   let gameTitle = {
-    text: "Welcome to GAMETITLE",
+    text: "Welcome to the game",
     x: width/2,
     y: height/2 - 200,
     fill: {
-      r:100,
+      r:200,
       g:100,
       b:255
     }
@@ -189,15 +189,40 @@ function instructions() {
       b: 250,
     }
   }
+
+  let instructionsText = {
+    text: "To play, use 'A' and 'D'\n to move left and right\n and 'W' and 'S' to move up and down",
+    x: width/2,
+    y: height/2 -150,
+    fill: {
+      r: 100,
+      g: 100,
+      b: 255
+    },
+    fontSize: 32
+  }
+
+  let backToMenuText = {
+    text: "Back to menu",
+    x: backToMenu.x,
+    y: backToMenu.y,
+    fill: {
+      r: 100,
+      g: 100,
+      b: 255
+    },
+    fontSize: 25
+  }
+
   push();
-  textSize(32);
-  fill(100, 100, 255);
+  textSize(instructionsText.fontSize);
+  fill(instructionsText.fill.r, instructionsText.fill.g, instructionsText.fill.b);
   textAlign(CENTER, CENTER);
-  text("To play, use 'A' and 'D'\n to move left and right\n and 'W' and 'S' to move up and down", width / 2, height / 2 - 150);
+  text(instructionsText.text, instructionsText.x, instructionsText.y);
   pop();
 
   push();
-  fill(200,200,250);
+  fill(backToMenu.fill.r,backToMenu.fill.g,backToMenu.fill.b);
   rectMode(CENTER);
   lightenButton(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height, backToMenu.fill.r, backToMenu.fill.g, backToMenu.fill.b);
   rect(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height,buttonCurvature);
@@ -205,10 +230,10 @@ function instructions() {
 
   //be able to go back to the main menu
   push();
-  textSize(30);
-  fill(100, 100, 255);
+  textSize(backToMenuText.fontSize);
+  fill(backToMenuText.fill.r, backToMenuText.fill.g, backToMenuText.fill.b);
   textAlign(CENTER, CENTER);
-  text("Back to menu", backToMenu.x, backToMenu.y);
+  text(backToMenuText.text, backToMenuText.x, backToMenuText.y);
   pop();
 
   if (checkInButton(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height)){
