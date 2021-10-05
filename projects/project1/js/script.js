@@ -9,6 +9,8 @@ Here is a description of this template p5 project.
 //create the javascript objects and the variables in the program
 
 //setup the initial state as the title
+let score = 0;
+
 let state = "title";
 
 let lighten = 50;
@@ -23,6 +25,7 @@ let buttonCurvature = 50;
 let sounds = {
   explosion: undefined,
   click: undefined,
+  levelUp: undefined,
 }
 
 //create the user character as a circle to start with
@@ -42,16 +45,20 @@ let object = {
   yi: undefined,
   x: undefined,
   y: undefined,
-  vx: -2,
+  vxi: -2,
+  vx: undefined,
   vy: 0,
-  size: 20,
+  sizei: 20,
+  size: undefined,
 }
 
 //preload our images and sounds for the program
 function preload(){
   sounds.explosion = loadSound('assets/sounds/explosion.mov');
   sounds.click = loadSound('assets/sounds/click.mov');
+  sounds.levelUp = loadSound('assets/sounds/levelUp.mov');
   heart = loadImage('assets/images/heart.png');
+
 }
 
 // setup()
@@ -65,6 +72,8 @@ function setup() {
   object.yi = height / 2;
   object.x = object.xi;
   object.y = object.yi;
+  object.vx = object.vxi;
+  object.size = object.sizei;
 }
 
 // draw()
@@ -254,8 +263,12 @@ function simulation() {
   moveUser();
   //create an object that's randomly generated
   createObject();
-  //generate more than one object randomly
-  createObject();
+  //move the object
+  moveObject(object.vx);
+  //regenerate the object if it leaves the canvas
+  levelUp(object.x);
+  //generate new random objects
+
   //check if the user touches one of the objects
   checkTouch();
   //if check touch is true, lose one life for the user
@@ -379,6 +392,10 @@ function createObject() {
   rect(object.x, object.y, object.size, object.size);
   pop();
 
+}
+
+//a function to control the movement of the object
+function moveObject(){
   object.x += object.vx;
 
 }
@@ -512,17 +529,12 @@ function lostLifeScreen(){
   pop();
 
   //display the number of lives left for the user
-  push();
-  textSize(livesLeftText.fontSize);
-  fill(livesLeftText.fill.r, livesLeftText.fill.g, livesLeftText.fill.b);
-  textAlign(CENTER, CENTER);
-  text(livesLeftText.text, livesLeftText.x, livesLeftText.y);
-  pop();
+  displayLives();
 
   //let the user pick one of the other
   if (checkInButton(continuePlayingButton.x, continuePlayingButton.y, continuePlayingButton.width, continuePlayingButton.height)){
     sounds.click.play();
-    resetObjetPosition();
+    resetObjetPositionInGame();
     state = "simulation";
   }
   else if (checkInButton(endGameButton.x, endGameButton.y, endGameButton.width, endGameButton.height)){
@@ -546,21 +558,20 @@ function checkInButton(xPosition, yPosition, shapeWidth,shapeHeight){
 function simulationInterface(){
   //create a reset button so the user can restart the game
   //funBackground();
-  displayLives();
+  displayLives(width/2+40, height/2-250);
+  //keep track of the user's score as the objects leave the canvas
+  scoreDisplay();
 }
 
 //reset game function
 function resetGame(){
   //reset lives and positions
-  resetObjetPosition();
+  resetObjetAtEnd();
+  score = 0;
   lives = 4;
   state = "simulation";
-}
 
-//reset the position of the object to block
-function resetObjetPosition(){
-  object.x = object.xi;
-  object.y = object.yi;
+
 }
 
 //reset the position and velocity of the user
@@ -606,7 +617,7 @@ function lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fil
 }
 
 //display the hearts (lives)
-function displayLives(){
+function displayLives(xPosition, yPosition){
   //display the number of lives in the top right corner
   let numberLives = lives;
   let spacing = 50;
@@ -631,4 +642,57 @@ function createButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fill
   lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB);
   rect(xPosition, yPosition, shapeWidth,shapeHeight,buttonCurvature);
   pop();
+}
+
+//function that restarts the objects in random locations
+function levelUp(xPosition){
+  if (xPosition < 0) {
+    sounds.levelUp.play();
+    object.x = width;
+    object.y = random(0, height);
+    //increase speed if the object left the canvas
+    object.vx -= 1;
+    //add a score of 1 since we dodged the object
+    score += 1;
+    //increase the size of the object a bit
+    object.size += 10;
+  }
+}
+
+//function that resets the position of the object
+function resetObjetPositionInGame(){
+  object.x = object.xi;
+  object.y = random(0, height);
+}
+
+//keep track of the score
+function scoreDisplay(){
+  //write the score in the top left corner of the canvas
+  let scoreText = {
+    score: score,
+    text: "Level: "+score,
+    fontSize: 30,
+    fill: {
+      r: 255,
+      g: 255,
+      b: 100,
+    },
+    x:width/4,
+    y:50,
+  }
+  push();
+  textSize(scoreText.fontSize);
+  fill(scoreText.fill.r, scoreText.fill.g, scoreText.fill.b);
+  textAlign(CENTER, CENTER);
+  text(scoreText.text, scoreText.x, scoreText.y);
+  pop();
+}
+
+//reset the velocity and position of the object if we restart the game
+function resetObjetAtEnd(){
+  object.x = object.xi;
+  object.y = object.yi;
+  object.vx = object.vxi;
+  object.size = object.sizei;
+
 }
