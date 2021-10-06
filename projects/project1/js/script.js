@@ -582,7 +582,7 @@ function resetGame(){
   //reset lives and positions
   resetObjetAtEnd();
   score = 0;
-  lives = 4;
+  lives = livesi;
   state = "simulation";
 
 
