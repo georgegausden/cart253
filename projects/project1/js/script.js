@@ -9,13 +9,14 @@ Here is a description of this template p5 project.
 //create the javascript objects and the variables in the program
 
 //setup the initial state as the title
+
 let score = 0;
 
 let state = "title";
 
 let lighten = 50;
 
-let lives = 4;
+let lives = 5;
 
 let heart;
 
@@ -264,9 +265,9 @@ function simulation() {
   //move the user in the game
   moveUser();
   //create an object that's randomly generated
-  createObject();
+  createObject(object.x, object.y, object.size);
   //move the object
-  moveObject(object.vx);
+  moveObject(object.x, object.vx);
   //regenerate the object if it leaves the canvas
   levelUp(object.x);
   //generate new random objects
@@ -381,23 +382,32 @@ function moveUser() {
     constrain(user.vy, -user.maxSpeed, user.maxSpeed);
   }
 
+
   //constrain the movement so that we can't exit the frame
   constrain(user.x, 0, width);
   constrain(user.y, 0, height);
 }
 
 //create an object we need to dodge
-function createObject() {
+function createObject(xPosition, yPosition, size) {
   //generate the shape
   push();
   fill(0);
-  rect(object.x, object.y, object.size, object.size);
+  rect(xPosition, yPosition, size, size);
   pop();
 
 }
 
+
 //a function to control the movement of the object
-function moveObject(){
+function moveObject(xPosition, vx){
+  push();
+  textSize(30);
+  fill(0);
+  textAlign(CENTER, CENTER);
+  text("move", width/2, height/2);
+  pop();
+  //xPosition += vx;
   object.x += object.vx;
 
 }
@@ -624,13 +634,14 @@ function displayLives(xPosition, yPosition){
   let numberLives = lives;
   let spacing = 50;
   let numberOfHearts = lives;
-  let heightOfHearts = height/2-250;
+  let yposition = height/2-250;
+  let xposition = width/2 - 40
   let heartSize = 50;
 
   while (numberOfHearts > 0){
     //keep count of how many lives are left as heart images
     imageMode(CENTER);
-    image(heart, width/2+numberOfHearts*spacing+40, heightOfHearts, heartSize, heartSize);
+    image(heart, xposition+numberOfHearts*spacing, yposition, heartSize, heartSize);
     numberOfHearts -= 1;
   }
 
@@ -658,6 +669,10 @@ function levelUp(xPosition){
     score += 1;
     //increase the size of the object a bit
     object.size += 10;
+    //add a new object to the game
+    for (let scoreCount = score; scoreCount<0; scoreCount--){
+      createObject();
+    }
   }
 }
 
