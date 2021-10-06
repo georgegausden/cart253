@@ -16,7 +16,8 @@ let state = "title";
 
 let lighten = 50;
 
-let lives = 5;
+let livesi = 5;
+let lives = undefined;
 
 let heart;
 
@@ -37,9 +38,10 @@ let user = {
   vx: 0,
   vy: 0,
   ax: 0.2,
-  maxSpeed: 1,
+  maxSpeed: 4,
   maxAcceleration: 3,
   size: 40,
+  vi: 0,
 };
 
 let object = {
@@ -77,6 +79,7 @@ function setup() {
   object.y = object.yi;
   object.vx = object.vxi;
   object.size = object.sizei;
+  lives = livesi;
 }
 
 // draw()
@@ -370,22 +373,20 @@ function moveUser() {
   if (keyIsDown(68)) {
     user.vx += user.ax;
     //cap the speed so we're not going too fast
-    constrain(user.vx, -user.maxSpeed, user.maxSpeed);
+    user.vx = constrain(user.vx, -user.maxSpeed, user.maxSpeed);
   } else if (keyIsDown(65)) {
     user.vx -= user.ax;
-    constrain(user.vx, -user.maxSpeed, user.maxSpeed);
+    user.vx = constrain(user.vx, -user.maxSpeed, user.maxSpeed);
   } else if (keyIsDown(87)) {
     user.vy -= user.ax;
-    constrain(user.vy, -user.maxSpeed, user.maxSpeed);
+    user.vy = constrain(user.vy, -user.maxSpeed, user.maxSpeed);
   } else if (keyIsDown(83)) {
     user.vy += user.ax;
-    constrain(user.vy, -user.maxSpeed, user.maxSpeed);
+    user.vy = constrain(user.vy, -user.maxSpeed, user.maxSpeed);
   }
 
+  userMoveConstraints();
 
-  //constrain the movement so that we can't exit the frame
-  constrain(user.x, 0, width);
-  constrain(user.y, 0, height);
 }
 
 //create an object we need to dodge
@@ -573,6 +574,7 @@ function simulationInterface(){
   displayLives(width/2+40, height/2-250);
   //keep track of the user's score as the objects leave the canvas
   scoreDisplay();
+  restartButton();
 }
 
 //reset game function
@@ -720,4 +722,74 @@ function mousePressed(){
     sounds.backgroundMusic.loop();
   }
 
+}
+
+//make a function so we don't get stuck to the side of the frame and don't leave the canvas
+function userMoveConstraints(){
+  user.x = constrain(user.x, 0, width);
+  user.y = constrain(user.y, 0, height);
+
+  //if user touches the edge, put their velocity back to 0 so that we don't just stick to the frame
+  if (user.x === width){
+    user.x -= 1;
+    user.vx = 0;
+    user.vy = 0;
+  }
+  else if (user.x === 0){
+    user.x +=1;
+    user.vx = 0;
+    user.vy = 0;
+  }
+  else if (user.y === height){
+    user.y -= 1;
+    user.vx = 0;
+    user.vy = 0;
+  }
+  else if (user.y === 0){
+    user.y += 1;
+    user.vx = 0;
+    user.vy = 0;
+  }
+}
+
+//create a restart button
+function restartButton(){
+  let restartButton = {
+    x: 3*width/4,
+    y: 125,
+    width: 150,
+    height: 50,
+    fill: {
+      r:200,
+      g: 200,
+      b: 250
+    },
+    fontSize: 30,
+    textFill: {
+      r: 250,
+      g: 250,
+      b: 200
+    },
+    text: "Restart"
+  }
+
+
+  push();
+  rectMode(CENTER);
+  lightenButton(restartButton.x, restartButton.y, restartButton.width, restartButton.height, restartButton.fill.r,restartButton.fill.g,restartButton.fill.b);
+  rect(restartButton.x, restartButton.y, restartButton.width,restartButton.height,buttonCurvature);
+  pop();
+
+  push();
+  textSize(restartButton.fontSize);
+  fill(restartButton.textFill.r, restartButton.textFill.g, restartButton.textFill.b);
+  textAlign(CENTER, CENTER);
+  text(restartButton.text, restartButton.x, restartButton.y);
+  pop();
+
+  if (checkInButton(restartButton.x, restartButton.y, restartButton.width, restartButton.height)){
+    sounds.click.play();
+    resetGame();
+
+  }
 }
