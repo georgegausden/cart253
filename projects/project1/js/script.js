@@ -26,6 +26,7 @@ let sounds = {
   explosion: undefined,
   click: undefined,
   levelUp: undefined,
+  backgroundMusic: undefined,
 }
 
 //create the user character as a circle to start with
@@ -57,6 +58,7 @@ function preload(){
   sounds.explosion = loadSound('assets/sounds/explosion.mov');
   sounds.click = loadSound('assets/sounds/click.mov');
   sounds.levelUp = loadSound('assets/sounds/levelUp.mov');
+  sounds.backgroundMusic = loadSound('assets/sounds/backgroundMusic.mov');
   heart = loadImage('assets/images/heart.png');
 
 }
@@ -694,5 +696,13 @@ function resetObjetAtEnd(){
   object.y = object.yi;
   object.vx = object.vxi;
   object.size = object.sizei;
+
+}
+
+//create the background music for the game
+function mousePressed(){
+  if (!sounds.backgroundMusic.isPlaying()){
+    sounds.backgroundMusic.loop();
+  }
 
 }
