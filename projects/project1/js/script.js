@@ -9,9 +9,6 @@ Here is a description of this template p5 project.
 //create the javascript objects and the variables in the program
 
 //setup the initial state as the title
-
-
-
 let score = 0;
 
 let state = "title";
@@ -46,17 +43,9 @@ let user = {
   vi: 0,
 };
 
-let object = {
-  xi: undefined,
-  yi: undefined,
-  x: undefined,
-  y: undefined,
-  vxi: -2,
-  vx: undefined,
-  vy: 0,
-  sizei: 20,
-  size: undefined,
-}
+let object;
+
+let object2;
 
 //preload our images and sounds for the program
 function preload(){
@@ -75,12 +64,8 @@ function setup() {
   createCanvas(600, 600);
   user.x = width / 4;
   user.y = height / 2;
-  object.xi = width;
-  object.yi = height / 2;
-  object.x = object.xi;
-  object.y = object.yi;
-  object.vx = object.vxi;
-  object.size = object.sizei;
+  object = generateObjectVariable(object);
+  object2 = generateObjectVariable(object2);
   lives = livesi;
 
   //create the random positions for the treasure chests
@@ -273,11 +258,11 @@ function simulation() {
   //move the user in the game
   moveUser();
   //create an object that's randomly generated
-  createObject(object.x, object.y, object.size);
+  createObject(object);
   //move the object
-  moveObject(object.x, object.vx);
+  moveObject(object);
   //regenerate the object if it leaves the canvas
-  levelUp(object.x);
+  levelUp(object);
   //generate new random objects
 
   //check if the user touches one of the objects
@@ -396,26 +381,36 @@ function moveUser() {
 
 }
 
+//generate object variable
+function generateObjectVariable(name){
+  let object = {
+    xi: width,
+    yi: random(0,height),
+    x: width,
+    y: random(0,height),
+    vxi: -2,
+    vx: -2,
+    vy: 0,
+    sizei: 20,
+    size: 20,
+  };
+  return object;
+}
+
 //create an object we need to dodge
-function createObject(xPosition, yPosition, size) {
+function createObject(objectName) {
   //generate the shape
   push();
   fill(0);
-  rect(xPosition, yPosition, size, size);
+  rect(objectName.x, objectName.y, objectName.size, objectName.size);
   pop();
 
 }
 
 //a function to control the movement of the object
-function moveObject(xPosition, vx){
-  push();
-  textSize(30);
-  fill(0);
-  textAlign(CENTER, CENTER);
-  text("move", width/2, height/2);
-  pop();
+function moveObject(objectName){
   //xPosition += vx;
-  object.x += object.vx;
+  objectName.x += objectName.vx;
 
 }
 
@@ -666,17 +661,17 @@ function createButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fill
 }
 
 //function that restarts the objects in random locations
-function levelUp(xPosition){
-  if (xPosition < 0) {
+function levelUp(objectName){
+  if (objectName.x < 0) {
     sounds.levelUp.play();
-    object.x = width;
-    object.y = random(0, height);
+    objectName.x = width;
+    objectName.y = random(0, height);
     //increase speed if the object left the canvas
-    object.vx -= 1;
+    objectName.vx -= 1;
     //add a score of 1 since we dodged the object
     score += 1;
     //increase the size of the object a bit
-    object.size += 10;
+    objectName.size += 10;
     //add a new object to the game
     for (let scoreCount = score; scoreCount<0; scoreCount--){
       createObject();
