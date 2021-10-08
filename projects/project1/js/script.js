@@ -9,6 +9,14 @@ Here is a description of this template p5 project.
 //create the javascript objects and the variables in the program
 
 //setup the initial state as the title
+let buttonElements = {
+  r:200,
+  g:200,
+  b:250,
+  textR:100,
+  textG:100,
+  textB: 255
+}
 let score = 0;
 
 let state = "title";
@@ -67,9 +75,6 @@ function setup() {
   object = generateObjectVariable(object);
   object2 = generateObjectVariable(object2);
   lives = livesi;
-
-  //create the random positions for the treasure chests
-
 }
 
 // draw()
@@ -185,17 +190,8 @@ function title() {
 
 //create an instructions page for the user to understand the game
 function instructions() {
-  let backToMenu = {
-    x: width/2,
-    y: height/2+200,
-    width: 200,
-    height: 100,
-    fill: {
-      r: 200,
-      g: 200,
-      b: 250,
-    }
-  }
+  //createButtonVariable(x,y,width,height,fillR, fillG, fillB, text, textFillR, textFillG, textFillB, fontSize))
+  let backToMenu = createButtonVariable(width/2,(height/2+200),200,100,"Back to menu",25);
 
   let instructionsText = {
     text: "To play, use 'A' and 'D'\n to move left and right\n and 'W' and 'S' to move up and down",
@@ -209,18 +205,6 @@ function instructions() {
     fontSize: 32
   }
 
-  let backToMenuText = {
-    text: "Back to menu",
-    x: backToMenu.x,
-    y: backToMenu.y,
-    fill: {
-      r: 100,
-      g: 100,
-      b: 255
-    },
-    fontSize: 25
-  }
-
   push();
   textSize(instructionsText.fontSize);
   fill(instructionsText.fill.r, instructionsText.fill.g, instructionsText.fill.b);
@@ -228,20 +212,8 @@ function instructions() {
   text(instructionsText.text, instructionsText.x, instructionsText.y);
   pop();
 
-  push();
-  fill(backToMenu.fill.r,backToMenu.fill.g,backToMenu.fill.b);
-  rectMode(CENTER);
-  lightenButton(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height, backToMenu.fill.r, backToMenu.fill.g, backToMenu.fill.b);
-  rect(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height,buttonCurvature);
-  pop();
-
-  //be able to go back to the main menu
-  push();
-  textSize(backToMenuText.fontSize);
-  fill(backToMenuText.fill.r, backToMenuText.fill.g, backToMenuText.fill.b);
-  textAlign(CENTER, CENTER);
-  text(backToMenuText.text, backToMenuText.x, backToMenuText.y);
-  pop();
+  //draw the button in our canvas
+  drawButton(backToMenu);
 
   if (checkInButton(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height)){
     sounds.click.play();
@@ -278,34 +250,14 @@ function simulation() {
 //create the endscreen function
 function end() {
 
-  let mainMenu = {
-    x:width/2,
-    y: height/2-100,
-    width: 200,
-    height: 100,
-    fill: {
-      r:200,
-      g: 200,
-      b: 250
-    }
-  }
+  let mainMenu = createButtonVariable(width/2,(height/2-100),200,100,"Main Menu",32);
+  drawButton(mainMenu);
+
 
   let endText = {
     text: "This is the end",
     x: width/2,
     y: height/2 -200,
-    fill: {
-      r: 100,
-      g: 100,
-      b: 255
-    },
-    fontSize: 32
-  }
-
-  let mainMenuText = {
-    text: "Main menu",
-    x: mainMenu.x,
-    y: mainMenu.y,
     fill: {
       r: 100,
       g: 100,
@@ -320,23 +272,6 @@ function end() {
   fill(endText.fill.r, endText.fill.g, endText.fill.b);
   textAlign(CENTER, CENTER);
   text(endText.text, endText.x, endText.y);
-  pop();
-
-  //create box
-  push();
-  rectMode(CENTER);
-  lightenButton(mainMenu.x, mainMenu.y, mainMenu.width, mainMenu.height, mainMenu.fill.r,mainMenu.fill.g,mainMenu.fill.b);
-  rect(mainMenu.x, mainMenu.y, mainMenu.width,mainMenu.height,buttonCurvature);
-  pop();
-
-  //let the user restart the game if they want to
-  //if they click the box, restart game and reset Lives
-  //display the main menu text
-  push();
-  textSize(mainMenuText.fontSize);
-  fill(mainMenuText.fill.r, mainMenuText.fill.g, mainMenuText.fill.b);
-  textAlign(CENTER, CENTER);
-  text(mainMenuText.text, mainMenuText.x, mainMenuText.y);
   pop();
 
   //reset the lives and the position of the objects
@@ -452,53 +387,11 @@ function loseLife() {
 //create a new state to display that we lost a life and either we can continue or end game
 function lostLifeScreen(){
   //display the two options of continuing or ending
-  let continuePlayingButton = {
-    x: width/4,
-    y: height/2,
-    width: 200,
-    height: 100,
-    fill: {
-      r: 200,
-      g: 100,
-      b: 100,
-    }
-  }
+  let continuePlayingButton = createButtonVariable(width/4, height/2, 200, 100, "Continue Playing", 20);
+  drawButton(continuePlayingButton);
 
-  let endGameButton = {
-    x: 3*width/4,
-    y: height/2,
-    width: 200,
-    height: 100,
-    fill: {
-      r: 200,
-      g: 100,
-      b: 100,
-    }
-  }
-
-  let continuePlayingText = {
-    text: "Continue Playing",
-    x: continuePlayingButton.x,
-    y: continuePlayingButton.y,
-    fill: {
-      r: 100,
-      g: 100,
-      b: 255
-    },
-    fontSize: 20
-  }
-
-  let endGameText = {
-    text: "End Game",
-    x: endGameButton.x,
-    y: endGameButton.y,
-    fill: {
-      r: 100,
-      g: 100,
-      b: 255
-    },
-    fontSize: 20
-  }
+  let endGameButton = createButtonVariable(3*width/4, height/2, 200, 100, "End Game", 20);
+  drawButton(endGameButton);
 
   let livesLeftText = {
     text: "Lives left: "+lives,
@@ -514,33 +407,6 @@ function lostLifeScreen(){
 
   rectMode(CENTER);
   noStroke();
-
-  //lighten the buttons when the user hovers their mouse over them
-  push();
-  lightenButton(continuePlayingButton.x, continuePlayingButton.y, continuePlayingButton.width, continuePlayingButton.height, continuePlayingButton.fill.r, continuePlayingButton.fill.g, continuePlayingButton.fill.b);
-  rect(continuePlayingButton.x, continuePlayingButton.y, continuePlayingButton.width,continuePlayingButton.height,buttonCurvature);
-  pop();
-
-  push();
-  lightenButton(endGameButton.x, endGameButton.y, endGameButton.width, endGameButton.height, endGameButton.fill.r, endGameButton.fill.g, endGameButton.fill.b);
-  rect(endGameButton.x,endGameButton.y,endGameButton.width,endGameButton.height,buttonCurvature);
-  pop();
-
-  //continue playing option text
-  push();
-  textSize(continuePlayingText.fontSize);
-  fill(continuePlayingText.fill.r, continuePlayingText.fill.g, continuePlayingText.fill.b);
-  textAlign(CENTER, CENTER);
-  text(continuePlayingText.text, continuePlayingText.x, continuePlayingText.y);
-  pop();
-
-  //end game option
-  push();
-  textSize(endGameText.fontSize);
-  fill(endGameText.fill.r, endGameText.fill.g, endGameText.fill.b);
-  textAlign(CENTER, CENTER);
-  text(endGameText.text, endGameText.x, endGameText.y);
-  pop();
 
   //display the number of lives left for the user
   displayLives();
@@ -651,12 +517,42 @@ function displayLives(xPosition, yPosition){
 }
 
 //function to create a button and place it on the canvas and make it lighten up when the user hovers over it
-function createButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB){
-  //create the options of either playing or clicking the instructions page
+function createButtonVariable(x,y,width,height,text,fontSize){
+  let button = {
+    x: x,
+    y: y,
+    width: width,
+    height: height,
+    fill: {
+      r: buttonElements.r,
+      g: buttonElements.g,
+      b: buttonElements.b,
+    },
+    text: text,
+    textFill: {
+      r: buttonElements.textR,
+      g: buttonElements.textG,
+      b: buttonElements.textB
+    },
+    fontSize: fontSize
+  }
+  return button;
+}
+
+function drawButton(button){
   push();
+  fill(button.fill.r,button.fill.g,button.fill.b);
   rectMode(CENTER);
-  lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB);
-  rect(xPosition, yPosition, shapeWidth,shapeHeight,buttonCurvature);
+  lightenButton(button.x, button.y, button.width, button.height, button.fill.r, button.fill.g, button.fill.b);
+  rect(button.x, button.y, button.width, button.height,buttonCurvature);
+  pop();
+
+  //be able to go back to the main menu
+  push();
+  textSize(button.fontSize);
+  fill(button.textFill.r, button.textFill.g, button.textFill.b);
+  textAlign(CENTER, CENTER);
+  text(button.text, button.x, button.y);
   pop();
 }
 
