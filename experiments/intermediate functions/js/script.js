@@ -22,16 +22,10 @@ let food2: {
 //  barkSFX.play();
 //}
 
-function mousePressed(){
+function setup(){
   createCanvas(windowWidth, windHeight);
 }
 
-function keyPressed(){
-  tryMusic();
-}
-
-function tryMusic(){
-  if (!barkSFX.isPlaying()){
-    barkSFX.loop();
-  }
+function draw(){
+  
 }
