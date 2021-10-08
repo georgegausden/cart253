@@ -103,79 +103,14 @@ function title() {
 
   noStroke();
 
-  let instructionsButton = {
-    text: "Instructions",
-    x: width/4,
-    y: height/2,
-    width: 200,
-    height: 100,
-    fill: {
-      r: 200,
-      g: 200,
-      b: 250,
-    }
+  let instructionsButton = createButtonVariable(width/4, height/2, 200, 100, "Instructions", 32);
+  drawButton(instructionsButton);
 
-  }
-  let playButton = {
-    text: "Play",
-    x: 3*width/4,
-    y: height/2,
-    width: 200,
-    height: 100,
-    fill: {
-      r: 200,
-      g: 200,
-      b: 250,
-    }
-  }
+  let playButton = createButtonVariable(3*width/4, height/2, 200, 100, "Play", 32);
+  drawButton(playButton);
 
-  let gameTitle = {
-    text: "Welcome to the game",
-    x: width/2,
-    y: height/2 - 200,
-    fill: {
-      r:200,
-      g:100,
-      b:255
-    }
-  }
-  rectMode(CENTER);
-
-  push();
-  textSize(32);
-  fill(gameTitle.fill.r, gameTitle.fill.g, gameTitle.fill.b);
-  textAlign(CENTER, CENTER);
-  text(gameTitle.text, gameTitle.x, gameTitle.y);
-  pop();
-
-  //create the options of either playing or clicking the instructions page
-  push();
-  //make the boxes light up if the mouse is hovering over
-  lightenButton(instructionsButton.x, instructionsButton.y, instructionsButton.width, instructionsButton.height, instructionsButton.fill.r, instructionsButton.fill.g, instructionsButton.fill.b);
-  rect(instructionsButton.x, instructionsButton.y, instructionsButton.width,instructionsButton.height,buttonCurvature);
-  pop();
-
-  push();
-  lightenButton(playButton.x, playButton.y, playButton.width, playButton.height, playButton.fill.r, playButton.fill.g, playButton.fill.b);
-  rect(playButton.x,playButton.y,playButton.width,playButton.height,buttonCurvature);
-  pop();
-
-
-  //would you like to play
-  push();
-  textSize(32);
-  fill(100,100,255);
-  textAlign(CENTER, CENTER);
-  text("Instructions", instructionsButton.x, instructionsButton.y);
-  pop();
-
-  //play game
-  push();
-  textSize(32);
-  fill(100, 100, 255);
-  textAlign(CENTER, CENTER);
-  text("Play", playButton.x, playButton.y);
-  pop();
+  //write the greetings
+  createText("Welcome to the game", width/2, height/2-200, 200, 100, 255, 32);
 
   //let the user click
   if (checkInButton(instructionsButton.x, instructionsButton.y, instructionsButton.width, instructionsButton.height)){
@@ -192,28 +127,10 @@ function title() {
 function instructions() {
   //createButtonVariable(x,y,width,height,fillR, fillG, fillB, text, textFillR, textFillG, textFillB, fontSize))
   let backToMenu = createButtonVariable(width/2,(height/2+200),200,100,"Back to menu",25);
-
-  let instructionsText = {
-    text: "To play, use 'A' and 'D'\n to move left and right\n and 'W' and 'S' to move up and down",
-    x: width/2,
-    y: height/2 -150,
-    fill: {
-      r: 100,
-      g: 100,
-      b: 255
-    },
-    fontSize: 32
-  }
-
-  push();
-  textSize(instructionsText.fontSize);
-  fill(instructionsText.fill.r, instructionsText.fill.g, instructionsText.fill.b);
-  textAlign(CENTER, CENTER);
-  text(instructionsText.text, instructionsText.x, instructionsText.y);
-  pop();
-
-  //draw the button in our canvas
   drawButton(backToMenu);
+
+  createText("To play, use 'A' and 'D'\n to move left and right\n and 'W' and 'S' to move up and down", width/2, height/2-150, 100, 100, 255, 32);
+
 
   if (checkInButton(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height)){
     sounds.click.play();
@@ -253,26 +170,7 @@ function end() {
   let mainMenu = createButtonVariable(width/2,(height/2-100),200,100,"Main Menu",32);
   drawButton(mainMenu);
 
-
-  let endText = {
-    text: "This is the end",
-    x: width/2,
-    y: height/2 -200,
-    fill: {
-      r: 100,
-      g: 100,
-      b: 255
-    },
-    fontSize: 32
-  }
-
-  //display the end message at the top of the screen
-  push();
-  textSize(endText.fontSize);
-  fill(endText.fill.r, endText.fill.g, endText.fill.b);
-  textAlign(CENTER, CENTER);
-  text(endText.text, endText.x, endText.y);
-  pop();
+  createText("This is the end", width/2, height/2-200, 100, 100, 255, 32);
 
   //reset the lives and the position of the objects
   if (checkInButton(mainMenu.x, mainMenu.y, mainMenu.width, mainMenu.height)){
@@ -282,6 +180,28 @@ function end() {
   }
 }
 
+function createText(textString, x, y, fillR, fillG, fillB, fontsize){
+  let writing = {
+    text: textString,
+    x: x,
+    y: y,
+    fill: {
+      r: fillR,
+      g: fillG,
+      b: fillB
+    },
+    fontSize: fontsize
+  }
+
+  //display the end message at the top of the screen
+  push();
+  textSize(writing.fontSize);
+  fill(writing.fill.r, writing.fill.g, writing.fill.b);
+  textAlign(CENTER, CENTER);
+  text(writing.text, writing.x, writing.y);
+  pop();
+
+}
 //creates the user character
 function displayUser() {
   push();
@@ -392,21 +312,6 @@ function lostLifeScreen(){
 
   let endGameButton = createButtonVariable(3*width/4, height/2, 200, 100, "End Game", 20);
   drawButton(endGameButton);
-
-  let livesLeftText = {
-    text: "Lives left: "+lives,
-    x: width / 2,
-    y: height / 2-100,
-    fill: {
-      r: 100,
-      g: 100,
-      b: 255
-    },
-    fontSize: 20
-  }
-
-  rectMode(CENTER);
-  noStroke();
 
   //display the number of lives left for the user
   displayLives();
@@ -539,6 +444,7 @@ function createButtonVariable(x,y,width,height,text,fontSize){
   return button;
 }
 
+//draw the button on the screen
 function drawButton(button){
   push();
   fill(button.fill.r,button.fill.g,button.fill.b);
@@ -583,25 +489,8 @@ function resetObjetPositionInGame(){
 
 //keep track of the score
 function scoreDisplay(){
-  //write the score in the top left corner of the canvas
-  let scoreText = {
-    score: score,
-    text: "Level: "+score,
-    fontSize: 30,
-    fill: {
-      r: 255,
-      g: 255,
-      b: 100,
-    },
-    x:width/4,
-    y:50,
-  }
-  push();
-  textSize(scoreText.fontSize);
-  fill(scoreText.fill.r, scoreText.fill.g, scoreText.fill.b);
-  textAlign(CENTER, CENTER);
-  text(scoreText.text, scoreText.x, scoreText.y);
-  pop();
+  //create a text displaying the level in the top left corner
+  createText("Level: "+score, width/4, 50, 255, 255, 100, 30);
 }
 
 //reset the velocity and position of the object if we restart the game
@@ -651,48 +540,14 @@ function userMoveConstraints(){
 
 //create a restart button
 function restartButton(){
-  let restartButton = {
-    x: 3*width/4,
-    y: 125,
-    width: 150,
-    height: 50,
-    fill: {
-      r:200,
-      g: 200,
-      b: 250
-    },
-    fontSize: 30,
-    textFill: {
-      r: 250,
-      g: 250,
-      b: 200
-    },
-    text: "Restart"
-  }
-
-
-  push();
-  rectMode(CENTER);
-  lightenButton(restartButton.x, restartButton.y, restartButton.width, restartButton.height, restartButton.fill.r,restartButton.fill.g,restartButton.fill.b);
-  rect(restartButton.x, restartButton.y, restartButton.width,restartButton.height,buttonCurvature);
-  pop();
-
-  push();
-  textSize(restartButton.fontSize);
-  fill(restartButton.textFill.r, restartButton.textFill.g, restartButton.textFill.b);
-  textAlign(CENTER, CENTER);
-  text(restartButton.text, restartButton.x, restartButton.y);
-  pop();
+  //create the restart button variable
+  let restartButton = createButtonVariable(3*width/4, 125, 150, 50, "Restart", 30);
+  //draw it on the screen
+  drawButton(restartButton);
 
   if (checkInButton(restartButton.x, restartButton.y, restartButton.width, restartButton.height)){
     sounds.click.play();
     resetGame();
 
   }
-}
-
-//create treasure to pick up
-function treasure(){
-
-
 }
