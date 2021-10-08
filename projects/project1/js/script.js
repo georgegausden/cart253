@@ -10,6 +10,8 @@ Here is a description of this template p5 project.
 
 //setup the initial state as the title
 
+
+
 let score = 0;
 
 let state = "title";
@@ -80,6 +82,9 @@ function setup() {
   object.vx = object.vxi;
   object.size = object.sizei;
   lives = livesi;
+
+  //create the random positions for the treasure chests
+
 }
 
 // draw()
@@ -281,6 +286,8 @@ function simulation() {
   loseLife();
   //check the amount of lives left for the user
   checkLives();
+  //create treasure generated randomly
+  treasure();
 }
 
 //create the endscreen function
@@ -398,7 +405,6 @@ function createObject(xPosition, yPosition, size) {
   pop();
 
 }
-
 
 //a function to control the movement of the object
 function moveObject(xPosition, vx){
@@ -792,4 +798,10 @@ function restartButton(){
     resetGame();
 
   }
+}
+
+//create treasure to pick up
+function treasure(){
+
+
 }
