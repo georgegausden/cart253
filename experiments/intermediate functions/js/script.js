@@ -1,15 +1,21 @@
-let barkSFX;
+let user = {
+  x:0,
+  y:0,
+  size:100
+};
 
-function preload(){
-  barkSFX = loadSound('assets/sounds/bark.wav')
-}
+let food: {
+  x:250,
+  y:300,
+  size: 50,
+  eaten: false
+};
 
-function setup(){
-  createCanvas(500,500);
-}
-function draw(){
-  background(0);
-
+let food2: {
+  x:350,
+  y:300,
+  size: 50,
+  eaten: false
 }
 
 //function mousePressed(){
@@ -17,7 +23,7 @@ function draw(){
 //}
 
 function mousePressed(){
-  tryMusic();
+  createCanvas(windowWidth, windHeight);
 }
 
 function keyPressed(){
