@@ -17,6 +17,7 @@ let buttonElements = {
   textG: 100,
   textB: 255
 }
+
 let score = 0;
 
 let state = "title";
@@ -51,6 +52,9 @@ let user = {
   vi: 0,
 };
 
+//create an array for the objects
+let objects = [];
+
 let object;
 
 let object2;
@@ -72,6 +76,11 @@ function setup() {
   createCanvas(600, 600);
   user.x = width / 4;
   user.y = height / 2;
+
+
+  for (let i = 0; i<6; i++){
+    objects[i] = generateObjectVariable();
+  }
   object = generateObjectVariable(object);
   object2 = generateObjectVariable(object2);
   lives = livesi;
@@ -144,17 +153,23 @@ function simulation() {
   //move the user in the game
   moveUser();
   //create an object that's randomly generated
-  createObject(object);
-  //move the object
-  moveObject(object);
-  //regenerate the object if it leaves the canvas
-  levelUp(object);
-  //generate new random objects
+  for (let key = 0; key<objects.length; key++){
+    createObject(objects[key]);
+    moveObject(objects[key]);
+    checkTouch(objects[key]);
+    loseLife(objects[key]);
+
+  }
+
+  //regenerate the object if one of them leaves the canvas
+  levelUp(objects[0]);
+
 
   //check if the user touches one of the objects
-  checkTouch();
+
+
   //if check touch is true, lose one life for the user
-  loseLife();
+
   //check the amount of lives left for the user
   checkLives();
 
@@ -248,6 +263,7 @@ function generateObjectVariable(name) {
   return object;
 }
 
+
 //create an object we need to dodge
 function createObject(objectName) {
   //generate the shape
@@ -266,18 +282,17 @@ function moveObject(objectName) {
 }
 
 //check to see if the user touched one of the objects
-function checkTouch() {
+function checkTouch(objectName) {
   //check that the user and the user and the object are touching or not
   //find the distance between the user and any object
-  let d = dist(user.x, user.y, object.x, object.y);
 
-  //the distance where they touch is equal to one radius + half side length
-  if (d <= (user.size / 2 + object.size / 2)) {
-    return true
-  } else {
-    return false
-  }
+  let d = dist(user.x, user.y, objectName.x, objectName.y);
 
+  if (d <= (user.size / 2 + objectName.size / 2)) {
+    return true;
+  }else {
+    return false;
+    }
 }
 
 //checks the number of lives left for the user. If it's equal to 0, lose
@@ -288,9 +303,9 @@ function checkLives() {
 }
 
 //makes the user lose a life if it's touching an object
-function loseLife() {
+function loseLife(objectName) {
 
-  if (checkTouch()) {
+  if (checkTouch(objectName)) {
     lives = lives - 1;
     //play the sound of explosion
     sounds.explosion.play();
@@ -468,10 +483,10 @@ function levelUp(objectName) {
     //increase the size of the object a bit
     objectName.size += 10;
     //add a new object to the game
-    for (let scoreCount = score; scoreCount < 0; scoreCount--) {
-      createObject();
+    createObject(object2);
     }
-  }
+
+
 }
 
 //function that resets the position of the object
@@ -541,3 +556,5 @@ function restartButton() {
 
   }
 }
+
+console.log(objects);
