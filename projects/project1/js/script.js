@@ -48,10 +48,14 @@ let user = {
   ax: 0.2,
   maxSpeed: 4,
   maxAcceleration: 3,
-  size: 40,
+  size: 60,
   vi: 0,
   image: undefined
 };
+let user_boat = undefined;
+let user_boat_destroyed1 = undefined;
+let user_boat_destroyed2 = undefined;
+
 let backgroundWaves = undefined;
 
 let cannonball = undefined;
@@ -69,7 +73,11 @@ function preload() {
   sounds.levelUp = loadSound('assets/sounds/levelUp.mov');
   sounds.backgroundMusic = loadSound('assets/sounds/backgroundMusic.mov');
   heart = loadImage('assets/images/heart.png');
-  user.image = loadImage('assets/images/ship.png');
+
+  user_boat = loadImage('assets/images/ship.png');
+  user_boat_destroyed1 = loadImage('assets/images/boatdestroyed1.png');
+  user_boat_destroyed2 = loadImage('assets/images/boatdestroyed2.png');
+
   cannonball = loadImage('assets/images/cannonball.png');
   backgroundWaves = loadImage('assets/images/waves.png');
 
@@ -82,6 +90,7 @@ function setup() {
   createCanvas(600, 600);
   user.x = width / 4;
   user.y = height / 2;
+  user.image = user_boat;
 
 
   for (let i = 0; i<100; i++){
@@ -164,6 +173,8 @@ function simulation() {
     checkTouch(objects[key]);
     loseLife(objects[key]);
   }
+
+  changeuserimage();
 
   //regenerate the object if one of them leaves the canvas
   levelUp(objects[0]);
@@ -318,6 +329,8 @@ function loseLife(objectName) {
     resetUserPosition();
     state = "lostLifeScreen";
   }
+
+
 }
 
 //create a new state to display that we lost a life and either we can continue or end game
@@ -377,6 +390,7 @@ function resetGame() {
     objects[key].y = objects[key].yi;
     objects[key].vx = objects[key].vxi;
   }
+  user.image = user_boat;
   score = 1;
   lives = livesi;
   state = "simulation";
@@ -493,8 +507,8 @@ function levelUp(objectName) {
     for (let key = 0; key<objects.length; key++){
       objects[key].x = width;
       objects[key].y = random(0,height);
-      objects[key].vx -= 0.7;
-      objects[key].size += 5;
+      objects[key].vx -= random(0.5,0.9);
+      objects[key].size += random(4,8);
     }
 
     //add a score of 1 since we dodged the object
@@ -575,6 +589,16 @@ function restartButton() {
     resetGame();
 
   }
+}
+
+function changeuserimage(){
+  if (lives === 3){
+    user.image = user_boat_destroyed1;
+  }
+  else if (lives === 1){
+    user.image = user_boat_destroyed2;
+  };
+
 }
 
 console.log(objects);
