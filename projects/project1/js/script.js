@@ -18,7 +18,7 @@ let buttonElements = {
   textB: 255
 }
 
-let score = 0;
+let score = 1;
 
 let state = "title";
 
@@ -50,8 +50,11 @@ let user = {
   maxAcceleration: 3,
   size: 40,
   vi: 0,
+  image: undefined
 };
+let backgroundWaves = undefined;
 
+let cannonball = undefined;
 //create an array for the objects
 let objects = [];
 
@@ -66,6 +69,9 @@ function preload() {
   sounds.levelUp = loadSound('assets/sounds/levelUp.mov');
   sounds.backgroundMusic = loadSound('assets/sounds/backgroundMusic.mov');
   heart = loadImage('assets/images/heart.png');
+  user.image = loadImage('assets/images/ship.png');
+  cannonball = loadImage('assets/images/cannonball.png');
+  backgroundWaves = loadImage('assets/images/waves.png');
 
 }
 
@@ -78,11 +84,10 @@ function setup() {
   user.y = height / 2;
 
 
-  for (let i = 0; i<6; i++){
+  for (let i = 0; i<100; i++){
     objects[i] = generateObjectVariable();
   }
-  object = generateObjectVariable(object);
-  object2 = generateObjectVariable(object2);
+
   lives = livesi;
 }
 
@@ -153,12 +158,11 @@ function simulation() {
   //move the user in the game
   moveUser();
   //create an object that's randomly generated
-  for (let key = 0; key<objects.length; key++){
+  for (let key = 0; key<score; key++){
     createObject(objects[key]);
     moveObject(objects[key]);
     checkTouch(objects[key]);
     loseLife(objects[key]);
-
   }
 
   //regenerate the object if one of them leaves the canvas
@@ -217,7 +221,8 @@ function createText(textString, x, y, fillR, fillG, fillB, fontsize) {
 function displayUser() {
   push();
   fill(0);
-  circle(user.x, user.y, user.size);
+  imageMode(CENTER);
+  image(user.image, user.x, user.y, user.size, user.size);
   pop();
 }
 
@@ -269,7 +274,7 @@ function createObject(objectName) {
   //generate the shape
   push();
   fill(0);
-  rect(objectName.x, objectName.y, objectName.size, objectName.size);
+  image(cannonball,objectName.x, objectName.y, objectName.size, objectName.size);
   pop();
 
 }
@@ -331,6 +336,7 @@ function lostLifeScreen() {
   if (checkInButton(continuePlayingButton.x, continuePlayingButton.y, continuePlayingButton.width, continuePlayingButton.height)) {
     sounds.click.play();
     resetObjetPositionInGame();
+
     state = "simulation";
   } else if (checkInButton(endGameButton.x, endGameButton.y, endGameButton.width, endGameButton.height)) {
     sounds.click.play();
@@ -352,6 +358,9 @@ function checkInButton(xPosition, yPosition, shapeWidth, shapeHeight) {
 function simulationInterface() {
   //create a reset button so the user can restart the game
   //funBackground();
+  imageMode(CENTER);
+  image(backgroundWaves, width/2, height/2, width, height);
+
   displayLives(width / 2 + 40, height / 2 - 250);
   //keep track of the user's score as the objects leave the canvas
   scoreDisplay();
@@ -362,13 +371,19 @@ function simulationInterface() {
 //reset game function
 function resetGame() {
   //reset lives and positions
-  resetObjetAtEnd();
-  score = 0;
+  for (let key = 0; key<score; key++){
+    objects[key].size = objects[key].sizei;
+    objects[key].x = objects[key].xi;
+    objects[key].y = objects[key].yi;
+    objects[key].vx = objects[key].vxi;
+  }
+  score = 1;
   lives = livesi;
   state = "simulation";
 
 
 }
+
 
 //reset the position and velocity of the user
 function resetUserPosition() {
@@ -447,7 +462,8 @@ function createButtonVariable(x, y, width, height, text, fontSize) {
       g: buttonElements.textG,
       b: buttonElements.textB
     },
-    fontSize: fontSize
+    fontSize: fontSize,
+    image: cannonball,
   }
   return button;
 }
@@ -474,25 +490,29 @@ function drawButton(button) {
 function levelUp(objectName) {
   if (objectName.x < 0) {
     sounds.levelUp.play();
-    objectName.x = width;
-    objectName.y = random(0, height);
-    //increase speed if the object left the canvas
-    objectName.vx -= 1;
+    for (let key = 0; key<objects.length; key++){
+      objects[key].x = width;
+      objects[key].y = random(0,height);
+      objects[key].vx -= 0.7;
+      objects[key].size += 5;
+    }
+
     //add a score of 1 since we dodged the object
     score += 1;
-    //increase the size of the object a bit
-    objectName.size += 10;
-    //add a new object to the game
-    createObject(object2);
+
     }
 
 
 }
 
+
 //function that resets the position of the object
 function resetObjetPositionInGame() {
-  object.x = object.xi;
-  object.y = random(0, height);
+  for (let key = 0; key<objects.length; key++){
+    objects[key].x = objects[key].xi;
+    objects[key].y = objects[key].yi;
+  }
+
 }
 
 //keep track of the score
