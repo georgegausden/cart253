@@ -8,7 +8,7 @@ Here is a description of this template p5 project.
 **************************************************/
 //create the javascript objects and the variables in the program
 
-//setup the initial state as the title
+//these are the properties of all the buttons
 let buttonElements = {
   r: 200,
   g: 200,
@@ -18,20 +18,26 @@ let buttonElements = {
   textB: 255
 }
 
+//this is the score of the game, changes as the game progresses
 let score = 1;
 
+//set the initial state of the game
 let state = "title";
 
+//this is by how much each button lights up when the user hovers the mouse over it
 let lighten = 50;
 
+//how many initial lives and lives are in the game
 let livesi = 5;
 let lives = undefined;
 
+//the image of the heart in the game
 let heart;
 
 //how curved our buttons are
 let buttonCurvature = 50;
 
+//the different sounds used in the game
 let sounds = {
   explosion: undefined,
   click: undefined,
@@ -39,7 +45,7 @@ let sounds = {
   backgroundMusic: undefined,
 }
 
-//create the user character as a circle to start with
+//create the user variables and the images to display the user
 let user = {
   x: undefined,
   y: undefined,
@@ -56,15 +62,17 @@ let user_boat = undefined;
 let user_boat_destroyed1 = undefined;
 let user_boat_destroyed2 = undefined;
 
+//the background image in the simulation
 let backgroundWaves = undefined;
 
+//display the cannonballs image
 let cannonball = undefined;
-//create an array for the objects
+
+//create an array for the objects in the game
 let objects = [];
 
-let object;
-
-let object2;
+//set the max number of maxLevels
+let maxLevels = 100;
 
 //preload our images and sounds for the program
 function preload() {
@@ -73,14 +81,11 @@ function preload() {
   sounds.levelUp = loadSound('assets/sounds/levelUp.mov');
   sounds.backgroundMusic = loadSound('assets/sounds/backgroundMusic.mov');
   heart = loadImage('assets/images/heart.png');
-
   user_boat = loadImage('assets/images/ship.png');
   user_boat_destroyed1 = loadImage('assets/images/boatdestroyed1.png');
   user_boat_destroyed2 = loadImage('assets/images/boatdestroyed2.png');
-
   cannonball = loadImage('assets/images/cannonball.png');
   backgroundWaves = loadImage('assets/images/waves.png');
-
 }
 
 // setup()
@@ -88,15 +93,17 @@ function preload() {
 // Description of setup() goes here.
 function setup() {
   createCanvas(600, 600);
+  //set the initial user position and image
   user.x = width / 4;
   user.y = height / 2;
   user.image = user_boat;
 
-
-  for (let i = 0; i<100; i++){
+  //create all the objects in the game
+  for (let i = 0; i < maxLevels; i++) {
     objects[i] = generateObjectVariable();
   }
 
+  //set the initial amount of lives for the user
   lives = livesi;
 }
 
@@ -105,7 +112,7 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   background(140, 200, 200);
-  //setup the title, simulation and end states
+  //setup the title, simulation and end states as well as the other title screens
   if (state === "title") {
     title();
   } else if (state === "instructions") {
@@ -167,26 +174,23 @@ function simulation() {
   //move the user in the game
   moveUser();
   //create an object that's randomly generated
-  for (let key = 0; key<score; key++){
+  for (let key = 0; key < score; key++) {
     createObject(objects[key]);
     moveObject(objects[key]);
     checkTouch(objects[key]);
     loseLife(objects[key]);
   }
 
+  shootCannon();
   changeuserimage();
 
   //regenerate the object if one of them leaves the canvas
   levelUp(objects[0]);
 
-
-  //check if the user touches one of the objects
-
-
-  //if check touch is true, lose one life for the user
-
   //check the amount of lives left for the user
   checkLives();
+
+
 
 }
 
@@ -285,7 +289,7 @@ function createObject(objectName) {
   //generate the shape
   push();
   fill(0);
-  image(cannonball,objectName.x, objectName.y, objectName.size, objectName.size);
+  image(cannonball, objectName.x, objectName.y, objectName.size, objectName.size);
   pop();
 
 }
@@ -306,9 +310,9 @@ function checkTouch(objectName) {
 
   if (d <= (user.size / 2 + objectName.size / 2)) {
     return true;
-  }else {
+  } else {
     return false;
-    }
+  }
 }
 
 //checks the number of lives left for the user. If it's equal to 0, lose
@@ -372,7 +376,7 @@ function simulationInterface() {
   //create a reset button so the user can restart the game
   //funBackground();
   imageMode(CENTER);
-  image(backgroundWaves, width/2, height/2, width, height);
+  image(backgroundWaves, width / 2, height / 2, width, height);
 
   displayLives(width / 2 + 40, height / 2 - 250);
   //keep track of the user's score as the objects leave the canvas
@@ -384,7 +388,7 @@ function simulationInterface() {
 //reset game function
 function resetGame() {
   //reset lives and positions
-  for (let key = 0; key<score; key++){
+  for (let key = 0; key < score; key++) {
     objects[key].size = objects[key].sizei;
     objects[key].x = objects[key].xi;
     objects[key].y = objects[key].yi;
@@ -504,17 +508,17 @@ function drawButton(button) {
 function levelUp(objectName) {
   if (objectName.x < 0) {
     sounds.levelUp.play();
-    for (let key = 0; key<objects.length; key++){
+    for (let key = 0; key < objects.length; key++) {
       objects[key].x = width;
-      objects[key].y = random(0,height);
-      objects[key].vx -= random(0.5,0.9);
-      objects[key].size += random(4,8);
+      objects[key].y = random(0, height);
+      objects[key].vx -= random(0.5, 0.9);
+      objects[key].size += random(4, 8);
     }
 
     //add a score of 1 since we dodged the object
     score += 1;
 
-    }
+  }
 
 
 }
@@ -522,7 +526,7 @@ function levelUp(objectName) {
 
 //function that resets the position of the object
 function resetObjetPositionInGame() {
-  for (let key = 0; key<objects.length; key++){
+  for (let key = 0; key < objects.length; key++) {
     objects[key].x = objects[key].xi;
     objects[key].y = objects[key].yi;
   }
@@ -591,14 +595,31 @@ function restartButton() {
   }
 }
 
-function changeuserimage(){
-  if (lives === 3){
+function changeuserimage() {
+  if (lives === 3) {
     user.image = user_boat_destroyed1;
-  }
-  else if (lives === 1){
+  } else if (lives === 1) {
     user.image = user_boat_destroyed2;
   };
 
 }
 
-console.log(objects);
+//shoots a cannonball from the user
+function shootCannon(){
+  if (mouseIsPressed === true){
+    //create a cannonball and make it leave the user
+    createCannonVariable.append
+  }
+}
+
+function createCannonVariable(){
+  let cannon = {
+    x = user.x;
+    y = user.y;
+    vx: -2,
+    sizei: 20,
+    size: 20,
+  }
+}
+
+console.log(mouseIsPressed);
