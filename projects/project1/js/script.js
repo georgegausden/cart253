@@ -71,6 +71,11 @@ let cannonball = undefined;
 //create an array for the objects in the game
 let objects = [];
 
+//create an array for the cannons in the Game
+let cannons = [];
+let numberOfCannons = 5;
+let cannonNumber = -1;
+
 //set the max number of maxLevels
 let maxLevels = 100;
 
@@ -101,6 +106,11 @@ function setup() {
   //create all the objects in the game
   for (let i = 0; i < maxLevels; i++) {
     objects[i] = generateObjectVariable();
+  }
+
+  //create all the possible cannonballs in the Game
+  for (let i = 0; i< numberOfCannons; i++){
+    cannons[i] = createCannonVariable();
   }
 
   //set the initial amount of lives for the user
@@ -181,8 +191,22 @@ function simulation() {
     loseLife(objects[key]);
   }
 
-  shootCannon();
-  changeuserimage();
+  let cannonLaunch = -1;
+
+  if (numberOfCannons > 0){
+    cannons[numberOfCannons].x = user.x;
+    cannons[numberOfCannons].y = user.y;
+    createCannon(cannons[numberOfCannons]);
+    moveCannon(cannons[numberOfCannons]);
+  }
+
+
+
+
+
+
+
+  changeuserimage(cannons[0]);
 
   //regenerate the object if one of them leaves the canvas
   levelUp(objects[0]);
@@ -554,8 +578,16 @@ function mousePressed() {
     sounds.backgroundMusic.loop();
   }
 
+  numberOfCannons -= 1;
+  console.log(numberOfCannons);
+
+
 }
 
+function mouseIsPressed(){
+
+  cannonLaunch += 1;
+}
 //make a function so we don't get stuck to the side of the frame and don't leave the canvas
 function userMoveConstraints() {
   user.x = constrain(user.x, 0, width);
@@ -608,16 +640,41 @@ function changeuserimage() {
 function shootCannon(){
   if (mouseIsPressed === true){
     //create a cannonball and make it leave the user
-
+    numberOfCannons -= 1;
   }
 }
 
 function createCannonVariable(){
-  let cannon = {
-    x: user.x,
-    y: user.y,
-    vx: -2,
+  let weapon = {
+    xi: user.x,
+    yi: user.y,
+    vx: 2,
     sizei: 20,
     size: 20,
+    image: cannonball
   }
+  return weapon
+}
+
+
+
+function moveCannon(cannon){
+  cannon.x = cannon.xi + cannon.vx;
+
+}
+
+
+
+function createCannon(cannonName) {
+  //generate the shape
+  push();
+  fill(0);
+  image(cannonball, cannonName.x, cannonName.y, cannonName.size, cannonName.size);
+  pop();
+
+}
+function moveCannon(cannonName) {
+  //xPosition += vx;
+  cannonName.x += cannonName.vx;
+
 }
