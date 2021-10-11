@@ -608,18 +608,16 @@ function changeuserimage() {
 function shootCannon(){
   if (mouseIsPressed === true){
     //create a cannonball and make it leave the user
-    createCannonVariable.append
+
   }
 }
 
 function createCannonVariable(){
   let cannon = {
-    x = user.x;
-    y = user.y;
+    x: user.x,
+    y: user.y,
     vx: -2,
     sizei: 20,
     size: 20,
   }
 }
-
-console.log(mouseIsPressed);
