@@ -9,8 +9,9 @@ author, and this description to match your project!
 "use strict";
 
 let school = [];
-let schoolSize = 200;
+let schoolSize = 500;
 
+//create the array for infected fish
 let infectedFish = [];
 let initialInfected = 1;
 
@@ -47,7 +48,7 @@ function createFish(x,y){
   let fish = {
     x: x,
     y: y,
-    size: 5,
+    size: 10,
     vx: 0,
     vy: 0,
     speed: 2
@@ -70,6 +71,24 @@ function draw() {
     moveFish(infectedFish[i]);
     displayInfectedFish(infectedFish[i]);
   }
+
+  //check if the infected fish comes into contact with a normal fish
+  //checkTouch();
+  for (let i = 0; i < school.length - 1; i++){
+    for (let j = 0; j < infectedFish.length; j++){
+      if (checkTouch(infectedFish[j], school[i])){
+        //put the healthy fish into the infected one
+        infectedFish.push(school[i]);
+        //remove the healthy fish from the array of school
+        school.splice(i,1);
+
+        //remove the healthy fish from the school
+        console.log(school);
+      }
+    }
+
+  }
+
 }
 
 function displayInfectedFish(fish){
@@ -103,7 +122,14 @@ function displayFish(fish){
   pop();
 }
 
-function mousePressed(){
-  let fish = createFish(mouseX, mouseY);
-  school.push(fish);
+function checkTouch(fish1, fish2){
+
+  let d = dist(fish1.x, fish1.y, fish2.x, fish2.y);
+
+  if (d <= (fish1.size/2 + fish2.size/2)){
+    return true;
+  }
+
 }
+
+console.log(school);
