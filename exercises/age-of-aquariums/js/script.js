@@ -1,6 +1,6 @@
 /**
-Title of Project
-Author Name
+Age of Aquariums
+George Gausden
 
 This is a template. You must fill in the title,
 author, and this description to match your project!
@@ -9,7 +9,13 @@ author, and this description to match your project!
 "use strict";
 
 let school = [];
-let schoolSize = 1;
+let schoolSize = 200;
+
+let infectedFish = [];
+let initialInfected = 1;
+
+
+//create a virus that's introduced into the simulation
 
 /**
 Description of preload
@@ -29,13 +35,19 @@ function setup() {
     let fish = createFish(random(0,width), random(0,height));
     school.push(fish);
   }
+
+  for (let i = 0; i<initialInfected; i++){
+    let fish = createFish(random(0,width), random(0,height));
+    infectedFish.push(fish);
+  }
+
 }
 
 function createFish(x,y){
   let fish = {
     x: x,
     y: y,
-    size: 50,
+    size: 5,
     vx: 0,
     vy: 0,
     speed: 2
@@ -53,6 +65,19 @@ function draw() {
     moveFish(school[i]);
     displayFish(school[i]);
   }
+
+  for (let i = 0; i < infectedFish.length; i++){
+    moveFish(infectedFish[i]);
+    displayInfectedFish(infectedFish[i]);
+  }
+}
+
+function displayInfectedFish(fish){
+  push();
+  fill(255,0,0);
+  noStroke();
+  ellipse(fish.x,fish.y,fish.size);
+  pop();
 }
 
 function moveFish(fish){
@@ -72,7 +97,7 @@ function moveFish(fish){
 
 function displayFish(fish){
   push();
-  fill(200,100,100);
+  fill(0,0,255);
   noStroke();
   ellipse(fish.x,fish.y,fish.size);
   pop();
