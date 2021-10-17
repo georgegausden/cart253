@@ -73,3 +73,5 @@ function createPlanet(x, y, vx, vy, ax, ay, mass, size, colourR, colourG, colour
   }
   return planet;
 }
+
+console.log(list1);
