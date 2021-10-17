@@ -76,6 +76,7 @@ let cannons = [];
 
 let numberOfCannons = 500;
 let cannonNumber = -1;
+let userCannons = 0;
 
 //set the max number of maxLevels
 let maxLevels = 100;
@@ -110,9 +111,7 @@ function setup() {
   }
 
   //create all the possible cannonballs in the Game
-  for (let i = 0; i< numberOfCannons; i++){
-    cannons[i] = createCannonVariable();
-  }
+
 
   //set the initial amount of lives for the user
   lives = livesi;
@@ -195,11 +194,10 @@ function simulation() {
 
   let cannonLaunch = -1;
 
-  if (numberOfCannons > 0){
-    createCannon(cannons[numberOfCannons]);
-  }
+
 
   for (let i = 0; i<cannons.length; i++){
+    createCannon(cannons[i]);
     moveCannon(cannons[i]);
   }
 
@@ -210,6 +208,7 @@ function simulation() {
         //remove the cannonball
         cannons.splice(element, 1);
         objects.splice(key, 1);
+        sounds.explosion.play();
       }
     }
   }
@@ -544,7 +543,7 @@ function levelUp(objectName) {
     for (let key = 0; key < objects.length; key++) {
       objects[key].x = width;
       objects[key].y = random(0, height);
-      objects[key].vx -= random(0.5, 0.9);
+      objects[key].vx -= random(0.1, 0.2);
       objects[key].size += random(4, 8);
     }
 
@@ -582,26 +581,9 @@ function resetObjetAtEnd() {
 }
 
 //create the background music for the game
-function mousePressed(cannonName) {
-  if (!sounds.backgroundMusic.isPlaying()) {
-    sounds.backgroundMusic.loop();
-  }
-
-  numberOfCannons -= 1;
-
-  if (numberOfCannons > 0) {
-    cannons[numberOfCannons].x = user.x;
-    cannons[numberOfCannons].y = user.y;
-  }
 
 
 
-}
-
-function mouseIsPressed(){
-
-  cannonLaunch += 1;
-}
 //make a function so we don't get stuck to the side of the frame and don't leave the canvas
 function userMoveConstraints() {
   user.x = constrain(user.x, 0, width);
@@ -647,6 +629,12 @@ function changeuserimage() {
   } else if (lives === 1) {
     user.image = user_boat_destroyed2;
   };
+
+}
+
+function mouseClicked(){
+  cannons.push(createCannonVariable(userCannons));
+  userCannons+=1;
 
 }
 
