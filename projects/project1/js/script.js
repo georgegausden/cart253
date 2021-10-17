@@ -13,9 +13,9 @@ let buttonElements = {
   r: 108,
   g: 206,
   b: 217,
-  textR: 0,
-  textG: 0,
-  textB: 0
+  textR: 255,
+  textG: 255,
+  textB: 255
 }
 
 //this is the score of the game, changes as the game progresses
@@ -64,6 +64,11 @@ let user_boat_destroyed2 = undefined;
 
 //the background image in the simulation
 let backgroundWaves = undefined;
+let pirateImage = undefined;
+let palm1 = undefined;
+let palm2 = undefined;
+let palm3 = undefined;
+let beach = undefined;
 
 //display the cannonballs image
 let cannonball = undefined;
@@ -93,6 +98,12 @@ function preload() {
   user_boat_destroyed2 = loadImage('assets/images/boatdestroyed2.png');
   cannonball = loadImage('assets/images/cannonball.png');
   backgroundWaves = loadImage('assets/images/waves.png');
+  pirateImage = loadImage('assets/images/pirate.png');
+  palm1 = loadImage('assets/images/palm1.png');
+  palm2 = loadImage('assets/images/palm2.png');
+  palm3 = loadImage('assets/images/palm3.png');
+  beach = loadImage('assets/images/beach.jpg');
+
 }
 
 // setup()
@@ -135,6 +146,13 @@ function draw() {
 
 //create the title state, and the buttons that go with it
 function title() {
+  //add the background images
+  imageMode(CENTER);
+  image(beach, width/2, height/2, width+500, height);
+  image(palm1, width/2-200, height/2+200 - 125, 300, 200);
+  image(palm2, width/2+50, height/2-50 - 125, 500, 400);
+  image(palm3, width/2, height/2, width, height);
+  image(pirateImage, width/2, height/2 - 100, 150, 100);
 
   noStroke();
 
@@ -146,7 +164,9 @@ function title() {
   drawButton(playButton);
 
   //write the greetings
-  createText("Welcome to the game", width / 2, height / 2 - 200, 200, 100, 255, 32);
+  createText("P I R A T E S", width / 2, height / 2 - 200, 255, 255, 255, 60);
+
+
 
   //let the user click
   if (checkInButton(instructionsButton.x, instructionsButton.y, instructionsButton.width, instructionsButton.height)) {
@@ -160,11 +180,18 @@ function title() {
 
 //create an instructions page for the user to understand the game
 function instructions() {
+  //add the background images
+  imageMode(CENTER);
+  image(beach, width/2, height/2, width+500, height);
+  image(palm1, width/2-200, height/2+200 - 125, 300, 200);
+  image(palm2, width/2+50, height/2-50 - 125, 500, 400);
+  image(palm3, width/2, height/2, width, height);
+
   //create the back to menu button and set the intructions
   let backToMenu = createButtonVariable(width / 2, (height / 2 + 200), 200, 100, "Back to menu", 25);
   drawButton(backToMenu);
 
-  createText("To play, use 'A' and 'D'\n to move left and right\n and 'W' and 'S' to move up and down.\n Click the mouse to launch cannons.", width / 2, height / 2 - 150, 100, 100, 255, 32);
+  createText("To play, use 'A' and 'D'\n to move left and right\n and 'W' and 'S' to move up and down.\n Click the mouse to launch cannons.", width / 2, height / 2 - 150, 255, 255, 255, 32);
 
   if (checkInButton(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height)) {
     sounds.click.play();
@@ -224,7 +251,7 @@ function end() {
   let mainMenu = createButtonVariable(width / 2, (height / 2 - 100), 200, 100, "Main Menu", 32);
   drawButton(mainMenu);
 
-  createText("This is the end", width / 2, height / 2 - 200, 100, 100, 255, 32);
+  createText("The End", width / 2, height / 2 - 200, 255, 255, 255, 32);
 
   //reset the lives and the position of the objects
   if (checkInButton(mainMenu.x, mainMenu.y, mainMenu.width, mainMenu.height)) {
