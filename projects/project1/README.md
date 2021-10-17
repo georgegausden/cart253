@@ -1,3 +1,3 @@
 # Project 1
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+Pirates! A game where the user must dodge the cannons coming towards their ship. They can use the mouse and the keyboard to avoid them. The user has a set number of lives. If they all run out, they can go back to the menu and restart the game. 
