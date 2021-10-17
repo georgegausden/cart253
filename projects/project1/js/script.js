@@ -4,18 +4,18 @@
 Project 1
 George Gausden
 
-The game Pirates! The user must dodge the cannons coming their way using the 'A' 'W' 'S' 'D' keys and destroying them using their mouse. 
+The game Pirates! The user must dodge the cannons coming their way using the 'A' 'W' 'S' 'D' keys and destroying them using their mouse.
 **************************************************/
 //create the javascript objects and the variables in the program
 
 //these are the properties of all the buttons
 let buttonElements = {
-  r: 200,
-  g: 200,
-  b: 250,
-  textR: 100,
-  textG: 100,
-  textB: 255
+  r: 108,
+  g: 206,
+  b: 217,
+  textR: 0,
+  textG: 0,
+  textB: 0
 }
 
 //this is the score of the game, changes as the game progresses
@@ -78,6 +78,9 @@ let userCannons = 0;
 //set the max number of maxLevels
 let maxLevels = 20;
 
+//variable to keep track of if the mouse is clicked or not
+let clicked = false;
+
 //preload our images and sounds for the program
 function preload() {
   sounds.explosion = loadSound('assets/sounds/explosion.mov');
@@ -115,7 +118,7 @@ function setup() {
 //
 // draw() sets the state of the game depending on what the user clicks and what happens in the simulation
 function draw() {
-  background(140, 200, 200);
+  background(3, 103, 166);
   //setup the title, simulation and end states as well as the other title screens
   if (state === "title") {
     title();
@@ -306,7 +309,6 @@ function generateObjectVariable(name) {
   return object;
 }
 
-
 //displays an object we need to dodge
 function createObject(objectName) {
   //generate the shape
@@ -387,8 +389,10 @@ function lostLifeScreen() {
 
 //checks if mouse is clicking in a button, returns boolean value. Works for rectangles only for now
 function checkInButton(xPosition, yPosition, shapeWidth, shapeHeight) {
-  if ((mouseX >= xPosition - shapeWidth / 2) && (mouseX <= xPosition + shapeWidth / 2) && (mouseIsPressed) && (mouseY < yPosition + shapeHeight / 2) && (mouseY > yPosition - shapeHeight / 2)) {
+  if ((mouseX >= xPosition - shapeWidth / 2) && (mouseX <= xPosition + shapeWidth / 2) && (clicked === true) && (mouseY < yPosition + shapeHeight / 2) && (mouseY > yPosition - shapeHeight / 2)) {
+    clicked = false;
     return true;
+
   } else {
     return false;
   }
@@ -607,6 +611,7 @@ function changeuserimage() {
 //launches user cannons if the mouse is pressed
 function mouseClicked() {  cannons.push(createCannonVariable(userCannons));
   userCannons+=1;
+  clicked = true;
 }
 
 //creates user cannon variables that are then placed in an array in mouseClicked()
@@ -637,4 +642,11 @@ function moveCannon(cannonName) {
   //xPosition += vx;
   cannonName.x += cannonName.vx;
 
+}
+
+//add the music soundtrack
+function mousePressed(){
+  if (!sounds.backgroundMusic.isPlaying()){
+    sounds.backgroundMusic.loop();
+  }
 }
