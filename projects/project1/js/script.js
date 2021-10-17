@@ -73,7 +73,8 @@ let objects = [];
 
 //create an array for the cannons in the Game
 let cannons = [];
-let numberOfCannons = 5;
+
+let numberOfCannons = 500;
 let cannonNumber = -1;
 
 //set the max number of maxLevels
@@ -194,17 +195,13 @@ function simulation() {
   let cannonLaunch = -1;
 
   if (numberOfCannons > 0){
-    cannons[numberOfCannons].x = user.x;
-    cannons[numberOfCannons].y = user.y;
     createCannon(cannons[numberOfCannons]);
     moveCannon(cannons[numberOfCannons]);
+
   }
 
-
-
-
-
-
+  //check if the user cannon hits the object cannon
+  
 
   changeuserimage(cannons[0]);
 
@@ -424,6 +421,7 @@ function resetGame() {
   state = "simulation";
 
 
+
 }
 
 
@@ -573,13 +571,18 @@ function resetObjetAtEnd() {
 }
 
 //create the background music for the game
-function mousePressed() {
+function mousePressed(cannonName) {
   if (!sounds.backgroundMusic.isPlaying()) {
     sounds.backgroundMusic.loop();
   }
 
   numberOfCannons -= 1;
-  console.log(numberOfCannons);
+
+  if (numberOfCannons > 0) {
+    cannons[numberOfCannons].x = user.x;
+    cannons[numberOfCannons].y = user.y;
+  }
+
 
 
 }
@@ -636,18 +639,12 @@ function changeuserimage() {
 
 }
 
-//shoots a cannonball from the user
-function shootCannon(){
-  if (mouseIsPressed === true){
-    //create a cannonball and make it leave the user
-    numberOfCannons -= 1;
-  }
-}
+
 
 function createCannonVariable(){
   let weapon = {
-    xi: user.x,
-    yi: user.y,
+    x: user.x,
+    y: user.y,
     vx: 2,
     sizei: 20,
     size: 20,
@@ -655,15 +652,6 @@ function createCannonVariable(){
   }
   return weapon
 }
-
-
-
-function moveCannon(cannon){
-  cannon.x = cannon.xi + cannon.vx;
-
-}
-
-
 
 function createCannon(cannonName) {
   //generate the shape
