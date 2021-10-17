@@ -184,24 +184,35 @@ function simulation() {
   displayUser();
   //move the user in the game
   moveUser();
+
   //create an object that's randomly generated
   for (let key = 0; key < score; key++) {
     createObject(objects[key]);
     moveObject(objects[key]);
-    checkTouch(objects[key]);
-    loseLife(objects[key]);
+    checkTouch(user, objects[key]);
+    loseLife(user, objects[key]);
   }
 
   let cannonLaunch = -1;
 
   if (numberOfCannons > 0){
     createCannon(cannons[numberOfCannons]);
-    moveCannon(cannons[numberOfCannons]);
-
   }
 
-  //check if the user cannon hits the object cannon
-  
+  for (let i = 0; i<cannons.length; i++){
+    moveCannon(cannons[i]);
+  }
+
+  //check if the user cannon hits the object cannon, then delete the cannonball
+  for (let key = 0; key < score; key++) {
+    for (let element = 0; element < cannons.length; element++){
+      if (checkTouch(cannons[element], objects[key]) === true){
+        //remove the cannonball
+        cannons.splice(element, 1);
+        objects.splice(key, 1);
+      }
+    }
+  }
 
   changeuserimage(cannons[0]);
 
@@ -323,13 +334,13 @@ function moveObject(objectName) {
 }
 
 //check to see if the user touched one of the objects
-function checkTouch(objectName) {
+function checkTouch(object1, object2) {
   //check that the user and the user and the object are touching or not
   //find the distance between the user and any object
 
-  let d = dist(user.x, user.y, objectName.x, objectName.y);
+  let d = dist(object1.x, object1.y, object2.x, object2.y);
 
-  if (d <= (user.size / 2 + objectName.size / 2)) {
+  if (d <= (object1.size / 2 + object2.size / 2)) {
     return true;
   } else {
     return false;
@@ -344,9 +355,9 @@ function checkLives() {
 }
 
 //makes the user lose a life if it's touching an object
-function loseLife(objectName) {
+function loseLife(user, objectName) {
 
-  if (checkTouch(objectName)) {
+  if (checkTouch(user, objectName)) {
     lives = lives - 1;
     //play the sound of explosion
     sounds.explosion.play();
