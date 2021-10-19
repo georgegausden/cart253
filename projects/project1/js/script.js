@@ -157,10 +157,10 @@ function title() {
   noStroke();
 
   //create the buttons in the title state
-  let instructionsButton = createButtonVariable(width / 4, height / 2, 200, 100, "Instructions", 32);
+  let instructionsButton = createButtonVariable(width / 4, height / 2 + 50, 200, 100, "Instructions", 32);
   drawButton(instructionsButton);
 
-  let playButton = createButtonVariable(3 * width / 4, height / 2, 200, 100, "Play", 32);
+  let playButton = createButtonVariable(3 * width / 4, height / 2 + 50, 200, 100, "Play", 32);
   drawButton(playButton);
 
   //write the greetings
@@ -183,15 +183,19 @@ function instructions() {
   //add the background images
   imageMode(CENTER);
   image(beach, width/2, height/2, width+500, height);
-  image(palm1, width/2-200, height/2+200 - 125, 300, 200);
-  image(palm2, width/2+50, height/2-50 - 125, 500, 400);
-  image(palm3, width/2, height/2, width, height);
+  image(palm1, width/2-200, height/2 - 125, 300, 200);
+  image(palm2, width/2+50, height/2-100 - 125, 500, 400);
+  image(palm3, width/2, height/2+100, width, height);
 
   //create the back to menu button and set the intructions
-  let backToMenu = createButtonVariable(width / 2, (height / 2 + 200), 200, 100, "Back to menu", 25);
+  let backToMenu = createButtonVariable(width / 2, (height / 2 + 100), 200, 100, "Back to menu", 25);
   drawButton(backToMenu);
 
+  push();
+  stroke(0);
+  strokeWeight(2);
   createText("To play, use 'A' and 'D'\n to move left and right\n and 'W' and 'S' to move up and down.\n Click the mouse to launch cannons.", width / 2, height / 2 - 150, 255, 255, 255, 32);
+  pop();
 
   if (checkInButton(backToMenu.x, backToMenu.y, backToMenu.width, backToMenu.height)) {
     sounds.click.play();
