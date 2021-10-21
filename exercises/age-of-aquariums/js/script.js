@@ -89,7 +89,26 @@ function draw() {
 
 //create the title page
 function title(){
-  
+
+  if (keyIsPressed === true){
+    state = "simulation";
+  }
+
+  push();
+  textAlign(CENTER,CENTER);
+  textSize(60);
+  text("FISHIES", width/2, height/2-100);
+
+  pop();
+
+  push();
+  textAlign(CENTER,CENTER);
+  textSize(40);
+  text("Press any key to continue", width/2, height/2+100);
+  pop();
+
+
+
 }
 
 //create the simulation page
@@ -140,6 +159,17 @@ function simulation(){
       }
     }
   }
+
+  //check to see if there are any normal fish left
+  if (school.length === 0){
+    state = "end";
+  };
+}
+
+//create the end page
+function end(){
+  //display the number of infected and immune fish
+  
 }
 
 
