@@ -1,3 +1,3 @@
-# Template p5 project
+Exercise : Age of Aquariums
 
-This is the README file for the entire project. For more official projects you should write information here about the nature of the project, your name, any special explanations of how the project works, etc.
+In Save The Fishies, the user must save the majority of the fish from the infection that's spreading in the tank. Using the mouse, they can control a doctor fish that provides immunity to regular fishies. Make sure to move fast, the infection spreads rapidly from fish to fish. If the majority of the fish are saved, you win the game. 

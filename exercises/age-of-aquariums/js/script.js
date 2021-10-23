@@ -2,8 +2,7 @@
 Age of Aquariums
 George Gausden
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+In the Save The Fishies game, the user controls a fish and must save the fish from the infected red fish.
 */
 
 "use strict";
@@ -54,29 +53,33 @@ function setup() {
   createCanvas(600, 600);
 
   for (let i = 0; i < schoolSize; i++) {
-    let fish = createFish(random(0, width), random(0, height));
+    let fish = createFish(random(0, width), random(0, height), 0, 0, 255);
     school.push(fish);
   }
 
   for (let i = 0; i < initialInfected; i++) {
-    let fish = createFish(random(0, width), random(0, height));
+    let fish = createFish(random(0, width), random(0, height), 255, 0, 0);
     infectedFish.push(fish);
   }
 
-  let doctorFish = createFish(random(0, width), random(0, height));
+  //the doctor fish is the one controlled by the user
+  let doctorFish = createFish(random(0, width), random(0, height), 0, 255, 255);
   immuneFish.push(doctorFish);
 
 }
 
 //this function creates fish variables
-function createFish(x, y) {
+function createFish(x, y, r, g, b) {
   let fish = {
     x: x,
     y: y,
     size: 20,
     vx: 0,
     vy: 0,
-    speed: 3
+    speed: 3,
+    r: r,
+    g: g,
+    b: b,
   };
   return fish;
 }
@@ -141,21 +144,26 @@ function simulation() {
 
   for (let i = 0; i < infectedFish.length; i++) {
     moveFish(infectedFish[i]);
-    displayInfectedFish(infectedFish[i]);
+    displayFish(infectedFish[i]);
   };
 
   for (let i = 1; i < immuneFish.length; i++) {
     moveFish(immuneFish[i]);
-    displayImmuneFish(immuneFish[i]);
+    displayFish(immuneFish[i]);
   };
 
-  displayDoctorFish(immuneFish[0]);
+  displayFish(immuneFish[0]);
   move_doctor_fish();
 
   //if the doctor fish touches a normal fish, it gets immune
+  //the doctor fish is the immuneFish[0]
 
   for (let i = 0; i < school.length; i++) {
     if (checkTouch(immuneFish[0], school[i])) {
+      //recolour the fish to immune
+      school[i].r = 0;
+      school[i].g = 255;
+      school[i].b = 0;
       //put the regular fish into the immune ones
       immuneFish.push(school[i]);
       //remove the healthy fish from the school
@@ -164,11 +172,16 @@ function simulation() {
   };
 
   //check if the infected fish comes into contact with a normal fish
+  //go through each array
   //checkTouch();
   for (let i = 0; i < school.length - 1; i++) {
     for (let j = 0; j < infectedFish.length; j++) {
       if (school.length > 0) {
         if (checkTouch(infectedFish[j], school[i])) {
+          //recolour the fish to infected
+          school[i].r = 255;
+          school[i].g = 0;
+          school[i].b = 0;
           //put the healthy fish into the infected one
           infectedFish.push(school[i]);
           //remove the healthy fish from the array of school
@@ -178,7 +191,7 @@ function simulation() {
     }
   };
 
-  //check to see if there are any normal fish left
+  //check to see if there are any normal fish left. If not, end the game
   if (school.length === 0) {
     state = "end";
   };
@@ -209,6 +222,7 @@ function end() {
     text("Immune: " + immuneFish.length, width / 2, height / 2 + 100);
     pop();
 
+    //display the fireworks images
     imageMode(CENTER);
     image(firework1, width / 2 - 200, height / 2, 300, 300);
     image(firework2, width / 2 + 300, height / 2 - 100, 300, 300);
@@ -218,31 +232,7 @@ function end() {
 
 }
 
-
-function displayInfectedFish(fish) {
-  push();
-  fill(255, 0, 0);
-  noStroke();
-  ellipse(fish.x, fish.y, fish.size);
-  pop();
-}
-
-function displayImmuneFish(fish) {
-  push();
-  fill(0, 255, 0);
-  noStroke();
-  ellipse(fish.x, fish.y, fish.size);
-  pop();
-}
-
-function displayDoctorFish(fish) {
-  push();
-  fill(0, 255, 255);
-  noStroke();
-  ellipse(fish.x, fish.y, fish.size);
-  pop();
-}
-
+//a function to move each fish randomly through the game
 function moveFish(fish) {
   let change = random(0, 1);
   if (change < 0.05) {
@@ -257,15 +247,16 @@ function moveFish(fish) {
   fish.y = constrain(fish.y, 0, height);
 }
 
-
+//a function to display each type of fish
 function displayFish(fish) {
   push();
-  fill(0, 0, 255);
+  fill(fish.r, fish.g, fish.b);
   noStroke();
   ellipse(fish.x, fish.y, fish.size);
   pop();
 }
 
+//a function that checks if two fish have touched
 function checkTouch(fish1, fish2) {
 
   let d = dist(fish1.x, fish1.y, fish2.x, fish2.y);
@@ -275,7 +266,7 @@ function checkTouch(fish1, fish2) {
   }
 }
 
-
+//a function that allows the user to control the movement of the doctor fish
 function move_doctor_fish() {
   immuneFish[0].x = mouseX;
   immuneFish[0].y = mouseY;

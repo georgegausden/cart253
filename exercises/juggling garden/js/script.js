@@ -52,7 +52,7 @@ function setup() {
 
   //generate the rain drops available
   for (let i = 0; i < atmosphere.amountOfRain; i++){
-    let raindrop = new Rain(undefined,undefined,20,255);
+    let raindrop = new Rain(undefined,undefined,40,255);
     atmosphere.rain.push(raindrop);
   }
 }
@@ -93,12 +93,21 @@ function draw() {
   for (let i = 0; i < atmosphere.rain.length; i++){
     let raindrop = atmosphere.rain[i];
     if (mouseIsPressed){
+      raindrop.x = pmouseX;
+      raindrop.y = pmouseY;
+
       raindrop.display();
       raindrop.move();
+
     }
+
+
+
   }
 
 
 
 
 }
+
+console.log(atmosphere.rain)
