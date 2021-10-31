@@ -1,31 +1,33 @@
 
 let circles = [];
-let numberCircles = 100;
+let numberCircles = 1000;
 let time = 0;
 
 function setup(){
-  createCanvas(500,500);
-  background(255);
-  noStroke();
+  createCanvas(windowWidth,windowHeight);
+
+
 
   for (let i = 0; i<numberCircles; i++){
-    circles.push(createCircle(random(0,width), random(0,height), random(-1,1), random(2,3), 5, 0));
+    circles.push(createCircle(random(0,width), 0, random(-0.5,0.5), random(0,0.5), 0.1, 0));
   }
+
+
 
 }
 
 function draw(){
 
-  push();
+
 
   for (let i = 0; i<numberCircles; i++){
-    fill(circles[i].fill);
-    moveCircle2(circles[i]);
+    stroke(0,0,0);
+    moveCircle(circles[i]);
     circle(circles[i].x, circles[i].y, circles[i].size);
-
+    wrap(circles[i]);
 
   }
-  pop();
+
   time++;
 
 }
@@ -43,14 +45,29 @@ function moveCircle(mycircle){
   let randomnumber = random(0,1);
 
   if (randomnumber < 0.5){
-    mycircle.vx += 0.05;
-    mycircle.vy += 0.05;
+    mycircle.vx += 0.01;
+    mycircle.vy += 0.01;
   }
   else{
-    mycircle.vx -= 0.05;
-    mycircle.vy -= 0.05;
+    mycircle.vx -= 0.01;
+    mycircle.vy -= 0.01;
   }
 
+}
+
+function wrap(mycircle){
+  if (mycircle.x > width){
+    mycircle.x -= width;
+  }
+  else if (mycircle.x <= width){
+    mycircle.x += width;
+  }
+  else if (mycircle.y > height){
+    mycircle.y -= height;
+  }
+  else if (mycircle.y <= height){
+    mycircle.y += height;
+  };
 }
 
 function createCircle(x,y,vx,vy,size,fill){
