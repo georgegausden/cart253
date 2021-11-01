@@ -18,7 +18,7 @@ function setup() {
   //create the user's boat
   user = new Boat(width/2,height/2);
   //enemy boat
-  enemy = new Boat(width/3, height/8);
+  enemy = new Enemy(width/3, height/8);
 }
 
 // draw()
