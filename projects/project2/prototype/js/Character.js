@@ -4,7 +4,9 @@ class Character {
     this.y = y;
     this.vx = 2;
     this.vy = 2;
-    this.size = 10;
+    this.ax = 0.1;
+    this.ay = 0.1;
+    this.size = 100;
     this.fill = 255;
   }
 
@@ -12,16 +14,18 @@ class Character {
     //make the user move depending on what key they press
     if (keyIsDown(68)){
       this.x += this.vx
+      this.vx += this.ax
     }
     else if (keyIsDown(65)){
       this.x -= this.vx
+      this.vx += this.ax
     }
-    else if (keyIsDown(87)){
-      this.y -= this.vy
-    }
-    else if (keyIsDown(83)){
-      this.y += this.vy
+    //add friction so the user doesn't accelerate forever
+    else{
+      this.vx -= this.ax
     };
+
+    this.vx = constrain(this.vx, 0, 5);
   }
 
   display(){
@@ -30,6 +34,7 @@ class Character {
     fill(this.fill);
     circle(this.x,this.y,this.size);
     pop();
+
   }
-  
+
 }
