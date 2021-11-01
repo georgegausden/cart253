@@ -8,14 +8,17 @@ In this prototype I want to create the skeleton of the moving character and the 
 **************************************************/
 //create the character class
 let user;
+let enemy;
 // setup()
 //
 // Description of setup() goes here.
 function setup() {
   createCanvas(600,600);
 
-  //create the character
-  user = new Character(width/2,height/2);
+  //create the user's boat
+  user = new Boat(width/2,height/2);
+  //enemy boat
+  enemy = new Boat(width/3, height/8);
 }
 
 // draw()
@@ -27,6 +30,9 @@ function draw() {
   //make the user display
   user.display();
   user.move();
+  enemy.display();
+  enemy.move();
+
 
 
 }
