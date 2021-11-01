@@ -11,6 +11,9 @@ let user;
 let enemy;
 //set the intial state of the game
 let state = 'title';
+let simulationState = 'userTurn';
+
+let cursorSize = 50;
 
 // setup()
 //
@@ -28,6 +31,7 @@ function setup() {
 //
 // Description of draw() goes here.
 function draw() {
+  noCursor();
   background(0);
 
   //the three possible states of the game are title(), simulation() and end()
@@ -48,6 +52,7 @@ function title(){
 
   push();
   textSize(50);
+  textAlign(CENTER);
   text("Title Page",width/2,height/2);
   pop();
 
@@ -57,15 +62,57 @@ function title(){
 }
 
 function simulation(){
-  //make the user display
+  //create the turn based system of the program
+  if (simulationState === 'userTurn'){
+    userTurn()
+  }
+  else if (simulationState === 'computerTurn'){
+    computerTurn()
+  };
+
+  //disply the boats of the user and the ennemies
   user.display();
-  user.move();
   enemy.display();
-  enemy.move();
+
+}
+
+function userTurn(){
+  //show the cursor so the user can see where they're putting it
+  push();
+  fill(255,255,255,180);
+  circle(mouseX,mouseY,cursorSize);
+  pop();
+
+  let userPositionSet = false;
+
+  //let the user decide where to move their Boat
+  if (mouseClicked()){
+    user.x = mouseX;
+    user.y = mouseY;
+  }
+  else{
+    userPositionSet = false;
+  }
+
+}
+
+function computerTurn(){
+  //let the computer decide where to move their boats
+
 }
 
 function end(){
   push();
   text("The End",width/2,height/2);
   pop();
+}
+
+function mouseClicked(){
+  if (userPositionSet === false){
+    userPositionSet = true
+    return true
+  }
+  else{
+    return false
+  };
 }
