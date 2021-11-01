@@ -1,15 +1,15 @@
 
 let circles = [];
-let numberCircles = 1000;
+let numberCircles = 5;
 let time = 0;
 
 function setup(){
-  createCanvas(windowWidth,windowHeight);
+  createCanvas(600,600);
 
 
 
   for (let i = 0; i<numberCircles; i++){
-    circles.push(createCircle(random(0,width), 0, random(-0.5,0.5), random(0,0.5), 0.1, 0));
+    circles.push(createCircle(random(0,width), 0, random(-0.5,0.5), random(0,0.5), 1, 0));
   }
 
 
@@ -65,7 +65,7 @@ function wrap(mycircle){
   else if (mycircle.y > height){
     mycircle.y -= height;
   }
-  else if (mycircle.y <= height){
+  else if (mycircle.y < height){
     mycircle.y += height;
   };
 }
