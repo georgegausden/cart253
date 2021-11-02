@@ -20,6 +20,8 @@ let numRows = 10;
 
 let cursorSize = 50;
 
+let mousePressedBoolean = false;
+
 // setup()
 //
 // Description of setup() goes here.
@@ -78,6 +80,7 @@ function simulation(){
   //disply the boats of the user and the ennemies
   displayGrid();
   animateGrid();
+  selectTile();
   user.display();
   enemy.display();
 
@@ -156,4 +159,20 @@ function animateGrid(){
   }
 }
 
-console.log(grid)
+//create a function to check if the mouse is touching a tile in the grid
+function selectTile(){
+
+  for (let i = 0; i<grid.length; i++){
+    let d = dist(mouseX,mouseY,grid[i].x, grid[i].y);
+
+    if ((d<=(grid[i].x+grid[i].width/2) && (d<=(grid[i].y+grid[i].height/2)) && mousePressedBoolean){
+      //the user has chosen this element
+
+      console.log(true);
+    };
+  };
+}
+
+function mousePressed(){
+  mousePressedBoolean = true;
+}
