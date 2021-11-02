@@ -2,7 +2,7 @@ class Boat {
   constructor(x,y){
     this.x = x;
     this.y = y;
-    this.size = 100;
+    this.size = 50;
     this.fill = 255;
   }
 

@@ -18,7 +18,7 @@ let grid = [];
 let numColumns = 10;
 let numRows = 10;
 
-let cursorSize = 50;
+let cursorSize = 20;
 
 let mousePressedBoolean = false;
 
@@ -31,7 +31,7 @@ function setup() {
   //create the grid array elements
   for (let j = 0; j<numRows; j++){
    for (let i = 0; i<numColumns; i++){
-     grid.push(createGridElements(width/numColumns*i,height/numRows*j,0,0,random(0,100), 255));
+     grid.push(createGridElements(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255));
    }
   }
 
@@ -102,8 +102,21 @@ function userTurn(){
   circle(mouseX,mouseY,cursorSize);
   pop();
 
+  //tell the user to choose a tile to move their boat
+  push();
+  fill(255);
+  textAlign(CENTER);
+  text("Choose where to move your boat", width/2, height/2);
+  pop();
 
-  //let the user decide where to move their Boat
+  //store the variable where they move their boat
+  if (mousePressedBoolean === true){
+    //move the boat of the user
+    user.x = grid[selectTile()].x
+    user.y = grid[selectTile()].y
+  };
+
+
 
 }
 
@@ -123,7 +136,11 @@ function displayGrid(){
   for (let i = 0; i<grid.length; i++){
     noStroke();
     fill(grid[i].fillR, grid[i].fillG, grid[i].fillB, grid[i].transparency);
+    rectMode(CENTER);
     rect(grid[i].x, grid[i].y,  grid[i].width, grid[i].height);
+    fill(255);
+    textAlign(CENTER);
+    text(i,grid[i].x,grid[i].y);
   };
 }
 
@@ -159,20 +176,25 @@ function animateGrid(){
   }
 }
 
-//create a function to check if the mouse is touching a tile in the grid
+//create a function to check if the mouse is touching a tile in the grid. Returns the tile index from the grid array
 function selectTile(){
 
   for (let i = 0; i<grid.length; i++){
     let d = dist(mouseX,mouseY,grid[i].x, grid[i].y);
-
-    if ((d<=(grid[i].x+grid[i].width/2) && (d<=(grid[i].y+grid[i].height/2)) && mousePressedBoolean){
+    if (d<=(1.4*grid[i].width/2) && mousePressedBoolean){
       //the user has chosen this element
-
-      console.log(true);
+      //now highlight the tile they chose
+      return i
+      mousePressedBoolean = false
     };
   };
+
 }
 
-function mousePressed(){
+function mouseReleased(){
   mousePressedBoolean = true;
+}
+
+function touchEnded(){
+  mousePressedBoolean = false;
 }
