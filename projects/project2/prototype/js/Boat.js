@@ -6,15 +6,16 @@ class Boat {
     this.fill = 255;
   }
 
-  move(){
-
-  }
-
   display(){
     push();
     fill(this.fill);
     circle(this.x,this.y,this.size);
     pop();
+
+  }
+
+  shootCannon(){
+    //give the ability to shoot cannons for each boat
 
   }
 

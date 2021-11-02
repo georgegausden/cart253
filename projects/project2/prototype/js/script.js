@@ -14,6 +14,8 @@ let enemyBoats = [];
 //set the intial state of the game
 let state = 'simulation';
 let simulationState = 'userTurn';
+let userMoveDone = false;
+let shootDone = false;
 
 //create the grid of the game
 let grid = [];
@@ -86,7 +88,7 @@ function title(){
 function simulation(){
   //disply the boats of the user and the ennemies
   displayGrid();
-  animateGrid();
+  //animateGrid();
   selectTile();
 
   user.display();
@@ -121,16 +123,23 @@ function userTurn(){
   pop();
 
   //store the variable where they move their boat
-  if (mousePressedBoolean === true){
-    //move the boat of the user
-    user.x = selectTile().x
-    user.y = selectTile().y
-    mousePressedBoolean = false
+  if (mousePressedBoolean === true && userMoveDone === false){
+    user.move();
+  }
+  else if (userMoveDone === true && shootDone === false){
+    user.displayAim();
+    if (mousePressedBoolean === true && shootDone === false){
+      user.shoot();
+    }
+  }
+  else if (shootDone = true){
+    //reset the conditions back to false
+    userMoveDone = false;
+    shootDone = false;
 
-    //end the user's turn
-    simulationState = 'computerTurn'
-  };
-
+    //the computer's turn now
+    simulationState = 'computerTurn';
+  }
 
 
 }
@@ -147,10 +156,9 @@ function computerTurn(){
   //end the computer's turn and go back to the user's turn
   simulationState = 'userTurn';
 
-
 }
 
-
+//display the end state of the program
 function end(){
   push();
   text("The End",width/2,height/2);
@@ -218,4 +226,8 @@ function selectTile(){
 
 function mouseReleased(){
   mousePressedBoolean = true;
+}
+
+//a function to display where the user is aiming their cannons
+function displayAim(){
 }
