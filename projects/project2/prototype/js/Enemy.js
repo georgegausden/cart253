@@ -5,5 +5,10 @@ class Enemy extends Boat{
     this.size = 40;
   }
 
+  display(){
+    //display the user on the screen as a circle
+    
+  }
+
 
 }

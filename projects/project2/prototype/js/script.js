@@ -8,7 +8,9 @@ In this prototype I want to create the skeleton of the moving character and the 
 **************************************************/
 //create the character class
 let user;
-let enemy;
+
+let numEnemyBoats = 2;
+let enemyBoats = [];
 //set the intial state of the game
 let state = 'simulation';
 let simulationState = 'userTurn';
@@ -37,9 +39,14 @@ function setup() {
 
 
   //create the user's boat
-  user = new Boat(width/2,height/2);
+  user = new UserBoat(grid[0].x,grid[0].y);
   //enemy boat
-  enemy = new Enemy(width/3, height/8);
+  for (let i = 0; i<numEnemyBoats; i++){
+    //place the enemy boat at a random tile in the game
+    let r = int(random(0,grid.length));
+    enemyBoats.push(new Enemy(grid[r].x, grid[r].y));
+  };
+
 }
 
 // draw()
@@ -81,8 +88,12 @@ function simulation(){
   displayGrid();
   animateGrid();
   selectTile();
+
   user.display();
-  enemy.display();
+
+  for (let i = 0; i<enemyBoats.length; i++){
+    enemyBoats[i].display();
+  }
 
   //create the turn based system of the program
   if (simulationState === 'userTurn'){
@@ -112,8 +123,12 @@ function userTurn(){
   //store the variable where they move their boat
   if (mousePressedBoolean === true){
     //move the boat of the user
-    user.x = grid[selectTile()].x
-    user.y = grid[selectTile()].y
+    user.x = selectTile().x
+    user.y = selectTile().y
+    mousePressedBoolean = false
+
+    //end the user's turn
+    simulationState = 'computerTurn'
   };
 
 
@@ -122,8 +137,19 @@ function userTurn(){
 
 function computerTurn(){
   //let the computer decide where to move their boats
+  //for now the movement will be random
+  for (let i = 0; i<enemyBoats.length; i++){
+    let r = int(random(0,grid.length));
+    enemyBoats[i].x = grid[r].x;
+    enemyBoats[i].y = grid[r].y;
+  }
+
+  //end the computer's turn and go back to the user's turn
+  simulationState = 'userTurn';
+
 
 }
+
 
 function end(){
   push();
@@ -176,15 +202,14 @@ function animateGrid(){
   }
 }
 
-//create a function to check if the mouse is touching a tile in the grid. Returns the tile index from the grid array
+//create a function to check if the mouse is touching a tile in the grid. Returns the tile element from the grid array
 function selectTile(){
 
   for (let i = 0; i<grid.length; i++){
     let d = dist(mouseX,mouseY,grid[i].x, grid[i].y);
     if (d<=(1.4*grid[i].width/2) && mousePressedBoolean){
-      //the user has chosen this element
-      //now highlight the tile they chose
-      return i
+      //the user has chosen this element, now return the element
+      return grid[i]
       mousePressedBoolean = false
     };
   };
@@ -193,8 +218,4 @@ function selectTile(){
 
 function mouseReleased(){
   mousePressedBoolean = true;
-}
-
-function touchEnded(){
-  mousePressedBoolean = false;
 }

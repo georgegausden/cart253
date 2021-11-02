@@ -11,7 +11,6 @@ class Boat {
   }
 
   display(){
-    //display the user on the screen as a circle
     push();
     fill(this.fill);
     circle(this.x,this.y,this.size);
