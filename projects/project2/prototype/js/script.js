@@ -10,7 +10,7 @@ In this prototype I want to create the skeleton of the moving character and the 
 let user;
 let enemy;
 //set the intial state of the game
-let state = 'title';
+let state = 'simulation';
 let simulationState = 'userTurn';
 
 //create the grid of the game
@@ -29,7 +29,7 @@ function setup() {
   //create the grid array elements
   for (let j = 0; j<numRows; j++){
    for (let i = 0; i<numColumns; i++){
-     grid.push(createGridElements(width/numColumns*i,height/numRows*j,random(0,255),random(0,255),random(0,255), 100));
+     grid.push(createGridElements(width/numColumns*i,height/numRows*j,0,0,random(0,100), 255));
    }
   }
 
@@ -77,6 +77,7 @@ function title(){
 function simulation(){
   //disply the boats of the user and the ennemies
   displayGrid();
+  animateGrid();
   user.display();
   enemy.display();
 
@@ -124,7 +125,7 @@ function displayGrid(){
 }
 
 function createGridElements(x,y,r,g,b,transparency){
-let gridSection = {
+  let gridSection = {
     x: x,
     y: y,
     width:width/numColumns,
@@ -137,6 +138,22 @@ let gridSection = {
 
   return gridSection;
 
+}
+
+function animateGrid(){
+  let time = millis();
+  if (time >= 100){
+    for (let i = 0; i<grid.length; i++){
+      let element = int(random(0,grid.length));
+      let threshold = random(0,1);
+      if (threshold <= 0.001){
+        grid[element].fillR = random(0,50);
+        grid[element].fillG = random(0,50);
+        grid[element].fillB = random(100,255);
+
+       }
+     }
+  }
 }
 
 console.log(grid)
