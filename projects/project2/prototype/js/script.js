@@ -13,6 +13,11 @@ let enemy;
 let state = 'title';
 let simulationState = 'userTurn';
 
+//create the grid of the game
+let grid = [];
+let numColumns = 10;
+let numRows = 10;
+
 let cursorSize = 50;
 
 // setup()
@@ -20,6 +25,14 @@ let cursorSize = 50;
 // Description of setup() goes here.
 function setup() {
   createCanvas(600,600);
+
+  //create the grid array elements
+  for (let j = 0; j<numRows; j++){
+   for (let i = 0; i<numColumns; i++){
+     grid.push(createGridElements(width/numColumns*i,height/numRows*j,random(0,255),random(0,255),random(0,255), 100));
+   }
+  }
+
 
   //create the user's boat
   user = new Boat(width/2,height/2);
@@ -32,7 +45,7 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   noCursor();
-  background(0);
+  background(255);
 
   //the three possible states of the game are title(), simulation() and end()
   if (state === 'title'){
@@ -62,6 +75,11 @@ function title(){
 }
 
 function simulation(){
+  //disply the boats of the user and the ennemies
+  displayGrid();
+  user.display();
+  enemy.display();
+
   //create the turn based system of the program
   if (simulationState === 'userTurn'){
     userTurn()
@@ -70,9 +88,6 @@ function simulation(){
     computerTurn()
   };
 
-  //disply the boats of the user and the ennemies
-  user.display();
-  enemy.display();
 
 }
 
@@ -83,16 +98,8 @@ function userTurn(){
   circle(mouseX,mouseY,cursorSize);
   pop();
 
-  let userPositionSet = false;
 
   //let the user decide where to move their Boat
-  if (mouseClicked()){
-    user.x = mouseX;
-    user.y = mouseY;
-  }
-  else{
-    userPositionSet = false;
-  }
 
 }
 
@@ -107,12 +114,29 @@ function end(){
   pop();
 }
 
-function mouseClicked(){
-  if (userPositionSet === false){
-    userPositionSet = true
-    return true
-  }
-  else{
-    return false
+
+function displayGrid(){
+  for (let i = 0; i<grid.length; i++){
+    noStroke();
+    fill(grid[i].fillR, grid[i].fillG, grid[i].fillB, grid[i].transparency);
+    rect(grid[i].x, grid[i].y,  grid[i].width, grid[i].height);
   };
 }
+
+function createGridElements(x,y,r,g,b,transparency){
+let gridSection = {
+    x: x,
+    y: y,
+    width:width/numColumns,
+    height:height/numRows,
+    fillR: r,
+    fillG: g,
+    fillB: b,
+    transparency: transparency
+  };
+
+  return gridSection;
+
+}
+
+console.log(grid)
