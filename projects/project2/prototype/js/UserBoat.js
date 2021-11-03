@@ -5,6 +5,7 @@ class UserBoat extends Boat{
     this.lives = 5;
     this.numCannons = 5;
     this.cannons = [];
+    this.moveDistance = 3;
   }
 
 
@@ -17,6 +18,7 @@ class UserBoat extends Boat{
   }
 
   move(){
+
     //move the boat of the user
     this.x = selectTile().x;
     this.y = selectTile().y;
@@ -28,14 +30,14 @@ class UserBoat extends Boat{
 
   shoot(){
     shootDone = true;
+
   }
 
-  
+  showPossibleMoves(){
+    //the user can only move one tile away from where they are currently
+    fill(255,0,0,150);
+    circle(this.x,this.y,this.moveDistance*grid[0].width);
 
-  createCannon(){
-    for (let i = 0; i<this.numCannons; i++){
-      this.cannons.push(createCannonVariable());
-    };
   }
 
 

@@ -125,7 +125,11 @@ function userTurn(){
   pop();
 
   //store the variable where they move their boat
+  //show the places the user can move to (one tile away from the user currently)
+  user.showPossibleMoves();
+
   if (mousePressedBoolean === true && userMoveDone === false){
+
     user.move();
   }
   else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false){

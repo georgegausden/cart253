@@ -8,7 +8,7 @@ class Boat {
 
   display(){
     push();
-    fill(this.fill);
+    fill(this.fill,255,255,100);
     circle(this.x,this.y,this.size);
     pop();
 
@@ -18,7 +18,7 @@ class Boat {
     //give the ability to shoot cannons for each boat
     //we need to animate a circle moving towards the object
     let cannons = [];
-    
+
 
   }
 
