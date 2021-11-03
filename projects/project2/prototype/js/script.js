@@ -49,6 +49,8 @@ function setup() {
     enemyBoats.push(new Enemy(grid[r].x, grid[r].y));
   };
 
+
+
 }
 
 // draw()
@@ -126,22 +128,16 @@ function userTurn(){
   if (mousePressedBoolean === true && userMoveDone === false){
     user.move();
   }
-  else if (userMoveDone === true && shootDone === false){
+  else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false){
     user.displayAim();
-    if (mousePressedBoolean === true && shootDone === false){
-      user.shoot();
-    }
   }
-  else if (shootDone = true){
-    //reset the conditions back to false
-    userMoveDone = false;
-    shootDone = false;
-
+  else if (userMoveDone === true && shootDone === false && mousePressedBoolean === true){
+    user.shoot();
+  }
+  else if (userMoveDone === true && shootDone == true && mousePressedBoolean === true){
     //the computer's turn now
     simulationState = 'computerTurn';
   }
-
-
 }
 
 function computerTurn(){
@@ -151,8 +147,12 @@ function computerTurn(){
     let r = int(random(0,grid.length));
     enemyBoats[i].x = grid[r].x;
     enemyBoats[i].y = grid[r].y;
+
   }
 
+  userMoveDone = false;
+  shootDone = false;
+  mousePressedBoolean = false;
   //end the computer's turn and go back to the user's turn
   simulationState = 'userTurn';
 

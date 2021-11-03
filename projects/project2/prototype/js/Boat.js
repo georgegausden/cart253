@@ -16,6 +16,9 @@ class Boat {
 
   shootCannon(){
     //give the ability to shoot cannons for each boat
+    //we need to animate a circle moving towards the object
+    let cannons = [];
+    
 
   }
 
