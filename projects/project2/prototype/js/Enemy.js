@@ -8,6 +8,12 @@ class Enemy extends Boat{
   }
 
 
-  
+  move(){
+
+    let r = int(random(0,grid.length));
+    this.x = grid[r].x;
+    this.y = grid[r].y;
+
+  }
 
 }

@@ -17,6 +17,10 @@ let simulationState = 'userTurn';
 let userMoveDone = false;
 let shootDone = false;
 
+//sound effects in the game
+let shipMoveSFX = undefined;
+let cannonShootSFX = undefined;
+
 //create the grid of the game
 let grid = [];
 let numColumns = 10;
@@ -25,6 +29,11 @@ let numRows = 10;
 let cursorSize = 20;
 
 let mousePressedBoolean = false;
+
+function preload() {
+  shipMoveSFX = loadSound('assets/sounds/shipMoveSFX.mov');
+  cannonShootSFX = loadSound('assets/sounds/cannonShootSFX.mov');
+}
 
 // setup()
 //
@@ -129,13 +138,14 @@ function userTurn(){
   user.showPossibleMoves();
 
   if (mousePressedBoolean === true && userMoveDone === false){
-
     user.move();
   }
   else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false){
     user.displayAim();
   }
+  //shoot the cannon
   else if (userMoveDone === true && shootDone === false && mousePressedBoolean === true){
+    cannonShootSFX.play();
     user.shoot();
   }
   else if (userMoveDone === true && shootDone == true && mousePressedBoolean === true){
@@ -148,10 +158,8 @@ function computerTurn(){
   //let the computer decide where to move their boats
   //for now the movement will be random
   for (let i = 0; i<enemyBoats.length; i++){
-    let r = int(random(0,grid.length));
-    enemyBoats[i].x = grid[r].x;
-    enemyBoats[i].y = grid[r].y;
-
+    let enemy = enemyBoats[i];
+    enemy.move();
   }
 
   userMoveDone = false;
@@ -230,8 +238,4 @@ function selectTile(){
 
 function mouseReleased(){
   mousePressedBoolean = true;
-}
-
-//a function to display where the user is aiming their cannons
-function displayAim(){
 }
