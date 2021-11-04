@@ -9,8 +9,11 @@ In this prototype I want to create the skeleton of the moving character and the 
 //create the character class
 let user;
 
-let numEnemyBoats = 2;
+let numEnemyBoats = 3;
 let enemyBoats = [];
+let randomSeedArray = [];
+let numberOfPossibleComputerMoves = 200;
+let numberOfMovesPlayed = 0;
 //set the intial state of the game
 let state = 'simulation';
 let simulationState = 'userTurn';
@@ -58,6 +61,15 @@ function setup() {
     enemyBoats.push(new Enemy(grid[r].x, grid[r].y));
   };
 
+  for (let i = 0; i<numberOfPossibleComputerMoves; i++){
+    //generate a random seed for the computer to use later in its moves
+    let r = int(random(0,grid.length));
+    //push that number into the random seed array
+    randomSeedArray.push(r);
+
+  };
+
+  console.log(randomSeedArray);
 
 
 }
@@ -159,20 +171,15 @@ function computerTurn(){
   //for now the movement will be random
   for (let i = 0; i<enemyBoats.length; i++){
     let enemy = enemyBoats[i];
-    let r = int(random(0,grid.length));
-    console.log(r);
-    enemy.positionFinalx = grid[r].x;
-    enemy.positionFinaly = grid[r].y;
 
-    while (enemy.x != enemy.positionFinalx && enemy.y != enemy.positionFinaly){
-      enemy.move();
-    }
+    enemy.move();
+  }
 
-  };
+};
 
 
 
-}
+
 
 //display the end state of the program
 function end(){

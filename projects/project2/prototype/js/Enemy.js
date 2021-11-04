@@ -7,21 +7,16 @@ class Enemy extends Boat{
     this.cannons = 1;
     this.positionFinalx = undefined;
     this.positionFinaly = undefined;
-    this.vx = 1;
-    this.vy = 1;
-    this.randomArray = [];
-    this.moveInArray = 0;
+    this.vx = 2;
+    this.vy = 2;
 
   }
 
 
   move(){
-    let r = int(random(0,grid.length));
-    this.randomArray.push(r);
 
-
-    this.positionFinalx = grid[this.randomArray[this.moveInArray]].x;
-    this.positionFinaly = grid[this.randomArray[this.moveInArray]].y;
+    this.positionFinalx = grid[randomSeedArray[numberOfMovesPlayed]].x;
+    this.positionFinaly = grid[randomSeedArray[numberOfMovesPlayed]].y;
 
     //animate the movement of the ship
     if (this.x < this.positionFinalx){
@@ -41,7 +36,7 @@ class Enemy extends Boat{
       userMoveDone = false;
       shootDone = false;
       mousePressedBoolean = false;
-      this.moveInArray += 1;
+      numberOfMovesPlayed += 1;
       //end the computer's turn and go back to the user's turn
       simulationState = 'userTurn';
     };
