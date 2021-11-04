@@ -9,11 +9,12 @@ In this prototype I want to create the skeleton of the moving character and the 
 //create the character class
 let user;
 
-let numEnemyBoats = 3;
+let numEnemyBoats = 30;
 let enemyBoats = [];
 let randomSeedArray = [];
-let numberOfPossibleComputerMoves = 200;
+let numberOfPossibleComputerMoves = 500;
 let numberOfMovesPlayed = 0;
+
 //set the intial state of the game
 let state = 'simulation';
 let simulationState = 'userTurn';
@@ -42,7 +43,7 @@ function preload() {
 //
 // Description of setup() goes here.
 function setup() {
-  createCanvas(600,600);
+  createCanvas(700,700);
 
   //create the grid array elements
   for (let j = 0; j<numRows; j++){
@@ -68,8 +69,6 @@ function setup() {
     randomSeedArray.push(r);
 
   };
-
-  console.log(randomSeedArray);
 
 
 }
@@ -172,7 +171,7 @@ function computerTurn(){
   for (let i = 0; i<enemyBoats.length; i++){
     let enemy = enemyBoats[i];
 
-    enemy.move();
+    enemy.move(i);
   }
 
 };
