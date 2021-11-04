@@ -6,8 +6,10 @@ class UserBoat extends Boat{
     this.numCannons = 5;
     this.cannons = [];
     this.moveDistance = 3;
-    this.vx = 1;
-    this.vy = 1;
+    this.vx = 10;
+    this.vy = 10;
+    this.positionFinalx = undefined;
+    this.positionFinaly = undefined;
 
   }
 
@@ -23,27 +25,24 @@ class UserBoat extends Boat{
   move(){
 
     //create an animation to move the user from their tile to the one chosen
-    //initial position
-    let positionInitialx = this.x;
-    let positionFinalx = selectTile().x;
-
-    let positionInitialy = this.y;
-    let positionFinaly = selectTile().y;
+    //final position
+    this.positionFinalx = selectTile().x;
+    this.positionFinaly = selectTile().y;
 
     //animate the movement of the ship
-    if (this.x < positionFinalx){
+    if (this.x < this.positionFinalx){
       this.x += this.vx
     }
-    else if (this.x > positionFinalx){
+    else if (this.x > this.positionFinalx){
       this.x -= this.vx
     }
-    else if (this.y < positionFinaly){
+    else if (this.y < this.positionFinaly){
       this.y += this.vy
     }
-    else if (this.y > positionFinaly){
+    else if (this.y > this.positionFinaly){
       this.y -= this.vy
     }
-    else if (this.x === positionFinalx){
+    else if (this.x === this.positionFinalx){
       //reset the press mouse function
       mousePressedBoolean = false;
       userMoveDone = true;
@@ -65,7 +64,9 @@ class UserBoat extends Boat{
 
   }
 
+  animateMovement(){
 
+  }
 
 
 
