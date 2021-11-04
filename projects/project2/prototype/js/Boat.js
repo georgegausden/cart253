@@ -2,20 +2,23 @@ class Boat {
   constructor(x,y){
     this.x = x;
     this.y = y;
-    this.size = 100;
+    this.size = 50;
     this.fill = 255;
   }
 
-  move(){
+  display(){
+    push();
+    fill(this.fill,255,255,100);
+    circle(this.x,this.y,this.size);
+    pop();
 
   }
 
-  display(){
-    //display the user on the screen as a circle
-    push();
-    fill(this.fill);
-    circle(this.x,this.y,this.size);
-    pop();
+  shootCannon(){
+    //give the ability to shoot cannons for each boat
+    //we need to animate a circle moving towards the object
+    let cannons = [];
+
 
   }
 
