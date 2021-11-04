@@ -159,14 +159,18 @@ function computerTurn(){
   //for now the movement will be random
   for (let i = 0; i<enemyBoats.length; i++){
     let enemy = enemyBoats[i];
-    enemy.move();
-  }
+    let r = int(random(0,grid.length));
+    console.log(r);
+    enemy.positionFinalx = grid[r].x;
+    enemy.positionFinaly = grid[r].y;
 
-  userMoveDone = false;
-  shootDone = false;
-  mousePressedBoolean = false;
-  //end the computer's turn and go back to the user's turn
-  simulationState = 'userTurn';
+    while (enemy.x != enemy.positionFinalx && enemy.y != enemy.positionFinaly){
+      enemy.move();
+    }
+
+  };
+
+
 
 }
 

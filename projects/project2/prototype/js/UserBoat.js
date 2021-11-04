@@ -26,6 +26,7 @@ class UserBoat extends Boat{
 
     //create an animation to move the user from their tile to the one chosen
     //final position
+
     this.positionFinalx = selectTile().x;
     this.positionFinaly = selectTile().y;
 
@@ -42,7 +43,7 @@ class UserBoat extends Boat{
     else if (this.y > this.positionFinaly){
       this.y -= this.vy
     }
-    else if (this.x === this.positionFinalx){
+    else if (this.x === this.positionFinalx && this.y === this.positionFinaly){
       //reset the press mouse function
       mousePressedBoolean = false;
       userMoveDone = true;
