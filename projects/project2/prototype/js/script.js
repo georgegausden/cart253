@@ -34,9 +34,12 @@ let cursorSize = 20;
 
 let mousePressedBoolean = false;
 
+let boatImage = undefined;
+
 function preload() {
   shipMoveSFX = loadSound('assets/sounds/shipMoveSFX.mov');
   cannonShootSFX = loadSound('assets/sounds/cannonShootSFX.mov');
+  boatImage = loadImage('assets/images/ship.png');
 }
 
 // setup()

@@ -62,7 +62,6 @@ class UserBoat extends Boat{
     fill(255,0,0,150);
     circle(this.x,this.y,this.moveDistance*grid[0].width);
 
-
   }
 
   animateMovement(){
