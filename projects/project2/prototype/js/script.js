@@ -180,9 +180,6 @@ function computerTurn(){
 };
 
 
-
-
-
 //display the end state of the program
 function end(){
   push();

@@ -15,8 +15,6 @@ class Enemy extends Boat{
 
   move(i){
 
-
-
     this.positionFinalx = grid[randomSeedArray[numberOfMovesPlayed+i]].x;
     this.positionFinaly = grid[randomSeedArray[numberOfMovesPlayed+i]].y;
 
