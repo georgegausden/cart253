@@ -10,15 +10,22 @@ class UserBoat extends Boat{
     this.vy = 10;
     this.positionFinalx = undefined;
     this.positionFinaly = undefined;
+    this.cannonRange = undefined;
 
   }
 
 
   displayAim(){
+    push();
     strokeWeight(5);
     stroke(255);
     drawingContext.setLineDash([5, 15]);
-    line(this.x,this.y,mouseX,mouseY);
+    let d = dist(this.x,this.y,mouseX,mouseY);
+    if (d <= this.cannonRange){
+      line(this.x,this.y,mouseX,mouseY);
+    }
+    pop();
+
 
   }
 
@@ -57,10 +64,11 @@ class UserBoat extends Boat{
 
   }
 
-  showPossibleMoves(){
+  showCannonRange(){
     //the user can only move one tile away from where they are currently
     fill(255,0,0,150);
-    circle(this.x,this.y,this.moveDistance*grid[0].width);
+    this.cannonRange = 2*grid[0].width;
+    circle(this.x,this.y,2*this.cannonRange);
 
   }
 

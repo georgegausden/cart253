@@ -2,7 +2,7 @@
 
 /**************************************************
 Project 2 Prototype
-Pippin Barr
+George Gausden
 
 In this prototype I want to create the skeleton of the moving character and the user being able to control it
 **************************************************/
@@ -133,6 +133,7 @@ function simulation(){
 
 }
 
+//this function is the user's round of the game
 function userTurn(){
   //show the cursor so the user can see where they're putting it
   push();
@@ -149,7 +150,7 @@ function userTurn(){
 
   //store the variable where they move their boat
   //show the places the user can move to (one tile away from the user currently)
-  user.showPossibleMoves();
+  user.showCannonRange();
 
   if (mousePressedBoolean === true && userMoveDone === false){
     user.move();
@@ -168,6 +169,7 @@ function userTurn(){
   }
 }
 
+//this function is the computer's turn in the game
 function computerTurn(){
   //let the computer decide where to move their boats
   //for now the movement will be random
@@ -187,7 +189,7 @@ function end(){
   pop();
 }
 
-
+//this function displays the grid on the screen as individual tiles with colour
 function displayGrid(){
   for (let i = 0; i<grid.length; i++){
     noStroke();
@@ -200,6 +202,7 @@ function displayGrid(){
   };
 }
 
+//this function creates the different tiles as variables 1
 function createGridElements(x,y,r,g,b,transparency){
   let gridSection = {
     x: x,
