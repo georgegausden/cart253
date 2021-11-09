@@ -9,7 +9,7 @@ In this prototype I want to create the skeleton of the moving character and the 
 //create the character class
 let user;
 
-let numEnemyBoats = 30;
+let numEnemyBoats = 10;
 let enemyBoats = [];
 let randomSeedArray = [];
 let numberOfPossibleComputerMoves = 500;
