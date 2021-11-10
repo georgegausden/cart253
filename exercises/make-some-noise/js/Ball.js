@@ -40,11 +40,24 @@ class Ball {
     if (this.x - this.size/2 < 0 || this.x + this.size/2 > width) {
       this.vx = -this.vx;
       this.playNote();
+      if (touchSideBoolean){
+        touchSideBoolean = false;
+      }
+      else{
+        touchSideBoolean = true;
+      }
+
     }
 
     if (this.y - this.size/2 < 0 || this.y + this.size/2 > height) {
       this.vy = -this.vy;
       this.playNote();
+      if (touchSideBoolean){
+        touchSideBoolean = false;
+      }
+      else{
+        touchSideBoolean = true;
+      }
     }
   }
 
