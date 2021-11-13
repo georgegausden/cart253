@@ -29,6 +29,8 @@ let cannonShootSFX = undefined;
 let grid = [];
 let numColumns = 10;
 let numRows = 10;
+//amount of grass (0 to 1)
+let amountOfGrass = 0.1;
 
 let cursorSize = 20;
 
@@ -51,7 +53,14 @@ function setup() {
   //create the grid elements (the individual tiles)
   for (let j = 0; j<numRows; j++){
     for (let i = 0; i<numColumns; i++){
-     grid.push(new Tile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255));
+      let r = random(0,1);
+      if (r<amountOfGrass){
+        grid.push(new Tile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'land'));
+      }
+      else{
+        grid.push(new Tile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'water'));
+      }
+
     }
   }
 
@@ -128,11 +137,10 @@ function userTurn(){
   circle(mouseX,mouseY,cursorSize);
   pop();
 
-  //make the user choose where to move their boat
-  selectTile();
+  //let the user choose where they want to move initially
+  user.selectTile();
 
-  //store the variable where they move their boat
-  //show the places the user can move to (one tile away from the user currently)
+  //show where the user can move
   user.showCannonRange();
 
   if (mousePressedBoolean === true && userMoveDone === false){
@@ -171,19 +179,6 @@ function end(){
   pop();
 }
 
-//create a function to check if the mouse is touching a tile in the grid. Returns the tile element from the grid array
-function selectTile(){
-
-  for (let i = 0; i<grid.length; i++){
-    let d = dist(mouseX,mouseY,grid[i].x, grid[i].y);
-    if (d<=(1.4*grid[i].width/2) && mousePressedBoolean){
-      //the user has chosen this element, now return the element
-      return grid[i]
-      mousePressedBoolean = false
-    };
-  };
-
-}
 
 function mouseReleased(){
   mousePressedBoolean = true;

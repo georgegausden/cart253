@@ -8,8 +8,8 @@ class UserBoat extends Boat{
     this.moveDistance = 3;
     this.vx = 10;
     this.vy = 10;
-    this.positionFinalx = undefined;
-    this.positionFinaly = undefined;
+    this.finalPositionX = undefined;
+    this.finalPositionY = undefined;
     this.cannonRange = undefined;
 
   }
@@ -26,42 +26,38 @@ class UserBoat extends Boat{
     }
     pop();
 
-
   }
 
   move(){
 
     //create an animation to move the user from their tile to the one chosen
     //final position
-
-    this.positionFinalx = selectTile().x;
-    this.positionFinaly = selectTile().y;
+    this.finalPositionX = this.selectTile().x;
+    this.finalPositionY = this.selectTile().y;
 
     //animate the movement of the ship
-    if (this.x < this.positionFinalx){
+    if (this.x < this.finalPositionX){
       this.x += this.vx
     }
-    else if (this.x > this.positionFinalx){
+    else if (this.x > this.finalPositionX){
       this.x -= this.vx
     }
-    else if (this.y < this.positionFinaly){
+    else if (this.y < this.finalPositionY){
       this.y += this.vy
     }
-    else if (this.y > this.positionFinaly){
+    else if (this.y > this.finalPositionY){
       this.y -= this.vy
     }
-    else if (this.x === this.positionFinalx && this.y === this.positionFinaly){
+    else if (this.x === this.finalPositionX && this.y === this.finalPositionY){
       //reset the press mouse function
       mousePressedBoolean = false;
       userMoveDone = true;
     }
 
-
   }
 
   shoot(){
     shootDone = true;
-
   }
 
   showCannonRange(){
@@ -69,26 +65,18 @@ class UserBoat extends Boat{
     fill(255,0,0,150);
     this.cannonRange = 2*grid[0].width;
     circle(this.x,this.y,2*this.cannonRange);
-
   }
 
   selectTile(){
-
-      for (let i = 0; i<grid.length; i++){
-        let d = dist(mouseX,mouseY,grid[i].x, grid[i].y);
-        if (d<=(1.4*grid[i].width/2) && mousePressedBoolean){
-          //the user has chosen this element, now return the element
-          return grid[i]
-          mousePressedBoolean = false
-        };
+    //let the user select a tile for where they want to move
+    for (let i = 0; i<grid.length; i++){
+      let d = dist(mouseX,mouseY,grid[i].x, grid[i].y);
+      if (d<=(1.4*grid[i].width/2) && mousePressedBoolean){
+        //the user has chosen this element, now return the element
+        return grid[i];
+        mousePressedBoolean = false;
       };
-
+    };
   }
-
-
-
-
-
-
 
 }
