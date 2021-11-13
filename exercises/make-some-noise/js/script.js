@@ -9,7 +9,7 @@ A program that plays music based on primitive physics.
 
 // The balls
 let balls = [];
-let numberOfBalls = 3;
+let numberOfBalls = 5;
 
 
 //set the initial state of the program

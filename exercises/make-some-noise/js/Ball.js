@@ -11,11 +11,11 @@ class Ball {
     };
     this.vx = 0;
     this.vy = vy;
-    this.friction = 0.5;
-    this.randomness = 0.51;
+    this.friction = 2;
+    this.randomness = 0.1;
 
     // Synth
-    this.osc = new p5.Oscillator('sine');
+
     this.freq = undefined;
   }
 
@@ -40,19 +40,15 @@ class Ball {
   playNote() {
     //calculate the frequency of the ball based on its velocity
     //calculate the magnitude of the velocity
-    this.playOscillator();
-    let time = millis();
-    //after a certain time, decrease the volume
-    if (time>1000){
-      this.osc.amp(0,0.5);
-      this.osc.stop();
-    }
+    this.calculateFrequency();
+    this.osc = new p5.Oscillator(this.freq,'sine');
+    this.osc.start();
+    this.osc.amp(0,0.5);
   }
 
-  playOscillator(){
+  calculateFrequency(){
     let magnitudeVelocity = sqrt(this.vx*this.vx+this.vy+this.vy);
-    this.freq = magnitudeVelocity * 10;
-    this.osc.start(this.freq);
+    this.freq = magnitudeVelocity * 200;
   }
 
   display() {
@@ -74,7 +70,8 @@ class Ball {
 
   }
 
-  friction(){
+//function to generate friction so they don't gain too much speed over time
+  applyFriction(){
     if (this.vx >= 0){
       this.vx -= this.friction;
     }
@@ -93,23 +90,46 @@ class Ball {
   wrap(){
     //touch the side of the screen, so play note
     if (this.y <= -this.size){
-      this.playNote();
       this.y = height;
-      //lose some speed
-      this.friction();
     }
     else if (this.y > height+this.size){
-      this.playNote();
+
       this.y = 0;
-      this.friction();
+
     }
     else if (this.x <= 0){
       this.vx = -this.vx;
+      this.colourNote();
+      this.playNote();
+
+
+      //this.applyFriction();
     }
     else if (this.x > width){
       this.vx = -this.vx;
+      this.colourNote();
+      this.playNote();
+
+      //this.applyFriction();
     }
   }
 
+  stopNote(){
+    this.osc.stop();
+  }
+
+  colourNote(){
+    //if the ball touches the side, temporarily highlight it so the user sees
+    for (let i = 0; i<balls.length; i++){
+      let ball = balls[i];
+      ball.fill.r = 0;
+      ball.fill.g = 0;
+      ball.fill.b = 0;
+    }
+
+    this.fill.r = 255;
+    this.fill.g = 0;
+    this.fill.b = 0;
+  }
 
 }
