@@ -1,6 +1,6 @@
 class Ball {
 
-  constructor(x,y,note) {
+  constructor(x,y,vy) {
     this.x = x;
     this.y = y;
     this.size = 50;
@@ -12,6 +12,7 @@ class Ball {
     this.speed = 3;
     this.vx = random(-this.speed,this.speed);
     this.vy = random(-this.speed,this.speed);
+    this.randomness = 0.01;
 
     // Synth
     this.osc = new p5.Oscillator('sine');
@@ -21,6 +22,17 @@ class Ball {
   move() {
     this.x += this.vx;
     this.y += this.vy;
+
+    //add some randomness
+    let r = random(0,1);
+    if (r>0.5){
+      this.vy += this.randomness;
+      this.vx -= this.randomness;
+    }
+    else{
+      this.vy -= this.randomness;
+      this.vx += this.randomness;
+    }
 
   }
 
@@ -64,9 +76,11 @@ class Ball {
   display() {
 
     if (touchSideBoolean){
-      //display the ghost image
-      imageMode(CENTER);
-      image(ghostImage,this.x,this.y,this.size,this.size);
+      push();
+      noStroke();
+      fill(0);
+      ellipse(this.x,this.y,this.size);
+      pop();
     }
     else{
       push();
