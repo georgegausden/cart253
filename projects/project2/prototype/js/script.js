@@ -27,6 +27,7 @@ let cannonShootSFX = undefined;
 
 //create the grid of the game
 let grid = [];
+let waterTiles = [];
 let numColumns = 10;
 let numRows = 10;
 //amount of grass (0 to 1)
@@ -67,21 +68,31 @@ function setup() {
   //create the user's boat
   user = new UserBoat(grid[0].x,grid[0].y);
 
+  //define all the water tiles
+  for (let i = 0; i<grid.length; i++){
+    let tile = grid[i];
+    //create a list of the possible tiles the computer can move to
+    if (tile.type === 'water'){
+      waterTiles.push(i);
+    }
+  }
+
   //create the enemy boats
   for (let i = 0; i<numEnemyBoats; i++){
-    //place the enemy boat at a random tile in the game initially
-    let r = int(random(0,grid.length));
+    //place the enemy boat at a random water tile in the game initially
+    let r = random(waterTiles);
     enemyBoats.push(new Enemy(grid[r].x, grid[r].y));
   };
 
   //create the possible moves for the computer
   for (let i = 0; i<numberOfPossibleComputerMoves; i++){
     //generate a random seed for the computer to use later in its moves
-    let r = int(random(0,grid.length));
+    //check to see that the position is water and not land first
+    let r = random(waterTiles);
     //push that number into the random seed array
     randomSeedArray.push(r);
 
-  };
+  }
 }
 
 // draw()

@@ -35,7 +35,7 @@ class UserBoat extends Boat{
     this.finalPositionX = this.selectTile().x;
     this.finalPositionY = this.selectTile().y;
 
-    //animate the movement of the ship
+    //animate the movement of the ship, don't let the boat go through the land
     if (this.x < this.finalPositionX){
       this.x += this.vx
     }
@@ -70,13 +70,24 @@ class UserBoat extends Boat{
   selectTile(){
     //let the user select a tile for where they want to move
     for (let i = 0; i<grid.length; i++){
-      let d = dist(mouseX,mouseY,grid[i].x, grid[i].y);
-      if (d<=(1.4*grid[i].width/2) && mousePressedBoolean){
+      let tile = grid[i];
+      let d = dist(mouseX,mouseY,tile.x, tile.y);
+      if (d<=(1.4*tile.width/2) && mousePressedBoolean && tile.type === 'water'){
         //the user has chosen this element, now return the element
-        return grid[i];
+        return tile;
         mousePressedBoolean = false;
-      };
+      }
+      else if (d<=(1.4*tile.width/2) && mousePressedBoolean && tile.type === 'land'){
+        //end the user's turn if they decide to go on land
+        this.endTurn();
+      }
     };
+  }
+
+  endTurn(){
+    userMoveDone = true;
+    shootDone = true;
+    mousePressedBoolean = true;
   }
 
 }
