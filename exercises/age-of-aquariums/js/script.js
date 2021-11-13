@@ -118,7 +118,7 @@ function title() {
   text("Press any key to continue", width / 2, height / 2 + 100);
   pop();
 
-  time = millis();
+  let time = millis();
 
   //create a background moving
   push();

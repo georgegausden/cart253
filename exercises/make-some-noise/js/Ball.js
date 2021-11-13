@@ -11,6 +11,7 @@ class Ball {
     };
     this.vx = 0;
     this.vy = vy;
+    this.friction = 0.5;
     this.randomness = 0.51;
 
     // Synth
@@ -35,28 +36,22 @@ class Ball {
 
   }
 
-  bounce() {
-    //make the ball play the note related to its velocity as it touches the side
-
-    if (this.x - this.size/2 < 0 || this.x + this.size/2 > width) {
-      this.vx = -this.vx;
-      this.playNote();
-    }
-
-    if (this.y - this.size/2 < 0 || this.y + this.size/2 > height) {
-      this.vy = -this.vy;
-      this.playNote();
-      //touch the side of the screen, change the boolean value to true
-
-    }
-  }
 
   playNote() {
     //calculate the frequency of the ball based on its velocity
     //calculate the magnitude of the velocity
+    this.playOscillator();
+    let time = millis();
+    //after a certain time, decrease the volume
+    if (time>1000){
+      this.osc.amp(0,0.5);
+      this.osc.stop();
+    }
+  }
+
+  playOscillator(){
     let magnitudeVelocity = sqrt(this.vx*this.vx+this.vy+this.vy);
-    this.freq = magnitudeVelocity * 5;
-    this.osc.freq(this.freq,0.1);
+    this.freq = magnitudeVelocity * 10;
     this.osc.start(this.freq);
   }
 
@@ -79,15 +74,34 @@ class Ball {
 
   }
 
+  friction(){
+    if (this.vx >= 0){
+      this.vx -= this.friction;
+    }
+    else if (this.vx < 0){
+      this.vx += this.friction;
+    }
+
+    if (this.vy >= 0){
+      this.vy -= this.friction;
+    }
+    else if (this.vy < 0){
+      this.vy += this.friction;
+    }
+  }
+
   wrap(){
     //touch the side of the screen, so play note
     if (this.y <= -this.size){
       this.playNote();
       this.y = height;
+      //lose some speed
+      this.friction();
     }
     else if (this.y > height+this.size){
       this.playNote();
       this.y = 0;
+      this.friction();
     }
     else if (this.x <= 0){
       this.vx = -this.vx;
@@ -96,4 +110,6 @@ class Ball {
       this.vx = -this.vx;
     }
   }
+
+
 }
