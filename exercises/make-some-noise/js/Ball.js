@@ -13,13 +13,6 @@ class Ball {
     this.vx = random(-this.speed,this.speed);
     this.vy = random(-this.speed,this.speed);
 
-    // Oscillator
-    this.oscillator = new p5.Oscillator();
-    this.nearFreq = 220;
-    this.farFreq = 440;
-    this.oscillator.amp(0.025);
-    this.oscillator.start();
-
     // Synth
     this.note = note;
     this.synth = new p5.PolySynth();
@@ -79,4 +72,18 @@ class Ball {
 
   }
 
+  bounceOffEachother(){
+    //check the distance between this ball and the other one
+    if (balls.length >= 2){
+      for (let i = 1; i<balls.length; i++){
+        let otherBall = balls[i];
+        let d = dist(this.x,this.y, otherBall.x, otherBall.y);
+
+        if (d <= (this.size/2 + otherBall.size/2)){
+          console.log('touch');
+          return true;
+        }
+      }
+    }
+  }
 }

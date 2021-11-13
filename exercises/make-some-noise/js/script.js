@@ -38,10 +38,10 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   if (touchSideBoolean){
-    background(0);
+    background(170);
   }
   else{
-    background(255);
+    background(250);
   }
 
   for (let i = 0; i < balls.length; i++) {
@@ -49,16 +49,11 @@ function draw() {
     ball.move();
     ball.bounce();
     ball.display();
+    ball.bounceOffEachother();
   }
 
   //check if the balls touch. If they do, change scale
-  for (let i = 0; i<balls.length; i++){
-    for (let j = 0; j<balls.length; j++){
-      if (checkTouch(balls[i],balls[j],balls)){
-        console.log('touch');
-      }
-    }
-  }
+
 }
 
 function mousePressed() {
@@ -78,20 +73,10 @@ function createBall(x,y) {
 }
 
 //function to check if two objects touch
-function checkTouch(object1,object2,array){
-  if (array.length<2){
-    return false
-  }
-  else{
+function checkTouch(object1,object2){
+  let d = dist(object1.x,object1.y,object2.x,object2.y);
 
-    let d = dist(object1.x,object1.y,object2.x,object2.y);
-
-    if (d<=(object1.size/2+object2.size/2)){
-      return true
-    }
-    else{
-      return false
-    }
-  }
-
+  if (d <= (object1.size/2+object2.size/2)){
+    return true
+  };
 }
