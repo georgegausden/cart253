@@ -14,8 +14,8 @@ class Ball {
     this.vy = random(-this.speed,this.speed);
 
     // Synth
-    this.note = note;
-    this.synth = new p5.PolySynth();
+    this.osc = new p5.Oscillator('sine');
+    this.freq = undefined;
   }
 
   move() {
@@ -25,6 +25,8 @@ class Ball {
   }
 
   bounce() {
+    //make the ball play the note related to its velocity as it touches the side
+
     if (this.x - this.size/2 < 0 || this.x + this.size/2 > width) {
       this.vx = -this.vx;
       this.playNote();
@@ -52,7 +54,11 @@ class Ball {
   }
 
   playNote() {
-    this.synth.play(this.note,0.4,0,0.1);
+    //calculate the frequency of the ball based on its velocity
+    //calculate the magnitude of the velocity
+    let magnitudeVelocity = sqrt(this.vx*this.vx+this.vy+this.vy);
+    this.freq = magnitudeVelocity * 5;
+    this.osc.start(this.freq);
   }
 
   display() {
@@ -72,18 +78,18 @@ class Ball {
 
   }
 
-  bounceOffEachother(){
-    //check the distance between this ball and the other one
-    if (balls.length >= 2){
-      for (let i = 1; i<balls.length; i++){
-        let otherBall = balls[i];
-        let d = dist(this.x,this.y, otherBall.x, otherBall.y);
-
-        if (d <= (this.size/2 + otherBall.size/2)){
-          console.log('touch');
-          return true;
-        }
-      }
+  wrap(){
+    if (this.y <= -this.size){
+      this.y = height;
+    }
+    else if (this.y > height+this.size){
+      this.y = 0;
+    }
+    else if (this.x <= 0){
+      this.vx = -this.vx;
+    }
+    else if (this.x > width){
+      this.vx = -this.vx;
     }
   }
 }

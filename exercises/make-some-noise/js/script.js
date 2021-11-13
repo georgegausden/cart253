@@ -1,17 +1,18 @@
 "use strict";
 
 /**************************************************
-Musical Toy
-Pippin Barr
+Make Some Noise
+George Gausden
 
 A program that plays music based on primitive physics.
 **************************************************/
 
 // The balls
 let balls = [];
+let numberOfBalls = 10;
 
 // F-minor
-let notes = [`F3`,`G3`,`Ab4`,`Bb4`,`C4`,`Db4`,`Eb4`,`F4`];
+let notes = [];
 
 
 //keep track if one of the balls touches the side of the screen
@@ -30,6 +31,12 @@ function preload(){
 function setup() {
   createCanvas(600,600);
 
+  //generate the balls in the simulation
+  for (let i = 0; i<numberOfBalls; i++){
+    let ball = new Ball(random(0,width), height);
+    balls.push(ball);
+  }
+
   userStartAudio();
 }
 
@@ -37,6 +44,7 @@ function setup() {
 //
 // Description of draw() goes here.
 function draw() {
+
   if (touchSideBoolean){
     background(170);
   }
@@ -47,12 +55,11 @@ function draw() {
   for (let i = 0; i < balls.length; i++) {
     let ball = balls[i];
     ball.move();
+    ball.wrap();
     ball.bounce();
     ball.display();
-    ball.bounceOffEachother();
   }
 
-  //check if the balls touch. If they do, change scale
 
 }
 
@@ -60,23 +67,9 @@ function mousePressed() {
   createBall(mouseX,mouseY);
 }
 
-function keyPressed(){
-  if (keyIsDown(68)){
-    createBall(mouseX,mouseY);
-  }
-}
 
 function createBall(x,y) {
   let note = random(notes);
   let ball = new Ball(x,y,note);
   balls.push(ball);
-}
-
-//function to check if two objects touch
-function checkTouch(object1,object2){
-  let d = dist(object1.x,object1.y,object2.x,object2.y);
-
-  if (d <= (object1.size/2+object2.size/2)){
-    return true
-  };
 }
