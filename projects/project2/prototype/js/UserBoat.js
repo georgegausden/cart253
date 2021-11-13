@@ -72,7 +72,16 @@ class UserBoat extends Boat{
 
   }
 
-  animateMovement(){
+  selectTile(){
+
+      for (let i = 0; i<grid.length; i++){
+        let d = dist(mouseX,mouseY,grid[i].x, grid[i].y);
+        if (d<=(1.4*grid[i].width/2) && mousePressedBoolean){
+          //the user has chosen this element, now return the element
+          return grid[i]
+          mousePressedBoolean = false
+        };
+      };
 
   }
 

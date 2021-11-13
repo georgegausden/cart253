@@ -46,25 +46,20 @@ function preload() {
 //
 // Description of setup() goes here.
 function setup() {
-  createCanvas(700,700);
-
-  //create the grid array elements
-  for (let j = 0; j<numRows; j++){
-   for (let i = 0; i<numColumns; i++){
-     grid.push(createGridElements(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255));
-   }
-  }
-
+  createCanvas(600,600);
+  createGrid();
 
   //create the user's boat
   user = new UserBoat(grid[0].x,grid[0].y);
-  //enemy boat
+
+  //create the enemy boats
   for (let i = 0; i<numEnemyBoats; i++){
-    //place the enemy boat at a random tile in the game
+    //place the enemy boat at a random tile in the game initially
     let r = int(random(0,grid.length));
     enemyBoats.push(new Enemy(grid[r].x, grid[r].y));
   };
 
+  //create the possible moves for the computer
   for (let i = 0; i<numberOfPossibleComputerMoves; i++){
     //generate a random seed for the computer to use later in its moves
     let r = int(random(0,grid.length));
@@ -72,17 +67,12 @@ function setup() {
     randomSeedArray.push(r);
 
   };
-
-
 }
 
 // draw()
 //
 // Description of draw() goes here.
 function draw() {
-  noCursor();
-  background(255);
-
   //the three possible states of the game are title(), simulation() and end()
   if (state === 'title'){
     title();
@@ -111,17 +101,8 @@ function title(){
 }
 
 function simulation(){
-  //disply the boats of the user and the ennemies
-  displayGrid();
-  //animateGrid();
-  selectTile();
-
-  user.display();
-
-  for (let i = 0; i<enemyBoats.length; i++){
-    enemyBoats[i].display();
-  }
-
+  //display all the elements in the simulation
+  displaySimulation();
   //create the turn based system of the program
   if (simulationState === 'userTurn'){
     userTurn()
@@ -141,12 +122,8 @@ function userTurn(){
   circle(mouseX,mouseY,cursorSize);
   pop();
 
-  //tell the user to choose a tile to move their boat
-  push();
-  fill(255);
-  textAlign(CENTER);
-  text("Choose where to move your boat", width/2, height/2);
-  pop();
+  //make the user choose where to move their boat
+  selectTile();
 
   //store the variable where they move their boat
   //show the places the user can move to (one tile away from the user currently)
@@ -251,4 +228,27 @@ function selectTile(){
 
 function mouseReleased(){
   mousePressedBoolean = true;
+}
+
+//creates the grid tiles in the game
+function createGrid(){
+  //create the grid array elements
+  for (let j = 0; j<numRows; j++){
+   for (let i = 0; i<numColumns; i++){
+     grid.push(createGridElements(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255));
+   }
+  }
+}
+
+//a function to put all the elements on the simulation
+function displaySimulation(){
+  noCursor();
+  //display the boats of the user and the ennemies
+  displayGrid();
+  //display the user in the simulation
+  user.display();
+  //display the computer player in the simulation
+  for (let i = 0; i<enemyBoats.length; i++){
+    enemyBoats[i].display();
+  }
 }
