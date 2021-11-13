@@ -47,7 +47,13 @@ function preload() {
 // Description of setup() goes here.
 function setup() {
   createCanvas(600,600);
-  createGrid();
+
+  //create the grid elements (the individual tiles)
+  for (let j = 0; j<numRows; j++){
+    for (let i = 0; i<numColumns; i++){
+     grid.push(new Tile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255));
+    }
+  }
 
   //create the user's boat
   user = new UserBoat(grid[0].x,grid[0].y);
@@ -158,58 +164,11 @@ function computerTurn(){
 
 };
 
-
 //display the end state of the program
 function end(){
   push();
   text("The End",width/2,height/2);
   pop();
-}
-
-//this function displays the grid on the screen as individual tiles with colour
-function displayGrid(){
-  for (let i = 0; i<grid.length; i++){
-    noStroke();
-    fill(grid[i].fillR, grid[i].fillG, grid[i].fillB, grid[i].transparency);
-    rectMode(CENTER);
-    rect(grid[i].x, grid[i].y,  grid[i].width, grid[i].height);
-    fill(255);
-    textAlign(CENTER);
-    text(i,grid[i].x,grid[i].y);
-  };
-}
-
-//this function creates the different tiles as variables 1
-function createGridElements(x,y,r,g,b,transparency){
-  let gridSection = {
-    x: x,
-    y: y,
-    width:width/numColumns,
-    height:height/numRows,
-    fillR: r,
-    fillG: g,
-    fillB: b,
-    transparency: transparency
-  };
-
-  return gridSection;
-
-}
-
-function animateGrid(){
-  let time = millis();
-  if (time >= 100){
-    for (let i = 0; i<grid.length; i++){
-      let element = int(random(0,grid.length));
-      let threshold = random(0,1);
-      if (threshold <= 0.001){
-        grid[element].fillR = random(0,50);
-        grid[element].fillG = random(0,50);
-        grid[element].fillB = random(100,255);
-
-       }
-     }
-  }
 }
 
 //create a function to check if the mouse is touching a tile in the grid. Returns the tile element from the grid array
@@ -230,21 +189,14 @@ function mouseReleased(){
   mousePressedBoolean = true;
 }
 
-//creates the grid tiles in the game
-function createGrid(){
-  //create the grid array elements
-  for (let j = 0; j<numRows; j++){
-   for (let i = 0; i<numColumns; i++){
-     grid.push(createGridElements(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255));
-   }
-  }
-}
-
 //a function to put all the elements on the simulation
 function displaySimulation(){
   noCursor();
   //display the boats of the user and the ennemies
-  displayGrid();
+  for (let i = 0; i<grid.length; i++){
+    let tile = grid[i];
+    tile.display();
+  }
   //display the user in the simulation
   user.display();
   //display the computer player in the simulation
