@@ -9,10 +9,9 @@ class Ball {
       g: random(200,255),
       b: random(200,255)
     };
-    this.speed = 3;
-    this.vx = random(-this.speed,this.speed);
-    this.vy = random(-this.speed,this.speed);
-    this.randomness = 0.01;
+    this.vx = 0;
+    this.vy = vy;
+    this.randomness = 0.51;
 
     // Synth
     this.osc = new p5.Oscillator('sine');
@@ -42,26 +41,13 @@ class Ball {
     if (this.x - this.size/2 < 0 || this.x + this.size/2 > width) {
       this.vx = -this.vx;
       this.playNote();
-      //touch the side of the screen, change the boolean value to true
-      if (touchSideBoolean){
-        touchSideBoolean = false;
-      }
-      else{
-        touchSideBoolean = true;
-      }
-
     }
 
     if (this.y - this.size/2 < 0 || this.y + this.size/2 > height) {
       this.vy = -this.vy;
       this.playNote();
       //touch the side of the screen, change the boolean value to true
-      if (touchSideBoolean){
-        touchSideBoolean = false;
-      }
-      else{
-        touchSideBoolean = true;
-      }
+
     }
   }
 
@@ -70,6 +56,7 @@ class Ball {
     //calculate the magnitude of the velocity
     let magnitudeVelocity = sqrt(this.vx*this.vx+this.vy+this.vy);
     this.freq = magnitudeVelocity * 5;
+    this.osc.freq(this.freq,0.1);
     this.osc.start(this.freq);
   }
 
@@ -93,10 +80,13 @@ class Ball {
   }
 
   wrap(){
+    //touch the side of the screen, so play note
     if (this.y <= -this.size){
+      this.playNote();
       this.y = height;
     }
     else if (this.y > height+this.size){
+      this.playNote();
       this.y = 0;
     }
     else if (this.x <= 0){

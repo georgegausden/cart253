@@ -9,21 +9,16 @@ A program that plays music based on primitive physics.
 
 // The balls
 let balls = [];
-let numberOfBalls = 10;
+let numberOfBalls = 3;
+let time;
 
-// F-minor
-let notes = [];
+//set the initial state of the program
+let state = 'title';
 
 
 //keep track if one of the balls touches the side of the screen
 let touchSideBoolean = false;
 
-//get a ghost image
-let ghostImage = undefined;
-
-function preload(){
-  ghostImage = loadImage('assets/images/ghost.png');
-}
 
 // setup()
 //
@@ -33,7 +28,7 @@ function setup() {
 
   //generate the balls in the simulation
   for (let i = 0; i<numberOfBalls; i++){
-    let ball = new Ball(random(0,width), height);
+    let ball = new Ball(random(0,width), height, random(-2,0));
     balls.push(ball);
   }
 
@@ -45,6 +40,57 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
 
+  if (state === 'title'){
+    title();
+  }
+  else if (state === 'simulation'){
+    simulation();
+  }
+}
+
+function title(){
+
+  background(255);
+
+  if (mousePressed()){
+
+  }
+
+  push();
+  textAlign(CENTER, CENTER);
+  textSize(60);
+  text("Make Some Noise!", width / 2, height / 2 - 100);
+  pop();
+
+  push();
+  textAlign(CENTER, CENTER);
+  textSize(40);
+  text("Click to continue", width / 2, height / 2 + 100);
+  pop();
+
+  time = millis();
+
+  //create a background moving
+  push();
+  noStroke();
+  fill(0,0,255,100);
+  circle(width/2,height/2-1/10*time, 50);
+  circle(width/2-100,height-1/10*time, 100);
+  circle(width/2-200,height-1/12*time, 50);
+  circle(width/2+30,height+20-1/5*time, 200);
+  circle(width/2-50,height-1/10*time, 200);
+  circle(width/2-300,height+100-1/15*time, 50);
+  circle(width/2+300,height+20-1/16*time, 70);
+  pop();
+}
+
+function mousePressed(){
+  if (state === 'title'){
+    state = 'simulation'
+  };
+}
+
+function simulation(){
   if (touchSideBoolean){
     background(170);
   }
@@ -56,20 +102,7 @@ function draw() {
     let ball = balls[i];
     ball.move();
     ball.wrap();
-    ball.bounce();
+    //ball.bounce();
     ball.display();
   }
-
-
-}
-
-function mousePressed() {
-  createBall(mouseX,mouseY);
-}
-
-
-function createBall(x,y) {
-  let note = random(notes);
-  let ball = new Ball(x,y,note);
-  balls.push(ball);
 }
