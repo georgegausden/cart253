@@ -10,6 +10,7 @@ A program that plays music based on primitive physics.
 // The balls
 let balls = [];
 let numberOfBalls = 5;
+let speedSlider, sizeSlider;
 
 
 //set the initial state of the program
@@ -25,6 +26,10 @@ let touchSideBoolean = false;
 // Just creates the canvas.
 function setup() {
   createCanvas(600,600);
+
+  //create the sliders in the program
+  speedSlider = createSlider(0.99,1.01,1,0);
+  sizeSlider = createSlider(20,100,50,0);
 
   //generate the balls in the simulation
   for (let i = 0; i<numberOfBalls; i++){
@@ -87,17 +92,45 @@ function mousePressed(){
 }
 
 function simulation(){
-  if (touchSideBoolean){
-    background(170);
-  }
-  else{
-    background(250);
-  }
+  //make the background reflect the speed of the ball
+  //if the ball is moving slowly represent it with blue, faster with red
+  colourBackground();
+
+  //display the slider on the screen
+  push();
+  textSize(15);
+  textAlign(CENTER);
+  fill(255);
+  text('Speed',170,42);
+  text('Size',170,72);
+  speedSlider.position(10,30);
+  sizeSlider.position(10,60);
+  pop();
 
   for (let i = 0; i < balls.length; i++) {
     let ball = balls[i];
     ball.move();
+    ball.changeSpeed();
     ball.wrap();
     ball.display();
   }
+
+  //allow the user to change the speed of the balls as they move
+}
+
+//this function displays the background colour, it's based on the average speed of all the balls
+function colourBackground(){
+  let averageSpeed = 0;
+  for (let i = 0; i<balls.length; i++){
+    let ball = balls[i];
+    //get the magnitude of the speed of each ball
+    //the magnitude is sqrt(vx^2+vy^2)
+    let magnitudeVelocity = sqrt(ball.vx*ball.vx+ball.vy*ball.vy);
+    averageSpeed += magnitudeVelocity;
+  }
+
+  averageSpeed = averageSpeed/balls.length;
+
+  //now colour the background based on that
+  background(averageSpeed*5,0,255/averageSpeed);
 }

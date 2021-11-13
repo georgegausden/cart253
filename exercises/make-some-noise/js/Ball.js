@@ -13,6 +13,7 @@ class Ball {
     this.vy = vy;
     this.friction = 2;
     this.randomness = 0.1;
+    this.maxSpeed = 8;
 
     // Synth
 
@@ -34,6 +35,9 @@ class Ball {
       this.vx += this.randomness;
     }
 
+    //constrain the velocities
+    this.vx = constrain(this.vx, -this.maxSpeed, this.maxSpeed);
+    this.vy = constrain(this.vy, -this.maxSpeed, this.maxSpeed);
   }
 
 
@@ -53,6 +57,8 @@ class Ball {
 
   display() {
 
+    this.size = sizeSlider.value();
+
     if (touchSideBoolean){
       push();
       noStroke();
@@ -68,23 +74,6 @@ class Ball {
       pop();
     }
 
-  }
-
-//function to generate friction so they don't gain too much speed over time
-  applyFriction(){
-    if (this.vx >= 0){
-      this.vx -= this.friction;
-    }
-    else if (this.vx < 0){
-      this.vx += this.friction;
-    }
-
-    if (this.vy >= 0){
-      this.vy -= this.friction;
-    }
-    else if (this.vy < 0){
-      this.vy += this.friction;
-    }
   }
 
   wrap(){
@@ -110,7 +99,7 @@ class Ball {
       this.colourNote();
       this.playNote();
 
-      //this.applyFriction();
+
     }
   }
 
@@ -122,9 +111,9 @@ class Ball {
     //if the ball touches the side, temporarily highlight it so the user sees
     for (let i = 0; i<balls.length; i++){
       let ball = balls[i];
-      ball.fill.r = 0;
-      ball.fill.g = 0;
-      ball.fill.b = 0;
+      ball.fill.r = 255;
+      ball.fill.g = 255;
+      ball.fill.b = 255;
     }
 
     this.fill.r = 255;
@@ -132,4 +121,8 @@ class Ball {
     this.fill.b = 0;
   }
 
+  changeSpeed(){
+    this.vx = speedSlider.value()*this.vx;
+    this.vy = speedSlider.value()*this.vy;
+  }
 }
