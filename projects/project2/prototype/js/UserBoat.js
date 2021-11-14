@@ -11,6 +11,9 @@ class UserBoat extends Boat{
     this.finalPositionX = undefined;
     this.finalPositionY = undefined;
     this.cannonRange = undefined;
+    this.arrivedAtPort = false;
+    this.chosenTile;
+    this.state;
 
   }
 
@@ -32,8 +35,9 @@ class UserBoat extends Boat{
 
     //create an animation to move the user from their tile to the one chosen
     //final position
-    this.finalPositionX = this.selectTile().x;
-    this.finalPositionY = this.selectTile().y;
+    this.chosenTile = this.selectTile()
+    this.finalPositionX = this.chosenTile.x;
+    this.finalPositionY = this.chosenTile.y;
 
     //animate the movement of the ship, don't let the boat go through the land
     if (this.x < this.finalPositionX){
@@ -52,6 +56,12 @@ class UserBoat extends Boat{
       //reset the press mouse function
       mousePressedBoolean = false;
       userMoveDone = true;
+
+      //check if we're on a port tile. If so, move to the ship docked function
+      if (this.chosenTile.type === 'port'){
+        //the ship is docked so now we need to display the port information
+        this.state = 'shipDocked';
+      }
     }
 
   }
@@ -81,7 +91,12 @@ class UserBoat extends Boat{
         //end the user's turn if they decide to go on land
         this.endTurn();
       }
-    };
+      else if (d<=(1.4*tile.width/2) && mousePressedBoolean && tile.type === 'port'){
+        //the boat is moving to a port, change the value to arriving at port and return the tile that we're headed towards
+        this.arrivedAtPort = true;
+        return tile;
+      }
+    }
   }
 
   endTurn(){

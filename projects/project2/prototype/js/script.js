@@ -32,7 +32,7 @@ let numColumns = 10;
 let numRows = 10;
 //amount of grass (0 to 1)
 let amountOfGrass = 0.1;
-let amountOfPorts = 0.01;
+let amountOfPorts = 0.2;
 
 let cursorSize = 20;
 
@@ -64,7 +64,13 @@ function setup() {
     for (let i = 0; i<numColumns; i++){
       let r = random(0,1);
       if (r<amountOfGrass){
-        grid.push(new LandTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'land'));
+        let r2 = random(0,1);
+        if (r2<amountOfPorts){
+          grid.push(new PortTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'port'));
+        }
+        else{
+          grid.push(new LandTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'land'));
+        }
       }
       else{
         grid.push(new WaterTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'water'));
@@ -139,6 +145,9 @@ function simulation(){
   //create the turn based system of the program
   if (simulationState === 'userTurn'){
     userTurn()
+    if (user.state === 'shipDocked'){
+      user.chosenTile.shipDocked();
+    }
   }
   else if (simulationState === 'computerTurn'){
     computerTurn()
@@ -164,7 +173,7 @@ function userTurn(){
   if (mousePressedBoolean === true && userMoveDone === false){
     user.move();
   }
-  else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false){
+  else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false && user.arrivedAtPort === false){
     user.displayAim();
   }
   //shoot the cannon
