@@ -32,17 +32,25 @@ let numColumns = 10;
 let numRows = 10;
 //amount of grass (0 to 1)
 let amountOfGrass = 0.1;
+let amountOfPorts = 0.01;
 
 let cursorSize = 20;
 
 let mousePressedBoolean = false;
 
+//load the images in the game
+let landImage = undefined;
+let waterImage = undefined;
+let portImage = undefined;
 let boatImage = undefined;
 
 function preload() {
   shipMoveSFX = loadSound('assets/sounds/shipMoveSFX.mov');
   cannonShootSFX = loadSound('assets/sounds/cannonShootSFX.mov');
   boatImage = loadImage('assets/images/ship.png');
+  landImage = loadImage('assets/images/landImage.jpg');
+  waterImage = loadImage('assets/images/waterImage.jpg');
+  portImage = loadImage('assets/images/portImage.jpg');
 }
 
 // setup()
@@ -56,12 +64,11 @@ function setup() {
     for (let i = 0; i<numColumns; i++){
       let r = random(0,1);
       if (r<amountOfGrass){
-        grid.push(new Tile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'land'));
+        grid.push(new LandTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'land'));
       }
       else{
-        grid.push(new Tile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'water'));
+        grid.push(new WaterTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'water'));
       }
-
     }
   }
 

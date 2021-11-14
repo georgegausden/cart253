@@ -16,15 +16,17 @@ class Tile{
     strokeWeight(0.1);
 
     if (this.type === 'land'){
-      this.fillR = 0;
-      this.fillG = 200;
-      this.fillB = 0;
+      imageMode(CENTER);
+      image(landImage,this.x, this.y,  this.width, this.height);
     }
-
-    fill(this.fillR, this.fillG, this.fillB, this.transparency)
-    rectMode(CENTER);
-    rect(this.x, this.y,  this.width, this.height);
-    fill(255);
+    else if (this.type === 'water'){
+      imageMode(CENTER);
+      image(waterImage,this.x, this.y,  this.width, this.height);
+    }
+    else if (this.type === 'port'){
+      imageMode(CENTER);
+      image(portImage, this.x, this.y, this.width, this.height);
+    }
   }
 
 }
