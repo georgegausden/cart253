@@ -37,7 +37,7 @@ class PortTile extends LandTile {
     if (backToMapButton.checkInButton()){
       //go back to the map, so change the state of the user from shipDocked to atSea and end the music
       portMusic.stop();
-      user.state = 'atSea';
+      user.backToSea();
     }
 
   }

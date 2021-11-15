@@ -17,7 +17,6 @@ class Button {
     };
     this.fontSize = fontSize;
     this.lighten = 50;
-    //how curved our buttons are
     this.buttonCurvature = 50;
   }
 
@@ -40,7 +39,7 @@ class Button {
 
   lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB) {
     if (this.isHovering(xPosition, yPosition, shapeWidth, shapeHeight)) {
-      fill(fillR + lighten, fillG + this.lighten, fillB + this.lighten);
+      fill(fillR + this.lighten, fillG + this.lighten, fillB + this.lighten);
     } else {
       fill(fillR, fillG, fillB);
     }

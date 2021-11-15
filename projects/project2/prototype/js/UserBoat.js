@@ -105,4 +105,11 @@ class UserBoat extends Boat{
     mousePressedBoolean = true;
   }
 
+  //resets all the values that need to be reset when the user moves from port to sea
+  backToSea(){
+    this.arrivedAtPort = false;
+    this.shipDocked = false;
+    this.state = 'atSea';
+  }
+
 }

@@ -152,15 +152,10 @@ function simulation() {
   displaySimulation();
   //create the turn based system of the program
   if (simulationState === 'userTurn') {
-    if (user.state === 'shipDocked') {
-      user.chosenTile.shipDocked();
-    } else if (user.state === 'atSea') {
-      userTurn()
-    }
+    userTurn()
   } else if (simulationState === 'computerTurn') {
     computerTurn()
   };
-
 
 }
 
@@ -172,24 +167,12 @@ function userTurn() {
   circle(mouseX, mouseY, cursorSize);
   pop();
 
-  //let the user choose where they want to move initially
-  user.selectTile();
-
-  //show where the user can move
-  user.showCannonRange();
-
-  if (mousePressedBoolean === true && userMoveDone === false) {
-    user.move();
-  } else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false && user.arrivedAtPort === false) {
-    user.displayAim();
+  //check to see whether the user is at sea, or is docked at a port
+  if (user.state === "atSea"){
+    userAtSea();
   }
-  //shoot the cannon
-  else if (userMoveDone === true && shootDone === false && mousePressedBoolean === true) {
-    cannonShootSFX.play();
-    user.shoot();
-  } else if (userMoveDone === true && shootDone == true && mousePressedBoolean === true) {
-    //the computer's turn now
-    simulationState = 'computerTurn';
+  else if (user.state === "shipDocked"){
+    userShipDocked();
   }
 }
 
@@ -231,4 +214,30 @@ function displaySimulation() {
   for (let i = 0; i < enemyBoats.length; i++) {
     enemyBoats[i].display();
   }
+}
+
+function userAtSea(){
+  //let the user choose where they want to move initially
+  user.selectTile();
+
+  //show where the user can move
+  user.showCannonRange();
+
+  if (mousePressedBoolean === true && userMoveDone === false) {
+    user.move();
+  } else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false && user.arrivedAtPort === false) {
+    user.displayAim();
+  }
+  //shoot the cannon
+  else if (userMoveDone === true && shootDone === false && mousePressedBoolean === true) {
+    cannonShootSFX.play();
+    user.shoot();
+  } else if (userMoveDone === true && shootDone == true && mousePressedBoolean === true) {
+    //the computer's turn now
+    simulationState = 'computerTurn';
+  }
+}
+
+function userShipDocked(){
+  user.chosenTile.shipDocked();
 }
