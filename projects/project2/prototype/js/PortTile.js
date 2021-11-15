@@ -31,10 +31,10 @@ class PortTile extends LandTile {
     pop();
 
     //give the user the option to leave the port
-    let backToMapButton = createButtonVariable(width / 2, (height / 2 + 150), 200, 100, "Back to Map", 25);
-    drawButton(backToMapButton);
+    let backToMapButton = new Button(width / 2, (height / 2 + 150), 200, 100, "Back to Map", 25);
+    backToMapButton.drawButton();
 
-    if (checkInButton(backToMapButton.x, backToMapButton.y, backToMapButton.width, backToMapButton.height)){
+    if (backToMapButton.checkInButton()){
       //go back to the map, so change the state of the user from shipDocked to atSea and end the music
       portMusic.stop();
       user.state = 'atSea';

@@ -51,18 +51,6 @@ let portMusic = undefined;
 //load the fonts
 let medievalFont = undefined;
 
-let buttonElements = {
-  r: 108,
-  g: 206,
-  b: 217,
-  textR: 255,
-  textG: 255,
-  textB: 255
-}
-let lighten = 50;
-//how curved our buttons are
-let buttonCurvature = 50;
-
 let portNames = ['Silvercreek Harbor', 'Stormbreaker Harbor', 'Whisperwind Port', 'the Harbor Of Outvern', 'Bursport Port', 'Shrewster Port', 'Penecier Harbor']
 
 function preload() {
@@ -242,69 +230,5 @@ function displaySimulation() {
   //display the computer player in the simulation
   for (let i = 0; i < enemyBoats.length; i++) {
     enemyBoats[i].display();
-  }
-}
-
-function createButtonVariable(x, y, width, height, text, fontSize) {
-  let button = {
-    x: x,
-    y: y,
-    width: width,
-    height: height,
-    fill: {
-      r: buttonElements.r,
-      g: buttonElements.g,
-      b: buttonElements.b,
-    },
-    text: text,
-    textFill: {
-      r: buttonElements.textR,
-      g: buttonElements.textG,
-      b: buttonElements.textB
-    },
-    fontSize: fontSize,
-  }
-  return button;
-}
-
-function drawButton(button) {
-  push();
-  fill(button.fill.r, button.fill.g, button.fill.b);
-  rectMode(CENTER);
-  lightenButton(button.x, button.y, button.width, button.height, button.fill.r, button.fill.g, button.fill.b);
-  rect(button.x, button.y, button.width, button.height, buttonCurvature);
-  pop();
-
-  //be able to go back to the main menu
-  push();
-  textSize(button.fontSize);
-  fill(button.textFill.r, button.textFill.g, button.textFill.b);
-  textAlign(CENTER, CENTER);
-  text(button.text, button.x, button.y);
-  pop();
-}
-
-function lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB) {
-  if (isHovering(xPosition, yPosition, shapeWidth, shapeHeight)) {
-    fill(fillR + lighten, fillG + lighten, fillB + lighten);
-  } else {
-    fill(fillR, fillG, fillB);
-  }
-}
-
-function isHovering(xPosition, yPosition, shapeWidth, shapeHeight) {
-  if ((mouseX >= xPosition - shapeWidth / 2) && (mouseX <= xPosition + shapeWidth / 2) && (mouseY < yPosition + shapeHeight / 2) && (mouseY > yPosition - shapeHeight / 2)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function checkInButton(xPosition, yPosition, shapeWidth, shapeHeight) {
-  if ((mouseX >= xPosition - shapeWidth / 2) && (mouseX <= xPosition + shapeWidth / 2) && (mouseIsPressed === true) && (mouseY < yPosition + shapeHeight / 2) && (mouseY > yPosition - shapeHeight / 2)) {
-    return true;
-
-  } else {
-    return false;
   }
 }
