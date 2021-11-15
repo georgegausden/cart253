@@ -31,7 +31,7 @@ let waterTiles = [];
 let numColumns = 10;
 let numRows = 10;
 //amount of grass (0 to 1)
-let amountOfGrass = 0.1;
+let amountOfGrass = 0.3;
 let amountOfPorts = 0.2;
 
 let cursorSize = 20;
@@ -234,7 +234,7 @@ function userAtSea(){
 
   if (mousePressedBoolean === true && userMoveDone === false) {
     user.move();
-  } else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false && user.arrivedAtPort === false) {
+  } else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false) {
     user.displayAim();
   }
   //shoot the cannon

@@ -67,6 +67,8 @@ class UserBoat extends Boat{
   }
 
   shoot(){
+    //create a cannon object
+    let cannon = new Cannon()
     shootDone = true;
   }
 
