@@ -31,63 +31,16 @@ class PortTile extends LandTile {
     pop();
 
     //give the user the option to leave the port
-    let backToMenu = this.createButtonVariable(width / 2, (height / 2 + 150), 200, 100, "Back to menu", 25);
-    this.drawButton(backToMenu);
+    let backToMapButton = createButtonVariable(width / 2, (height / 2 + 150), 200, 100, "Back to Map", 25);
+    drawButton(backToMapButton);
 
-  }
-
-  createButtonVariable(x, y, width, height, text, fontSize) {
-    let button = {
-      x: x,
-      y: y,
-      width: width,
-      height: height,
-      fill: {
-        r: buttonElements.r,
-        g: buttonElements.g,
-        b: buttonElements.b,
-      },
-      text: text,
-      textFill: {
-        r: buttonElements.textR,
-        g: buttonElements.textG,
-        b: buttonElements.textB
-      },
-      fontSize: fontSize,
+    if (checkInButton(backToMapButton.x, backToMapButton.y, backToMapButton.width, backToMapButton.height)){
+      //go back to the map, so change the state of the user from shipDocked to atSea and end the music
+      portMusic.stop();
+      user.state = 'atSea';
     }
-    return button;
+
   }
 
-  drawButton(button) {
-    push();
-    fill(button.fill.r, button.fill.g, button.fill.b);
-    rectMode(CENTER);
-    this.lightenButton(button.x, button.y, button.width, button.height, button.fill.r, button.fill.g, button.fill.b);
-    rect(button.x, button.y, button.width, button.height, buttonCurvature);
-    pop();
 
-    //be able to go back to the main menu
-    push();
-    textSize(button.fontSize);
-    fill(button.textFill.r, button.textFill.g, button.textFill.b);
-    textAlign(CENTER, CENTER);
-    text(button.text, button.x, button.y);
-    pop();
-  }
-
-  lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB) {
-    if (this.isHovering(xPosition, yPosition, shapeWidth, shapeHeight)) {
-      fill(fillR + lighten, fillG + lighten, fillB + lighten);
-    } else {
-      fill(fillR, fillG, fillB);
-    }
-  }
-
-  isHovering(xPosition, yPosition, shapeWidth, shapeHeight) {
-    if ((mouseX >= xPosition - shapeWidth / 2) && (mouseX <= xPosition + shapeWidth / 2) && (mouseY < yPosition + shapeHeight / 2) && (mouseY > yPosition - shapeHeight / 2)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }

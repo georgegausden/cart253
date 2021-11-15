@@ -81,48 +81,46 @@ function preload() {
 //
 // Description of setup() goes here.
 function setup() {
-  createCanvas(600,600);
+  createCanvas(600, 600);
 
   //create the grid elements (the individual tiles)
-  for (let j = 0; j<numRows; j++){
-    for (let i = 0; i<numColumns; i++){
-      let r = random(0,1);
-      if (r<amountOfGrass){
-        let r2 = random(0,1);
-        if (r2<amountOfPorts){
-          grid.push(new PortTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'port', random(portNames)));
+  for (let j = 0; j < numRows; j++) {
+    for (let i = 0; i < numColumns; i++) {
+      let r = random(0, 1);
+      if (r < amountOfGrass) {
+        let r2 = random(0, 1);
+        if (r2 < amountOfPorts) {
+          grid.push(new PortTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'port', random(portNames)));
+        } else {
+          grid.push(new LandTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'land'));
         }
-        else{
-          grid.push(new LandTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'land'));
-        }
-      }
-      else{
-        grid.push(new WaterTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'water'));
+      } else {
+        grid.push(new WaterTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'water'));
       }
     }
   }
 
   //create the user's boat
-  user = new UserBoat(grid[0].x,grid[0].y);
+  user = new UserBoat(grid[0].x, grid[0].y);
 
   //define all the water tiles
-  for (let i = 0; i<grid.length; i++){
+  for (let i = 0; i < grid.length; i++) {
     let tile = grid[i];
     //create a list of the possible tiles the computer can move to
-    if (tile.type === 'water'){
+    if (tile.type === 'water') {
       waterTiles.push(i);
     }
   }
 
   //create the enemy boats
-  for (let i = 0; i<numEnemyBoats; i++){
+  for (let i = 0; i < numEnemyBoats; i++) {
     //place the enemy boat at a random water tile in the game initially
     let r = random(waterTiles);
     enemyBoats.push(new Enemy(grid[r].x, grid[r].y));
   };
 
   //create the possible moves for the computer
-  for (let i = 0; i<numberOfPossibleComputerMoves; i++){
+  for (let i = 0; i < numberOfPossibleComputerMoves; i++) {
     //generate a random seed for the computer to use later in its moves
     //check to see that the position is water and not land first
     let r = random(waterTiles);
@@ -137,43 +135,41 @@ function setup() {
 // Description of draw() goes here.
 function draw() {
   //the three possible states of the game are title(), simulation() and end()
-  if (state === 'title'){
+  if (state === 'title') {
     title();
-  }
-  else if (state === 'simulation'){
+  } else if (state === 'simulation') {
     simulation();
-  }
-  else if (state === 'end'){
+  } else if (state === 'end') {
     end();
   }
 }
 
 //create the states for the game
-function title(){
+function title() {
   background(255);
 
   push();
   textSize(50);
   textAlign(CENTER);
-  text("Title Page",width/2,height/2);
+  text("Title Page", width / 2, height / 2);
   pop();
 
-  if (keyIsDown(13)){
+  if (keyIsDown(13)) {
     state = 'simulation'
   };
 }
 
-function simulation(){
+function simulation() {
   //display all the elements in the simulation
   displaySimulation();
   //create the turn based system of the program
-  if (simulationState === 'userTurn'){
-    userTurn()
-    if (user.state === 'shipDocked'){
+  if (simulationState === 'userTurn') {
+    if (user.state === 'shipDocked') {
       user.chosenTile.shipDocked();
+    } else if (user.state === 'atSea') {
+      userTurn()
     }
-  }
-  else if (simulationState === 'computerTurn'){
+  } else if (simulationState === 'computerTurn') {
     computerTurn()
   };
 
@@ -181,11 +177,11 @@ function simulation(){
 }
 
 //this function is the user's round of the game
-function userTurn(){
+function userTurn() {
   //show the cursor so the user can see where they're putting it
   push();
-  fill(255,255,255,180);
-  circle(mouseX,mouseY,cursorSize);
+  fill(255, 255, 255, 180);
+  circle(mouseX, mouseY, cursorSize);
   pop();
 
   //let the user choose where they want to move initially
@@ -194,28 +190,26 @@ function userTurn(){
   //show where the user can move
   user.showCannonRange();
 
-  if (mousePressedBoolean === true && userMoveDone === false){
+  if (mousePressedBoolean === true && userMoveDone === false) {
     user.move();
-  }
-  else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false && user.arrivedAtPort === false){
+  } else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false && user.arrivedAtPort === false) {
     user.displayAim();
   }
   //shoot the cannon
-  else if (userMoveDone === true && shootDone === false && mousePressedBoolean === true){
+  else if (userMoveDone === true && shootDone === false && mousePressedBoolean === true) {
     cannonShootSFX.play();
     user.shoot();
-  }
-  else if (userMoveDone === true && shootDone == true && mousePressedBoolean === true){
+  } else if (userMoveDone === true && shootDone == true && mousePressedBoolean === true) {
     //the computer's turn now
     simulationState = 'computerTurn';
   }
 }
 
 //this function is the computer's turn in the game
-function computerTurn(){
+function computerTurn() {
   //let the computer decide where to move their boats
   //for now the movement will be random
-  for (let i = 0; i<enemyBoats.length; i++){
+  for (let i = 0; i < enemyBoats.length; i++) {
     let enemy = enemyBoats[i];
 
     enemy.move(i);
@@ -224,29 +218,93 @@ function computerTurn(){
 };
 
 //display the end state of the program
-function end(){
+function end() {
   push();
-  text("The End",width/2,height/2);
+  text("The End", width / 2, height / 2);
   pop();
 }
 
 
-function mouseReleased(){
+function mouseReleased() {
   mousePressedBoolean = true;
 }
 
 //a function to put all the elements on the simulation
-function displaySimulation(){
+function displaySimulation() {
   noCursor();
   //display the boats of the user and the ennemies
-  for (let i = 0; i<grid.length; i++){
+  for (let i = 0; i < grid.length; i++) {
     let tile = grid[i];
     tile.display();
   }
   //display the user in the simulation
   user.display();
   //display the computer player in the simulation
-  for (let i = 0; i<enemyBoats.length; i++){
+  for (let i = 0; i < enemyBoats.length; i++) {
     enemyBoats[i].display();
+  }
+}
+
+function createButtonVariable(x, y, width, height, text, fontSize) {
+  let button = {
+    x: x,
+    y: y,
+    width: width,
+    height: height,
+    fill: {
+      r: buttonElements.r,
+      g: buttonElements.g,
+      b: buttonElements.b,
+    },
+    text: text,
+    textFill: {
+      r: buttonElements.textR,
+      g: buttonElements.textG,
+      b: buttonElements.textB
+    },
+    fontSize: fontSize,
+  }
+  return button;
+}
+
+function drawButton(button) {
+  push();
+  fill(button.fill.r, button.fill.g, button.fill.b);
+  rectMode(CENTER);
+  lightenButton(button.x, button.y, button.width, button.height, button.fill.r, button.fill.g, button.fill.b);
+  rect(button.x, button.y, button.width, button.height, buttonCurvature);
+  pop();
+
+  //be able to go back to the main menu
+  push();
+  textSize(button.fontSize);
+  fill(button.textFill.r, button.textFill.g, button.textFill.b);
+  textAlign(CENTER, CENTER);
+  text(button.text, button.x, button.y);
+  pop();
+}
+
+function lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB) {
+  if (isHovering(xPosition, yPosition, shapeWidth, shapeHeight)) {
+    fill(fillR + lighten, fillG + lighten, fillB + lighten);
+  } else {
+    fill(fillR, fillG, fillB);
+  }
+}
+
+function isHovering(xPosition, yPosition, shapeWidth, shapeHeight) {
+  if ((mouseX >= xPosition - shapeWidth / 2) && (mouseX <= xPosition + shapeWidth / 2) && (mouseY < yPosition + shapeHeight / 2) && (mouseY > yPosition - shapeHeight / 2)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkInButton(xPosition, yPosition, shapeWidth, shapeHeight) {
+  if ((mouseX >= xPosition - shapeWidth / 2) && (mouseX <= xPosition + shapeWidth / 2) && (mouseIsPressed === true) && (mouseY < yPosition + shapeHeight / 2) && (mouseY > yPosition - shapeHeight / 2)) {
+    return true;
+
+  } else {
+    return false;
   }
 }

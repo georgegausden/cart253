@@ -13,7 +13,7 @@ class UserBoat extends Boat{
     this.cannonRange = undefined;
     this.arrivedAtPort = false;
     this.chosenTile;
-    this.state;
+    this.state = 'atSea';
 
   }
 
