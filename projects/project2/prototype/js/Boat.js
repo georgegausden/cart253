@@ -10,8 +10,8 @@ class Boat {
     push();
     fill(this.fill,255,255,100);
     imageMode(CENTER);
-    //image(boatImage,this.x,this.y,this.size,this.size);
-    circle(this.x,this.y,this.size);
+    image(boatImage,this.x,this.y,this.size,this.size);
+    //circle(this.x,this.y,this.size);
     pop();
 
   }
@@ -25,5 +25,5 @@ class Boat {
   }
 
 
-  
+
 }

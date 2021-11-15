@@ -43,6 +43,27 @@ let landImage = undefined;
 let waterImage = undefined;
 let portImage = undefined;
 let boatImage = undefined;
+let portDisplayImage = undefined;
+
+//load the music
+let portMusic = undefined;
+
+//load the fonts
+let medievalFont = undefined;
+
+let buttonElements = {
+  r: 108,
+  g: 206,
+  b: 217,
+  textR: 255,
+  textG: 255,
+  textB: 255
+}
+let lighten = 50;
+//how curved our buttons are
+let buttonCurvature = 50;
+
+let portNames = ['Silvercreek Harbor', 'Stormbreaker Harbor', 'Whisperwind Port', 'the Harbor Of Outvern', 'Bursport Port', 'Shrewster Port', 'Penecier Harbor']
 
 function preload() {
   shipMoveSFX = loadSound('assets/sounds/shipMoveSFX.mov');
@@ -51,6 +72,9 @@ function preload() {
   landImage = loadImage('assets/images/landImage.jpg');
   waterImage = loadImage('assets/images/waterImage.jpg');
   portImage = loadImage('assets/images/portImage.jpg');
+  portDisplayImage = loadImage('assets/images/portDisplayImage.jpeg');
+  medievalFont = loadFont('assets/fonts/OldLondon.ttf');
+  portMusic = loadSound('assets/sounds/portMusic.mov');
 }
 
 // setup()
@@ -66,7 +90,7 @@ function setup() {
       if (r<amountOfGrass){
         let r2 = random(0,1);
         if (r2<amountOfPorts){
-          grid.push(new PortTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'port'));
+          grid.push(new PortTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'port', random(portNames)));
         }
         else{
           grid.push(new LandTile(width/numColumns*i+width/(2*numColumns),height/numRows*j+height/(2*numRows),0,0,random(0,100), 255, 'land'));
