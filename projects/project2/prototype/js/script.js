@@ -43,7 +43,12 @@ let landImage = undefined;
 let waterImage = undefined;
 let portImage = undefined;
 let boatImage = undefined;
-let portDisplayImage = undefined;
+let portDisplayImages = [];
+let portDisplayImage1 = undefined;
+let portDisplayImage2 = undefined;
+let portDisplayImage3 = undefined;
+let portDisplayImage4 = undefined;
+let portDisplayImage5 = undefined;
 
 //load the music
 let portMusic = undefined;
@@ -60,7 +65,11 @@ function preload() {
   landImage = loadImage('assets/images/landImage.jpg');
   waterImage = loadImage('assets/images/waterImage.jpg');
   portImage = loadImage('assets/images/portImage.jpg');
-  portDisplayImage = loadImage('assets/images/portDisplayImage.jpeg');
+  portDisplayImage1 = loadImage('assets/images/portDisplayImage.jpeg');
+  portDisplayImage2 = loadImage('assets/images/portDisplayImage2.jpg');
+  portDisplayImage3 = loadImage('assets/images/portDisplayImage3.jpg');
+  portDisplayImage4 = loadImage('assets/images/portDisplayImage4.jpg');
+  portDisplayImage5 = loadImage('assets/images/portDisplayImage5.jpg');
   medievalFont = loadFont('assets/fonts/OldLondon.ttf');
   portMusic = loadSound('assets/sounds/portMusic.mov');
 }
@@ -71,6 +80,13 @@ function preload() {
 function setup() {
   createCanvas(600, 600);
 
+  //add all the port images into the array of port images
+  portDisplayImages.push(portDisplayImage1);
+  portDisplayImages.push(portDisplayImage2);
+  portDisplayImages.push(portDisplayImage3);
+  portDisplayImages.push(portDisplayImage4);
+  portDisplayImages.push(portDisplayImage5);
+
   //create the grid elements (the individual tiles)
   for (let j = 0; j < numRows; j++) {
     for (let i = 0; i < numColumns; i++) {
@@ -78,7 +94,7 @@ function setup() {
       if (r < amountOfGrass) {
         let r2 = random(0, 1);
         if (r2 < amountOfPorts) {
-          grid.push(new PortTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'port', random(portNames)));
+          grid.push(new PortTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'port', random(portNames), random(portDisplayImages)));
         } else {
           grid.push(new LandTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'land'));
         }
@@ -161,12 +177,6 @@ function simulation() {
 
 //this function is the user's round of the game
 function userTurn() {
-  //show the cursor so the user can see where they're putting it
-  push();
-  fill(255, 255, 255, 180);
-  circle(mouseX, mouseY, cursorSize);
-  pop();
-
   //check to see whether the user is at sea, or is docked at a port
   if (user.state === "atSea"){
     userAtSea();
@@ -202,7 +212,6 @@ function mouseReleased() {
 
 //a function to put all the elements on the simulation
 function displaySimulation() {
-  noCursor();
   //display the boats of the user and the ennemies
   for (let i = 0; i < grid.length; i++) {
     let tile = grid[i];
