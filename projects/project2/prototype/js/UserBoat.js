@@ -67,8 +67,8 @@ class UserBoat extends Boat{
   }
 
   shoot(){
-    //create a cannon object
-    let cannon = new Cannon(this.x,this.y);
+    //launch the first cannon that appears in the array
+    
 
     cannon.launch();
 
