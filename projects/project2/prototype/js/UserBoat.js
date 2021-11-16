@@ -68,8 +68,11 @@ class UserBoat extends Boat{
 
   shoot(){
     //create a cannon object
-    let cannon = new Cannon()
-    shootDone = true;
+    let cannon = new Cannon(this.x,this.y);
+
+    cannon.launch();
+
+
   }
 
   showCannonRange(){

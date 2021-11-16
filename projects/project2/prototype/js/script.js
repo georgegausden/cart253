@@ -50,12 +50,17 @@ let portDisplayImage3 = undefined;
 let portDisplayImage4 = undefined;
 let portDisplayImage5 = undefined;
 
+//create the cannons that the user can use in the game
+let userCannons = [];
+let numberOfUserCannons = 5;
+
 //load the music
 let portMusic = undefined;
 
 //load the fonts
 let medievalFont = undefined;
 
+//create the possible port names in the game
 let portNames = ['Silvercreek Harbor', 'Stormbreaker Harbor', 'Whisperwind Port', 'the Harbor Of Outvern', 'Bursport Port', 'Shrewster Port', 'Penecier Harbor']
 
 function preload() {
@@ -107,6 +112,12 @@ function setup() {
   //create the user's boat
   user = new UserBoat(grid[0].x, grid[0].y);
 
+  //create the user's cannons
+  for (let i = 0; i < numberOfUserCannons; i++) {
+    let cannon = new Cannon();
+    userCannons.push(cannon);
+  };
+
   //define all the water tiles
   for (let i = 0; i < grid.length; i++) {
     let tile = grid[i];
@@ -114,7 +125,7 @@ function setup() {
     if (tile.type === 'water') {
       waterTiles.push(i);
     }
-  }
+  };
 
   //create the enemy boats
   for (let i = 0; i < numEnemyBoats; i++) {
@@ -130,7 +141,6 @@ function setup() {
     let r = random(waterTiles);
     //push that number into the random seed array
     randomSeedArray.push(r);
-
   }
 }
 
@@ -178,10 +188,9 @@ function simulation() {
 //this function is the user's round of the game
 function userTurn() {
   //check to see whether the user is at sea, or is docked at a port
-  if (user.state === "atSea"){
+  if (user.state === "atSea") {
     userAtSea();
-  }
-  else if (user.state === "shipDocked"){
+  } else if (user.state === "shipDocked") {
     userShipDocked();
   }
 }
@@ -225,7 +234,7 @@ function displaySimulation() {
   }
 }
 
-function userAtSea(){
+function userAtSea() {
   //let the user choose where they want to move initially
   user.selectTile();
 
@@ -247,6 +256,6 @@ function userAtSea(){
   }
 }
 
-function userShipDocked(){
+function userShipDocked() {
   user.chosenTile.shipDocked();
 }
