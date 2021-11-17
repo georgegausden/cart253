@@ -115,8 +115,8 @@ function setup() {
 
   //create the user's cannons
   for (let i = 0; i < numberOfUserCannons; i++) {
-    let cannon = new Cannon();
-    userCannons.push(cannon);
+    let cannon = new Cannon(undefined,undefined,undefined,undefined);
+    user.cannons.push(cannon);
   };
 
   //define all the water tiles
@@ -248,7 +248,7 @@ function userAtSea() {
     user.displayAim();
   }
   //shoot the cannon
-  else if (shootDone === false && mousePressedBoolean === true) {
+  else if (shootDone === false && mousePressedBoolean === true && user.cannonNumber <= numberOfUserCannons) {
     if (cannonSoundPlayed === false){
       cannonShootSFX.play();
       cannonSoundPlayed = true;

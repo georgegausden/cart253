@@ -38,17 +38,19 @@ class Cannon {
       this.calculated = true;
     }
 
+    this.move();
 
-    if(this.xi > 0 || this.xi < width){
-      this.move();
-    }
-    else{
+    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0){
       //let the program know the user has shot the cannon and that the animation is over, so reset all the boolean variables
       this.calculated = false;
       user.cannonAnimated = false;
+      user.cannonNumber += 1;
       cannonSoundPlayed = false;
       shootDone = true;
     }
+
+    
+
 
   }
 

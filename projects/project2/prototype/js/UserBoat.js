@@ -18,6 +18,7 @@ class UserBoat extends Boat{
     this.Cannonxf = undefined;
     this.Cannonyf = undefined;
     this.cannons = [];
+    this.cannonNumber = 0;
 
   }
 
@@ -75,13 +76,16 @@ class UserBoat extends Boat{
     if (this.cannonAnimated === false){
       this.Cannonxf = mouseX;
       this.Cannonyf = mouseY;
-      this.cannons.push(new Cannon(this.x,this.y, this.Cannonxf, this.Cannonyf));
+      this.cannons[this.cannonNumber].xi = this.x;
+      this.cannons[this.cannonNumber].yi = this.y;
+      this.cannons[this.cannonNumber].xf = this.Cannonxf;
+      this.cannons[this.cannonNumber].yf = this.Cannonyf;
       this.cannonAnimated = true;
+      console.log(this.cannons);
     }
 
 
-    this.cannons[0].launch();
-
+    this.cannons[this.cannonNumber].launch();
 
 
 
