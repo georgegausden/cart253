@@ -24,6 +24,7 @@ let shootDone = false;
 //sound effects in the game
 let shipMoveSFX = undefined;
 let cannonShootSFX = undefined;
+let cannonSoundPlayed = false;
 
 //create the grid of the game
 let grid = [];
@@ -247,10 +248,13 @@ function userAtSea() {
     user.displayAim();
   }
   //shoot the cannon
-  else if (userMoveDone === true && shootDone === false && mousePressedBoolean === true) {
-    cannonShootSFX.play();
+  else if (shootDone === false && mousePressedBoolean === true) {
+    if (cannonSoundPlayed === false){
+      cannonShootSFX.play();
+      cannonSoundPlayed = true;
+    }
     user.shoot();
-  } else if (userMoveDone === true && shootDone == true && mousePressedBoolean === true) {
+  } else if (shootDone === true) {
     //the computer's turn now
     simulationState = 'computerTurn';
   }

@@ -14,6 +14,10 @@ class UserBoat extends Boat{
     this.arrivedAtPort = false;
     this.chosenTile;
     this.state = 'atSea';
+    this.cannonAnimated = false;
+    this.Cannonxf = undefined;
+    this.Cannonyf = undefined;
+    this.cannons = [];
 
   }
 
@@ -68,9 +72,15 @@ class UserBoat extends Boat{
 
   shoot(){
     //launch the first cannon that appears in the array
-    let cannon = new Cannon(this.x,this.y);
+    if (this.cannonAnimated === false){
+      this.Cannonxf = mouseX;
+      this.Cannonyf = mouseY;
+      this.cannons.push(new Cannon(this.x,this.y, this.Cannonxf, this.Cannonyf));
+      this.cannonAnimated = true;
+    }
 
-    cannon.launch();
+
+    this.cannons[0].launch();
 
 
 

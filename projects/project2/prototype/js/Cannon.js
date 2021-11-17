@@ -1,13 +1,14 @@
 class Cannon {
-  constructor(){
-    this.xi = undefined;
-    this.yi = undefined;
-    this.xf = mouseX;
-    this.yf = mouseY;
-    this.size = 50;
+  constructor(x,y,xf,yf){
+    this.xi = x;
+    this.yi = y;
+    this.xf = xf;
+    this.yf = yf;
+    this.size = 20;
     this.vx = undefined;
     this.vy = undefined;
-    this.time = 5;
+    this.time = 10;
+    this.calculated = false;
 
   }
 
@@ -31,12 +32,21 @@ class Cannon {
   //launch contains all the elements to shoot the cannon on the screen, basically a function that encapsulates everything
   launch(){
     this.display();
-    this.calculateVelocityVectors();
+
+    if (this.calculated === false){
+      this.calculateVelocityVectors();
+      this.calculated = true;
+    }
+
+
     if(this.xi > 0 || this.xi < width){
       this.move();
     }
     else{
-      //let the program know the user has shot the cannon
+      //let the program know the user has shot the cannon and that the animation is over, so reset all the boolean variables
+      this.calculated = false;
+      user.cannonAnimated = false;
+      cannonSoundPlayed = false;
       shootDone = true;
     }
 
