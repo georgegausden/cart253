@@ -6,8 +6,8 @@ class UserBoat extends Boat{
     this.numCannons = 5;
     this.cannons = [];
     this.moveDistance = 3;
-    this.vx = 10;
-    this.vy = 10;
+    this.vx = 2;
+    this.vy = 2;
     this.finalPositionX = undefined;
     this.finalPositionY = undefined;
     this.cannonRange = undefined;
@@ -37,6 +37,10 @@ class UserBoat extends Boat{
   }
 
   move(){
+    //start the moving sound effect
+    if (!shipMoveSFX.isPlaying()) {
+      shipMoveSFX.play();
+    }
 
     //create an animation to move the user from their tile to the one chosen
     //final position
@@ -61,6 +65,7 @@ class UserBoat extends Boat{
       //reset the press mouse function
       mousePressedBoolean = false;
       userMoveDone = true;
+      shipMoveSFX.stop();
 
       //check if we're on a port tile. If so, move to the ship docked function
       if (this.chosenTile.type === 'port'){
@@ -100,6 +105,8 @@ class UserBoat extends Boat{
 
   selectTile(){
     //let the user select a tile for where they want to move
+    //let the tile be only two blocks away from where they are
+    //highlight the tiles the user can move to
     for (let i = 0; i<grid.length; i++){
       let tile = grid[i];
       let d = dist(mouseX,mouseY,tile.x, tile.y);
@@ -131,6 +138,46 @@ class UserBoat extends Boat{
     this.arrivedAtPort = false;
     this.shipDocked = false;
     this.state = 'atSea';
+  }
+
+  hightlightTile(){
+    //method to highlight the tiles the user can move their boat to
+    //get the current tile of the user
+    let currentTile = undefined;
+
+    for (let i = 0; i<grid.length; i++){
+      let tile = grid[i];
+      let d = dist(tile.x,tile.y,user.x,user.y);
+
+      if (d<=tile.width/2){
+        currentTile = i
+      };
+    }
+
+    //now hightlight the tiles adjacent to the user's tile
+    let adjacentTiles = [];
+
+    for (let i = 0; i<grid.length; i++){
+      let tile = grid[i];
+      if (tile = currentTile + 1){
+        //change its colour
+        adjacentTiles.push(grid[tile]);
+      }
+      else if (tile = currentTile - 1){
+        adjacentTiles.push(grid[tile]);
+      }
+      else if (tile = currentTile + 10){
+        adjacentTiles.push(grid[tile]);
+      }
+
+    }
+
+
+    //colour all the adjacent tiles
+    for (let i = 0; i<adjacentTiles.length; i++){
+      let tile = adjacentTiles[i];
+      tile.image = waterLightImage;
+    }
   }
 
 }

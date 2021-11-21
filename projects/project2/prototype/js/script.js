@@ -42,6 +42,7 @@ let mousePressedBoolean = false;
 //load the images in the game
 let landImage = undefined;
 let waterImage = undefined;
+let waterLightImage = undefined;
 let portImage = undefined;
 let boatImage = undefined;
 let portDisplayImages = [];
@@ -70,6 +71,7 @@ function preload() {
   boatImage = loadImage('assets/images/ship.png');
   landImage = loadImage('assets/images/landImage.jpg');
   waterImage = loadImage('assets/images/waterImage.jpg');
+  waterLightImage = loadImage('assets/images/waterLightImage.jpg');
   portImage = loadImage('assets/images/portImage.jpg');
   portDisplayImage1 = loadImage('assets/images/portDisplayImage.jpeg');
   portDisplayImage2 = loadImage('assets/images/portDisplayImage2.jpg');
@@ -236,6 +238,7 @@ function displaySimulation() {
 }
 
 function userAtSea() {
+  user.hightlightTile();
   //let the user choose where they want to move initially
   user.selectTile();
 
