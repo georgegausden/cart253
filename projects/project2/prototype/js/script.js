@@ -240,21 +240,21 @@ function userAtSea() {
   user.selectTile();
 
   //show where the user can move
-  user.showCannonRange();
+  //user.showCannonRange();
 
   if (mousePressedBoolean === true && userMoveDone === false) {
     user.move();
-  } else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false) {
+  } else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false && user.cannonNumber <= numberOfUserCannons -  1) {
     user.displayAim();
   }
   //shoot the cannon
-  else if (shootDone === false && mousePressedBoolean === true && user.cannonNumber <= numberOfUserCannons) {
+  else if (shootDone === false && mousePressedBoolean === true && user.cannonNumber <= numberOfUserCannons - 1) {
     if (cannonSoundPlayed === false){
       cannonShootSFX.play();
       cannonSoundPlayed = true;
     }
     user.shoot();
-  } else if (shootDone === true) {
+  } else if (shootDone === true || user.cannonNumber > numberOfUserCannons) {
     //the computer's turn now
     simulationState = 'computerTurn';
   }

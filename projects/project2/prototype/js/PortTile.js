@@ -59,6 +59,14 @@ class PortTile extends LandTile {
 
     if (reloadCannonsButton.checkInButton()){
       //reload the cannons of the user ********
+      //delete all the elements inside the array of user cannons and regenerate a new batch of 5
+      user.cannons.splice(0);
+      //setup a new array of empty cannons and set the user cannons back to 0
+      for (let i = 0; i < numberOfUserCannons; i++) {
+        let cannon = new Cannon(undefined,undefined,undefined,undefined);
+        user.cannons.push(cannon);
+      };
+      user.cannonNumber = 0;
     }
   }
 
