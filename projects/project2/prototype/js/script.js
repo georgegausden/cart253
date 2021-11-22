@@ -245,7 +245,9 @@ function userAtSea() {
   //show where the user can move
   //user.showCannonRange();
 
-  if (mousePressedBoolean === true && userMoveDone === false) {
+  if (mousePressedBoolean === false){
+    user.findTile();
+  } else if (mousePressedBoolean === true && userMoveDone === false) {
     user.move();
   } else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false && user.cannonNumber <= numberOfUserCannons -  1) {
     user.displayAim();
