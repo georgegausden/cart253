@@ -85,7 +85,6 @@ class UserBoat extends Boat {
       this.cannons[this.cannonNumber].xf = this.Cannonxf;
       this.cannons[this.cannonNumber].yf = this.Cannonyf;
       this.cannonAnimated = true;
-      console.log(this.cannons);
     }
 
 

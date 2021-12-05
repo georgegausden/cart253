@@ -16,7 +16,7 @@ let numberOfPossibleComputerMoves = 500;
 let numberOfMovesPlayed = 0;
 
 //set the intial state of the game
-let state = 'simulation';
+let state = 'title';
 let simulationState = 'userTurn';
 let userMoveDone = false;
 let shootDone = false;
@@ -35,8 +35,6 @@ let numRows = 10;
 let amountOfGrass = 0.3;
 let amountOfPorts = 0.2;
 
-let cursorSize = 20;
-
 let mousePressedBoolean = false;
 
 //load the images in the game
@@ -51,6 +49,12 @@ let portDisplayImage2 = undefined;
 let portDisplayImage3 = undefined;
 let portDisplayImage4 = undefined;
 let portDisplayImage5 = undefined;
+let backgroundWaves = undefined;
+let pirateImage = undefined;
+let palm1 = undefined;
+let palm2 = undefined;
+let palm3 = undefined;
+let beach = undefined;
 
 //create the cannons that the user can use in the game
 let userCannons = [];
@@ -61,10 +65,12 @@ let portMusic = undefined;
 
 //load the fonts
 let medievalFont = undefined;
+let pirateFont = undefined;
 
 //create the possible port names in the game
 let portNames = ['Silvercreek Harbor', 'Stormbreaker Harbor', 'Whisperwind Port', 'the Harbor Of Outvern', 'Bursport Port', 'Shrewster Port', 'Penecier Harbor']
 
+//preloads all the assets in the game (sounds, images and fonts)
 function preload() {
   shipMoveSFX = loadSound('assets/sounds/shipMoveSFX.mov');
   cannonShootSFX = loadSound('assets/sounds/cannonShootSFX.mov');
@@ -78,13 +84,19 @@ function preload() {
   portDisplayImage3 = loadImage('assets/images/portDisplayImage3.jpg');
   portDisplayImage4 = loadImage('assets/images/portDisplayImage4.jpg');
   portDisplayImage5 = loadImage('assets/images/portDisplayImage5.jpg');
+  pirateImage = loadImage('assets/images/pirate.png');
+  palm1 = loadImage('assets/images/palm1.png');
+  palm2 = loadImage('assets/images/palm2.png');
+  palm3 = loadImage('assets/images/palm3.png');
+  beach = loadImage('assets/images/beach.jpg');
   medievalFont = loadFont('assets/fonts/OldLondon.ttf');
+  pirateFont = loadFont('assets/fonts/PirateScroll.otf');
   portMusic = loadSound('assets/sounds/portMusic.mov');
 }
 
 // setup()
 //
-// Description of setup() goes here.
+// Creates the canvas, the grid, the user boat and the enemy boats and an array of possible enemy moves
 function setup() {
   createCanvas(600, 600);
 
@@ -149,7 +161,7 @@ function setup() {
 
 // draw()
 //
-// Description of draw() goes here.
+// sets the state of the game
 function draw() {
   //the three possible states of the game are title(), simulation() and end()
   if (state === 'title') {
@@ -161,25 +173,41 @@ function draw() {
   }
 }
 
-//create the states for the game
+//creates the title state of the game
 function title() {
-  background(255);
+  //add the background images
+  imageMode(CENTER);
+  image(beach, width/2, height/2, width+500, height);
+  image(palm1, width/2-200, height/2+200 - 125, 300, 200);
+  image(palm2, width/2+50, height/2-50 - 125, 500, 400);
+  image(palm3, width/2, height/2, width, height);
+  image(pirateImage, width/2, height/2 - 100, 150, 100);
 
+  noStroke();
+
+  //write the greetings
   push();
-  textSize(50);
   textAlign(CENTER);
-  text("Title Page", width / 2, height / 2);
+  textSize(50);
+  textFont(pirateFont);
+  fill(255);
+  text("Pirates: The Sequel", width / 2, height / 2 - 200);
+  textSize(25);
+  text("Press 'Enter' to start the game", width/2, height/2 + 100);
   pop();
 
+  //if enter is pressed, move to simulation
   if (keyIsDown(13)) {
     state = 'simulation'
   };
 }
 
+//the simulation of the game
 function simulation() {
   //display all the elements in the simulation
   displaySimulation();
   //create the turn based system of the program
+  //the turns are defined by states ("user turn", and "computer turn")
   if (simulationState === 'userTurn') {
     userTurn()
   } else if (simulationState === 'computerTurn') {
@@ -204,10 +232,8 @@ function computerTurn() {
   //for now the movement will be random
   for (let i = 0; i < enemyBoats.length; i++) {
     let enemy = enemyBoats[i];
-
     enemy.move(i);
   }
-
 };
 
 //display the end state of the program
@@ -217,14 +243,14 @@ function end() {
   pop();
 }
 
-
+//if the mouse is released, the variable switches to true, this is used in multiple functions
 function mouseReleased() {
   mousePressedBoolean = true;
 }
 
-//a function to put all the elements on the simulation
+//a function to put all the elements on the simulation (basically the interface)
 function displaySimulation() {
-  //display the boats of the user and the ennemies
+  //display the tiles in the game
   for (let i = 0; i < grid.length; i++) {
     let tile = grid[i];
     tile.display();
@@ -237,14 +263,17 @@ function displaySimulation() {
   }
 }
 
+//this function is called when the user is at sea, includes all the possible actions (moving, shooting)
 function userAtSea() {
-  user.hightlightTile();
+  //user.hightlightTile();
+
   //let the user choose where they want to move initially
   user.selectTile();
 
   //show where the user can move
-  //user.showCannonRange();
+  user.showCannonRange();
 
+  //the sequence of actions that the user does, choose where to move, move, shoot cannon
   if (mousePressedBoolean === false){
     user.findTile();
   } else if (mousePressedBoolean === true && userMoveDone === false) {
@@ -252,6 +281,7 @@ function userAtSea() {
   } else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false && user.cannonNumber <= numberOfUserCannons -  1) {
     user.displayAim();
   }
+
   //shoot the cannon
   else if (shootDone === false && mousePressedBoolean === true && user.cannonNumber <= numberOfUserCannons - 1) {
     if (cannonSoundPlayed === false){
@@ -260,11 +290,12 @@ function userAtSea() {
     }
     user.shoot();
   } else if (shootDone === true || user.cannonNumber > numberOfUserCannons) {
-    //the computer's turn now
+    //the computer's turn now since all the actions are done
     simulationState = 'computerTurn';
   }
 }
 
+//a function to select the dock the user chose
 function userShipDocked() {
   user.chosenTile.shipDocked();
 }

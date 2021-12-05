@@ -40,6 +40,8 @@ class Cannon {
 
     this.move();
 
+    console.log(userCannons);
+
     if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0){
       //let the program know the user has shot the cannon and that the animation is over, so reset all the boolean variables
       this.calculated = false;
@@ -49,7 +51,7 @@ class Cannon {
       shootDone = true;
     }
 
-    
+
 
 
   }
