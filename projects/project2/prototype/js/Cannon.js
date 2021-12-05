@@ -45,21 +45,32 @@ class Cannon {
       let boat = enemyBoats[i];
       let cannon = user.cannons[user.cannonNumber];
 
-      if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 2){
+      if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 2 && boatHit === false){
         //the cannon hit the user ship, so make it lose a life and change the image of the boat as well
+        if (!explosionSFX.isPlaying()){
+          explosionSFX.play();
+        }
         boat.image = boatDamaged1;
         boat.lives -= 1;
-        break;
+        boatHit = true;
+
       }
-      else if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 1){
+      else if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 1 && boatHit === false){
         //the cannon hit the user ship, so make it lose a life and change the image of the boat as well
+        if (!explosionSFX.isPlaying()){
+          explosionSFX.play();
+        }
         boat.image = boatDamaged2;
         boat.lives -= 1;
-        break;
+        boatHit = true;
       }
-      else if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 0){
+      else if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 0 && boatHit === false){
         //remove the boat from the list of enemy boats, splice it out
+        if (!explosionSFX.isPlaying()){
+          explosionSFX.play();
+        }
         enemyBoats.splice(i,1);
+        boatHit = true;
       }
 
 
@@ -74,6 +85,7 @@ class Cannon {
       user.cannonNumber += 1;
       cannonSoundPlayed = false;
       shootDone = true;
+      boatHit = false;
     }
 
 

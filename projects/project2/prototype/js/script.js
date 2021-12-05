@@ -37,6 +37,7 @@ let amountOfGrass = 0.3;
 let amountOfPorts = 0.2;
 
 let mousePressedBoolean = false;
+let boatHit = false;
 
 //load the images in the game
 let landImage = undefined;
