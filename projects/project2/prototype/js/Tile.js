@@ -9,6 +9,11 @@ class Tile{
     this.fillB= b;
     this.transparency= transparency;
     this.type = type;
+    this.index = undefined;
+  }
+
+  addIndex(index){
+    this.index = index;
   }
 
   display(){

@@ -20,6 +20,7 @@ class Button {
     this.buttonCurvature = 50;
   }
 
+  //display the button the screen, also allows for the button to be lightened when hovered over
   drawButton() {
     push();
     fill(this.fill.r, this.fill.g, this.fill.b);
@@ -37,6 +38,7 @@ class Button {
     pop();
   }
 
+  //lightens the button when the user is hovering over it with the mouse
   lightenButton(xPosition, yPosition, shapeWidth, shapeHeight, fillR, fillG, fillB) {
     if (this.isHovering(xPosition, yPosition, shapeWidth, shapeHeight)) {
       fill(fillR + this.lighten, fillG + this.lighten, fillB + this.lighten);
@@ -45,6 +47,7 @@ class Button {
     }
   }
 
+  //a boolean to check if the user is in fact over the button
   isHovering(xPosition, yPosition, shapeWidth, shapeHeight) {
     if ((mouseX >= xPosition - shapeWidth / 2) && (mouseX <= xPosition + shapeWidth / 2) && (mouseY < yPosition + shapeHeight / 2) && (mouseY > yPosition - shapeHeight / 2)) {
       return true;
@@ -53,6 +56,7 @@ class Button {
     }
   }
 
+  //a boolean to check that the user clicked the button
   checkInButton() {
     if ((mouseX >= this.x - this.width / 2) && (mouseX <= this.x + this.width / 2) && (mouseIsPressed === true) && (mouseY < this.y + this.height / 2) && (mouseY > this.y - this.height / 2)) {
       return true;

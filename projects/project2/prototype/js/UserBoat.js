@@ -21,6 +21,12 @@ class UserBoat extends Boat {
     this.cannonNumber = 0;
     this.CurrentTile = undefined;
     this.adjacentTiles = [];
+    this.tileLeftIndex = undefined;
+    this.tileRightIndex = undefined;
+    this.tileUpIndex = undefined;
+    this.tileDownIndex = undefined;
+    this.currentTileIndex = undefined;
+    this.size = 50;
 
   }
 
@@ -50,8 +56,21 @@ class UserBoat extends Boat {
     this.finalPositionX = this.chosenTile.x;
     this.finalPositionY = this.chosenTile.y;
 
+    //track the user's current tile they're on
+    this.currentTileIndex = this.findTile();
+
+    //keep track of the tiles left right top and bottom of the one the user is on
+    this.tileUpIndex = this.currentTileIndex - 10;
+    this.tileDownIndex = this.currentTileIndex + 10;
+    this.tileLeftIndex = this.currentTileIndex - 1;
+    this.tileRightIndex = this.currentTileIndex + 1;
+
+
+
+
     //animate the movement of the ship, don't let the boat go through the land
     if (this.x < this.finalPositionX) {
+      //if the tile to the right is land or port, go opposite direction
       this.x += this.vx
     } else if (this.x > this.finalPositionX) {
       this.x -= this.vx
@@ -86,7 +105,6 @@ class UserBoat extends Boat {
       this.cannons[this.cannonNumber].yf = this.Cannonyf;
       this.cannonAnimated = true;
     }
-
 
     this.cannons[this.cannonNumber].launch();
 
@@ -178,6 +196,7 @@ class UserBoat extends Boat {
 
       if (d <= tile.width / 2) {
         this.currentTile = i
+        return i;
       };
     }
   }
@@ -191,5 +210,6 @@ class UserBoat extends Boat {
     }
 
   }
+
 
 }

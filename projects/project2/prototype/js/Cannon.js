@@ -40,7 +40,32 @@ class Cannon {
 
     this.move();
 
-    console.log(userCannons);
+    //check if the cannon hits an enemy ship
+    for (let i = 0; i<enemyBoats.length; i++){
+      let boat = enemyBoats[i];
+      let cannon = user.cannons[user.cannonNumber];
+
+      if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 2){
+        //the cannon hit the user ship, so make it lose a life and change the image of the boat as well
+        boat.image = boatDamaged1;
+        boat.lives -= 1;
+        break;
+      }
+      else if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 1){
+        //the cannon hit the user ship, so make it lose a life and change the image of the boat as well
+        boat.image = boatDamaged2;
+        boat.lives -= 1;
+        break;
+      }
+      else if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 0){
+        //remove the boat from the list of enemy boats, splice it out
+        enemyBoats.splice(i,1);
+      }
+
+
+
+
+    }
 
     if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0){
       //let the program know the user has shot the cannon and that the animation is over, so reset all the boolean variables

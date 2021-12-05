@@ -7,14 +7,25 @@ class Enemy extends Boat{
     this.cannons = 1;
     this.positionFinalx = undefined;
     this.positionFinaly = undefined;
-    this.vx = 2;
-    this.vy = 2;
+    this.vx = 1;
+    this.vy = 1;
+    this.image = boatImage;
+
+  }
+
+  display(){
+    push();
+    fill(this.fill,255,255,100);
+    imageMode(CENTER);
+    image(this.image,this.x,this.y,this.size,this.size);
+    //circle(this.x,this.y,this.size);
+    pop();
 
   }
 
 
   move(i){
-    
+
     this.positionFinalx = grid[randomSeedArray[numberOfMovesPlayed+i]].x;
     this.positionFinaly = grid[randomSeedArray[numberOfMovesPlayed+i]].y;
 

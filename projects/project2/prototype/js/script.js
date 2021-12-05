@@ -25,6 +25,7 @@ let shootDone = false;
 let shipMoveSFX = undefined;
 let cannonShootSFX = undefined;
 let cannonSoundPlayed = false;
+let explosionSFX = undefined;
 
 //create the grid of the game
 let grid = [];
@@ -55,6 +56,8 @@ let palm1 = undefined;
 let palm2 = undefined;
 let palm3 = undefined;
 let beach = undefined;
+let boatDamaged1 = undefined;
+let boatDamaged2 = undefined;
 
 //create the cannons that the user can use in the game
 let userCannons = [];
@@ -74,6 +77,7 @@ let portNames = ['Silvercreek Harbor', 'Stormbreaker Harbor', 'Whisperwind Port'
 function preload() {
   shipMoveSFX = loadSound('assets/sounds/shipMoveSFX.mov');
   cannonShootSFX = loadSound('assets/sounds/cannonShootSFX.mov');
+  explosionSFX = loadSound('assets/sounds/explosion.mov');
   boatImage = loadImage('assets/images/ship.png');
   landImage = loadImage('assets/images/landImage.jpg');
   waterImage = loadImage('assets/images/waterImage.jpg');
@@ -85,6 +89,8 @@ function preload() {
   portDisplayImage4 = loadImage('assets/images/portDisplayImage4.jpg');
   portDisplayImage5 = loadImage('assets/images/portDisplayImage5.jpg');
   pirateImage = loadImage('assets/images/pirate.png');
+  boatDamaged1 = loadImage('assets/images/boatdestroyed1.png');
+  boatDamaged2 = loadImage('assets/images/boatdestroyed2.png');
   palm1 = loadImage('assets/images/palm1.png');
   palm2 = loadImage('assets/images/palm2.png');
   palm3 = loadImage('assets/images/palm3.png');
@@ -141,6 +147,13 @@ function setup() {
       waterTiles.push(i);
     }
   };
+
+  //add the indices to the tiles
+  for (let i = 0; i<grid.length; i++){
+    let tile = grid[i];
+
+    tile.addIndex(i);
+  }
 
   //create the enemy boats
   for (let i = 0; i < numEnemyBoats; i++) {
@@ -298,4 +311,13 @@ function userAtSea() {
 //a function to select the dock the user chose
 function userShipDocked() {
   user.chosenTile.shipDocked();
+}
+
+function checkTouch(object1x,object1y,object1size, object2){
+
+  let d = dist(object1x, object1y, object2.x, object2.y);
+
+  if (d < (object1size/2 + object2.size/2)){
+    return true;
+  }
 }
