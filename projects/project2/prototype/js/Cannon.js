@@ -94,6 +94,7 @@ class Cannon {
       this.calculateVelocityVectors();
       this.calculated = true;
     }
+
     this.move();
 
     if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0){

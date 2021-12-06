@@ -9,7 +9,7 @@ In this prototype I want to create the skeleton of the moving character and the 
 //create the character class
 let user;
 
-let numEnemyBoats = 10;
+let numEnemyBoats = 0;
 let enemyBoats = [];
 let randomSeedArray = [];
 let numberOfPossibleComputerMoves = 500;
@@ -20,6 +20,7 @@ let state = 'title';
 let simulationState = 'userTurn';
 let userMoveDone = false;
 let shootDone = false;
+let enemyTurnDone = false;
 
 //sound effects in the game
 let shipMoveSFX = undefined;
@@ -44,7 +45,10 @@ let landImage = undefined;
 let waterImage = undefined;
 let waterLightImage = undefined;
 let portImage = undefined;
-let boatImage = undefined;
+let boatImageRight = undefined;
+let boatImageLeft = undefined;
+let boatDamaged1Left = undefined;
+let boatDamaged2Left = undefined;
 let portDisplayImages = [];
 let portDisplayImage1 = undefined;
 let portDisplayImage2 = undefined;
@@ -79,7 +83,8 @@ function preload() {
   shipMoveSFX = loadSound('assets/sounds/shipMoveSFX.mov');
   cannonShootSFX = loadSound('assets/sounds/cannonShootSFX.mov');
   explosionSFX = loadSound('assets/sounds/explosion.mov');
-  boatImage = loadImage('assets/images/ship.png');
+  boatImageRight = loadImage('assets/images/ship.png');
+  boatImageLeft = loadImage('assets/images/shipleft.png');
   landImage = loadImage('assets/images/landImage.jpg');
   waterImage = loadImage('assets/images/waterImage.jpg');
   waterLightImage = loadImage('assets/images/waterLightImage.jpg');
@@ -92,6 +97,8 @@ function preload() {
   pirateImage = loadImage('assets/images/pirate.png');
   boatDamaged1 = loadImage('assets/images/boatdestroyed1.png');
   boatDamaged2 = loadImage('assets/images/boatdestroyed2.png');
+  boatDamaged1Left = loadImage('assets/images/boatdestroyed1left.png');
+  boatDamaged2Left = loadImage('assets/images/boatdestroyed2left.png');
   palm1 = loadImage('assets/images/palm1.png');
   palm2 = loadImage('assets/images/palm2.png');
   palm3 = loadImage('assets/images/palm3.png');
@@ -223,9 +230,11 @@ function simulation() {
   //create the turn based system of the program
   //the turns are defined by states ("user turn", and "computer turn")
   if (simulationState === 'userTurn') {
-    userTurn()
+    userTurn();
   } else if (simulationState === 'computerTurn') {
-    computerTurn()
+    computerTurn();
+  } else if (simulationState === 'end'){
+    end();
   };
 
 }
@@ -244,6 +253,28 @@ function userTurn() {
 function computerTurn() {
   //let the computer decide where to move their boats
   //for now the movement will be random
+  // for (let i = 0; i<enemyBoats.length; i++){
+  //
+  // }
+  // if (enemyTurnDone === false){
+  //   let i = 0;
+  //
+  //   let enemy = enemyBoats[i];
+  //
+  //   if (enemy.moveDone === false){
+  //     enemy.move(i);
+  //   }
+  //   else if (enemy.moveDone === true){
+  //     i = i + 1;
+  //     console.log(i);
+  //   }
+  // }
+
+  if (enemyBoats.length === 0){
+    simulationState = 'end';
+  };
+
+
   for (let i = 0; i < enemyBoats.length; i++) {
     let enemy = enemyBoats[i];
 
@@ -253,19 +284,22 @@ function computerTurn() {
     else if (enemy.moveDone === true && enemy.shootDone === false){
       enemy.shoot();
     }
-    else if (enemy.moveDone === true && enemy.shootDone === true && i === enemyBoats.length){
-      //end the computer's turn and go back to the user's turn
-      simulationState = 'userTurn';
+    else if (enemy.moveDone === true && enemy.shootDone === true){
+      j++;
+      console.log(j);
     }
-    i++
-
   }
 };
 
 //display the end state of the program
 function end() {
+  background(0);
   push();
-  text("The End", width / 2, height / 2);
+  textAlign(CENTER);
+  textSize(50);
+  textFont(pirateFont);
+  fill(255);
+  text("The End!", width / 2, height / 2 - 200);
   pop();
 }
 
@@ -333,4 +367,8 @@ function checkTouch(object1x,object1y,object1size, object2){
   if (d < (object1size/2 + object2.size/2)){
     return true;
   }
+}
+
+function enemyBoatTurn(){
+
 }

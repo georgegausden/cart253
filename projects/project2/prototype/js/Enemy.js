@@ -8,7 +8,7 @@ class Enemy extends Boat{
     this.positionFinaly = undefined;
     this.vx = 1;
     this.vy = 1;
-    this.image = boatImage;
+    this.image = boatImageRight;
     this.cannons = [];
     this.moveDone = false;
     this.shootDone = false;
@@ -20,12 +20,9 @@ class Enemy extends Boat{
 
   display(){
     push();
-    fill(this.fill,255,255,100);
     imageMode(CENTER);
     image(this.image,this.x,this.y,this.size,this.size);
-    //circle(this.x,this.y,this.size);
     pop();
-
   }
 
 
@@ -37,9 +34,27 @@ class Enemy extends Boat{
 
     //animate the movement of the ship
     if (this.x < this.positionFinalx){
+      if (this.lives = 2){
+        this.image = boatImageRight;
+      }
+      else if (this.lives = 1){
+        this.image = boatdestroyed1;
+      }
+      else if (this.lives = 0){
+        this.image = boatdestroyed2;
+      }
       this.x += this.vx
     }
     else if (this.x > this.positionFinalx){
+      if (this.lives = 2){
+        this.image = boatImageLeft;
+      }
+      else if (this.lives = 1){
+        this.image = boatdestroyed1left;
+      }
+      else if (this.lives = 0){
+        this.image = boatdestroyed2left;
+      }
       this.x -= this.vx
     }
     else if (this.y < this.positionFinaly){
