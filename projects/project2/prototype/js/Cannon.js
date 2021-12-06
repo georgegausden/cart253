@@ -74,11 +74,9 @@ class Cannon {
       }
 
 
-
-
     }
 
-    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0){
+    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0 || boatHit === true){
       //let the program know the user has shot the cannon and that the animation is over, so reset all the boolean variables
       this.calculated = false;
       user.cannonAnimated = false;
@@ -87,10 +85,24 @@ class Cannon {
       shootDone = true;
       boatHit = false;
     }
+  }
 
+  launchEnemyCannon(enemyBoat){
 
+    this.display();
+    if (this.calculated === false){
+      this.calculateVelocityVectors();
+      this.calculated = true;
+    }
+    this.move();
 
-
+    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0){
+      //let the program know the user has shot the cannon and that the animation is over, so reset all the boolean variables
+      this.calculated = false;
+      enemyBoat.shootDone = true;
+      boatHit = false;
+      enemyBoat.targetSet = false;
+    }
   }
 
 }
