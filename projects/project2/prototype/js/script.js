@@ -22,6 +22,7 @@ let simulationState = 'userTurn';
 let userMoveDone = false;
 let shootDone = false;
 let enemyTurnDone = false;
+let computerTurnOver = false;
 
 //sound effects in the game
 let shipMoveSFX = undefined;
@@ -241,6 +242,7 @@ function simulation() {
   displaySimulation();
   //create the turn based system of the program
   //the turns are defined by states ("user turn", and "computer turn")
+  console.log(simulationState)
   if (simulationState === 'userTurn') {
     userTurn();
   } else if (simulationState === 'computerTurn') {
@@ -254,6 +256,7 @@ function simulation() {
 //this function is the user's round of the game
 function userTurn() {
   //check to see whether the user is at sea, or is docked at a port
+  resetEnemies();
   if (user.state === "atSea") {
     userAtSea();
   } else if (user.state === "shipDocked") {
@@ -268,11 +271,9 @@ function computerTurn() {
     simulationState = 'end';
   };
 
-
-
   for (let i = 0; i<enemyBoats.length; i++){
     let enemy = enemyBoats[i];
-
+    console.log(enemy.moveDone)
     if (enemy.moveDone === false){
       enemy.move(i);
     }
@@ -282,10 +283,12 @@ function computerTurn() {
       }
       enemy.shoot(i);
     }
-    else if (enemy.moveDone === true && enemy.shootDone === true && (enemyShootsFinished === enemyBoats.length)){
-      //now it is the user's turn
+    else if (enemyShootsFinished === enemyBoats.length){
       simulationState = "userTurn";
+
     }
+
+
   }
 
 };
@@ -333,13 +336,10 @@ function userAtSea() {
   //show where the user can move
   user.showCannonRange();
   user.displayAim();
-  console.log(shootDone)
+
 
   //the sequence of actions that the user does, choose where to move, move, shoot cannon
-  if (mousePressedBoolean === false){
-    user.findTile();
-
-  } else if (mousePressedBoolean === true && userMoveDone === false) {
+  if (mousePressedBoolean === true && userMoveDone === false && shootDone === false) {
     user.move();
   }
   //shoot the cannon
@@ -351,7 +351,7 @@ function userAtSea() {
     user.shoot();
   }
 
-  if (shootDone === true || user.cannonNumber > numberOfUserCannons) {
+  if (shootDone === true) {
     //the computer's turn now since all the actions are done
     simulationState = 'computerTurn';
   }
@@ -368,5 +368,18 @@ function checkTouch(object1x,object1y,object1size, object2){
 
   if (d < (object1size/2 + object2.size/2)){
     return true;
+  }
+}
+
+function resetEnemies(){
+  for (let i =0; i<enemyBoats.length; i++){
+    let enemy = enemyBoats[i];
+
+    //reset all the parameters
+    enemy.shootDone = false;
+    enemy.moveDone = false;
+    enemy.positionSet = false;
+    enemyShootsFinished = 0;
+
   }
 }

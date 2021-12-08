@@ -30,9 +30,14 @@ class Enemy extends Boat{
 
 
   move(i){
+    
+    if (this.positionSet === false){
+      this.positionFinalx = grid[randomSeedArray[numberOfMovesPlayed+i]].x;
+      this.positionFinaly = grid[randomSeedArray[numberOfMovesPlayed+i]].y;
+      this.positionSet = true;
+    }
 
-    this.positionFinalx = grid[randomSeedArray[numberOfMovesPlayed+i]].x;
-    this.positionFinaly = grid[randomSeedArray[numberOfMovesPlayed+i]].y;
+
 
 
     //animate the movement of the ship
