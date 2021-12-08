@@ -9,7 +9,7 @@ In this prototype I want to create the skeleton of the moving character and the 
 //create the character class
 let user;
 
-let numEnemyBoats = 0;
+let numEnemyBoats = 2;
 let enemyBoats = [];
 let randomSeedArray = [];
 let numberOfPossibleComputerMoves = 500;
@@ -67,6 +67,7 @@ let boatDamaged2 = undefined;
 //create the cannons that the user can use in the game
 let userCannons = [];
 let numberOfUserCannons = 5;
+let numberOfEnemyCannons = 100;
 
 //load the music
 let portMusic = undefined;
@@ -170,6 +171,16 @@ function setup() {
     enemyBoats.push(new Enemy(grid[r].x, grid[r].y));
   };
 
+  //create the enemy cannons
+  for (let i = 0; i < enemyBoats.length; i++) {
+    let enemy = enemyBoats[i];
+
+    for (let j = 0; j<numberOfEnemyCannons; j++){
+      let cannon = new Cannon(undefined,undefined,undefined,undefined);
+      enemy.cannons.push(cannon);
+    };
+  };
+
   //create the possible moves for the computer
   for (let i = 0; i < numberOfPossibleComputerMoves; i++) {
     //generate a random seed for the computer to use later in its moves
@@ -251,44 +262,32 @@ function userTurn() {
 
 //this function is the computer's turn in the game
 function computerTurn() {
-  //let the computer decide where to move their boats
-  //for now the movement will be random
-  // for (let i = 0; i<enemyBoats.length; i++){
-  //
-  // }
-  // if (enemyTurnDone === false){
-  //   let i = 0;
-  //
-  //   let enemy = enemyBoats[i];
-  //
-  //   if (enemy.moveDone === false){
-  //     enemy.move(i);
-  //   }
-  //   else if (enemy.moveDone === true){
-  //     i = i + 1;
-  //     console.log(i);
-  //   }
-  // }
 
   if (enemyBoats.length === 0){
     simulationState = 'end';
   };
 
+  console.log(user.lives);
 
-  for (let i = 0; i < enemyBoats.length; i++) {
+  for (let i = 0; i<enemyBoats.length; i++){
     let enemy = enemyBoats[i];
 
     if (enemy.moveDone === false){
       enemy.move(i);
     }
     else if (enemy.moveDone === true && enemy.shootDone === false){
-      enemy.shoot();
+      if (!cannonShootSFX.isPlaying()){
+        cannonShootSFX.play();
+      }
+      enemy.shoot(i);
     }
-    else if (enemy.moveDone === true && enemy.shootDone === true){
-      j++;
-      console.log(j);
+    else if (enemy.moveDone === true && enemy.shootDone === true && i === enemyBoats.length - 1){
+      //now it is the user's turn
+      simulationState = "userTurn";
+
     }
   }
+
 };
 
 //display the end state of the program
@@ -367,8 +366,4 @@ function checkTouch(object1x,object1y,object1size, object2){
   if (d < (object1size/2 + object2.size/2)){
     return true;
   }
-}
-
-function enemyBoatTurn(){
-
 }

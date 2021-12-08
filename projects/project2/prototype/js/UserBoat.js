@@ -2,7 +2,7 @@ class UserBoat extends Boat {
 
   constructor(x, y) {
     super(x, y);
-    this.lives = 5;
+    this.lives = 2;
     this.numCannons = 5;
     this.cannons = [];
     this.moveDistance = 3;
@@ -27,6 +27,16 @@ class UserBoat extends Boat {
     this.tileDownIndex = undefined;
     this.currentTileIndex = undefined;
     this.size = 50;
+    this.image = boatImageRight;
+
+  }
+
+  display(){
+    push();
+    imageMode(CENTER);
+    image(this.image,this.x,this.y,this.size,this.size);
+    //circle(this.x,this.y,this.size);
+    pop();
 
   }
 
@@ -71,9 +81,28 @@ class UserBoat extends Boat {
     //animate the movement of the ship, don't let the boat go through the land
     if (this.x < this.finalPositionX) {
       //if the tile to the right is land or port, go opposite direction
-      this.x += this.vx
+      if (this.lives === 2){
+        this.image = boatImageRight;
+      }
+      else if (this.lives === 1){
+        this.image = boatDamaged1;
+      }
+      else if (this.lives === 0){
+        this.image = boatDamaged2;
+      }
+      this.x += this.vx;
+
     } else if (this.x > this.finalPositionX) {
-      this.x -= this.vx
+      if (this.lives === 2){
+        this.image = boatImageLeft;
+      }
+      else if (this.lives === 1){
+        this.image = boatDamaged1Left;
+      }
+      else if (this.lives === 0){
+        this.image = boatDamaged2Left;
+      }
+      this.x -= this.vx;
     } else if (this.y < this.finalPositionY) {
       this.y += this.vy
     } else if (this.y > this.finalPositionY) {
@@ -107,9 +136,6 @@ class UserBoat extends Boat {
     }
 
     this.cannons[this.cannonNumber].launch();
-
-
-
   }
 
   showCannonRange() {

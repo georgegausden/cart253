@@ -87,7 +87,9 @@ class Cannon {
     }
   }
 
-  launchEnemyCannon(enemyBoat){
+  launchEnemyCannon(i){
+
+    let enemyBoat = enemyBoats[i]
 
     this.display();
     if (this.calculated === false){
@@ -95,14 +97,31 @@ class Cannon {
       this.calculated = true;
     }
 
+    //check to see if the enemy touched the user's boat
+    if (checkTouch(this.x,this.y,this.size, user)){
+      console.log('yes')
+      if (!explosionSFX.isPlaying()){
+        explosionSFX.play();
+      }
+      if (user.lives === 2){
+        user.image = boatDamaged1;
+      }
+      else if (user.lives === 1){
+        user.image = boatDamaged2Left;
+      }
+      boatHit = true;
+      user.lives -= 1;
+    }
+
     this.move();
 
-    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0){
+    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0 || (boatHit === true && i === enemyBoats.length - 1)){
       //let the program know the user has shot the cannon and that the animation is over, so reset all the boolean variables
       this.calculated = false;
       enemyBoat.shootDone = true;
       boatHit = false;
       enemyBoat.targetSet = false;
+      enemyBoat.cannonNumber += 1;
     }
   }
 

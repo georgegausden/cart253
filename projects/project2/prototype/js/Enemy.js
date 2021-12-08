@@ -15,6 +15,8 @@ class Enemy extends Boat{
     this.targetSet = false;
     this.cannonTargetx = undefined;
     this.cannonTargety = undefined;
+    this.cannons = [];
+    this.cannonNumber = 0;
 
   }
 
@@ -34,26 +36,26 @@ class Enemy extends Boat{
 
     //animate the movement of the ship
     if (this.x < this.positionFinalx){
-      if (this.lives = 2){
+      if (this.lives === 2){
         this.image = boatImageRight;
       }
-      else if (this.lives = 1){
-        this.image = boatdestroyed1;
+      else if (this.lives === 1){
+        this.image = boatDamaged1;
       }
-      else if (this.lives = 0){
-        this.image = boatdestroyed2;
+      else if (this.lives === 0){
+        this.image = boatDamaged2;
       }
       this.x += this.vx
     }
     else if (this.x > this.positionFinalx){
-      if (this.lives = 2){
+      if (this.lives === 2){
         this.image = boatImageLeft;
       }
-      else if (this.lives = 1){
-        this.image = boatdestroyed1left;
+      else if (this.lives === 1){
+        this.image = boatDamaged1Left;
       }
-      else if (this.lives = 0){
-        this.image = boatdestroyed2left;
+      else if (this.lives === 0){
+        this.image = boatDamaged2Left;
       }
       this.x -= this.vx
     }
@@ -73,7 +75,7 @@ class Enemy extends Boat{
   }
 
   //lets the enemy shoot cannons at the user
-  shoot(){
+  shoot(i){
     //use randomness to create a certain level of precision for the enemy boats
     let precision = random(0,1);
     //the accuracy will be between 0 and 100%, so 0 to 1
@@ -81,12 +83,14 @@ class Enemy extends Boat{
     if (this.targetSet === false){
       this.cannonTargetx = user.x * precision;
       this.cannonTargety = user.y * precision;
+      this.cannons[this.cannonNumber].xi = this.x;
+      this.cannons[this.cannonNumber].yi = this.y;
+      this.cannons[this.cannonNumber].xf = this.cannonTargetx;
+      this.cannons[this.cannonNumber].yf = this.cannonTargety;
       this.targetSet = true;
     }
 
-    //create a new cannon
-    let enemyCannon = new Cannon(this.x,this.y,this.cannonTargetx,this.cannonTargety);
-    enemyCannon.launch();
+    this.cannons[this.cannonNumber].launchEnemyCannon(i);
 
 
 
