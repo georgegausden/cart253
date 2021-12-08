@@ -9,7 +9,7 @@ In this prototype I want to create the skeleton of the moving character and the 
 //create the character class
 let user;
 
-let numEnemyBoats = 5;
+let numEnemyBoats = 2;
 let enemyBoats = [];
 let randomSeedArray = [];
 let numberOfPossibleComputerMoves = 1000;
@@ -332,16 +332,16 @@ function userAtSea() {
 
   //show where the user can move
   user.showCannonRange();
+  user.displayAim();
+  console.log(shootDone)
 
   //the sequence of actions that the user does, choose where to move, move, shoot cannon
   if (mousePressedBoolean === false){
     user.findTile();
+
   } else if (mousePressedBoolean === true && userMoveDone === false) {
     user.move();
-  } else if (userMoveDone === true && shootDone === false && mousePressedBoolean === false && user.cannonNumber <= numberOfUserCannons -  1) {
-    user.displayAim();
   }
-
   //shoot the cannon
   else if (shootDone === false && mousePressedBoolean === true && user.cannonNumber <= numberOfUserCannons - 1) {
     if (cannonSoundPlayed === false){
@@ -349,7 +349,9 @@ function userAtSea() {
       cannonSoundPlayed = true;
     }
     user.shoot();
-  } else if (shootDone === true || user.cannonNumber > numberOfUserCannons) {
+  }
+
+  if (shootDone === true || user.cannonNumber > numberOfUserCannons) {
     //the computer's turn now since all the actions are done
     simulationState = 'computerTurn';
   }

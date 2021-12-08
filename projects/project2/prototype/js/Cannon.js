@@ -85,6 +85,7 @@ class Cannon {
       cannonSoundPlayed = false;
       shootDone = true;
       boatHit = false;
+      userMoveDone = false;
     }
   }
 
@@ -125,6 +126,7 @@ class Cannon {
       enemyBoat.cannonNumber += 1;
       enemyBoat.positionSet = false;
       enemyShootsFinished += 1;
+      shootDone = false;
     }
   }
 

@@ -66,12 +66,9 @@ class UserBoat extends Boat {
     if (this.tileSelected === false){
       this.chosenTile = this.selectTile();
       this.tileSelected = true;
+      this.finalPositionX = this.chosenTile.x;
+      this.finalPositionY = this.chosenTile.y;
     }
-
-
-
-    this.finalPositionX = this.chosenTile.x;
-    this.finalPositionY = this.chosenTile.y;
 
     //track the user's current tile they're on
     this.currentTileIndex = this.findTile();
@@ -117,7 +114,6 @@ class UserBoat extends Boat {
       mousePressedBoolean = false;
       userMoveDone = true;
       shipMoveSFX.stop();
-      this.removeHighlightedTiles();
 
       //check if we're on a port tile. If so, move to the ship docked function
       if (this.chosenTile.type === 'port') {
