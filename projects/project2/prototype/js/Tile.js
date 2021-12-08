@@ -12,10 +12,12 @@ class Tile{
     this.index = undefined;
   }
 
+  //adds an index value to the tile
   addIndex(index){
     this.index = index;
   }
 
+  //displays the tile on the canvas depending if its land, water or a port
   display(){
     stroke(255,255,255,200);
     strokeWeight(0.1);

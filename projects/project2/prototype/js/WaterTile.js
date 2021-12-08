@@ -4,6 +4,7 @@ class WaterTile extends Tile {
     this.image = waterImage;
   }
 
+  //displays the water tile on the canvas
   display(){
     imageMode(CENTER);
     image(this.image,this.x, this.y,  this.width, this.height);

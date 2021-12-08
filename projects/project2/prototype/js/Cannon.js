@@ -100,8 +100,8 @@ class Cannon {
     }
 
     //check to see if the enemy touched the user's boat
-    if (checkTouch(this.x,this.y,this.size, user)){
-      console.log('yes')
+    if (userHit(this.x,this.y,this.size)){
+      console.log("yep")
       if (!explosionSFX.isPlaying()){
         explosionSFX.play();
       }

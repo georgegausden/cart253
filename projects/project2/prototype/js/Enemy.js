@@ -18,9 +18,11 @@ class Enemy extends Boat{
     this.cannons = [];
     this.cannonNumber = 0;
     this.positionSet = false;
+    this.precision = random(0,1);
 
   }
 
+  //Displays the enemy boat on the canvas
   display(){
     push();
     imageMode(CENTER);
@@ -28,20 +30,18 @@ class Enemy extends Boat{
     pop();
   }
 
-
+  //Moves the enemy on the canvas
   move(i){
-    
+    //Set the final position of the enemy on the canvas
     if (this.positionSet === false){
       this.positionFinalx = grid[randomSeedArray[numberOfMovesPlayed+i]].x;
       this.positionFinaly = grid[randomSeedArray[numberOfMovesPlayed+i]].y;
       this.positionSet = true;
     }
 
-
-
-
     //animate the movement of the ship
     if (this.x < this.positionFinalx){
+      //Change the image of the enemy depending on if they're moving left or right
       if (this.lives === 2){
         this.image = boatImageRight;
       }
@@ -72,6 +72,7 @@ class Enemy extends Boat{
       this.y -= this.vy
     }
     else if (this.x === this.positionFinalx && this.y === this.positionFinaly){
+      //the enemy arrived at their location
       this.moveDone = true;
       mousePressedBoolean = false;
       numberOfMovesPlayed += 1;
@@ -83,12 +84,11 @@ class Enemy extends Boat{
   //lets the enemy shoot cannons at the user
   shoot(i){
     //use randomness to create a certain level of precision for the enemy boats
-    let precision = random(0,1);
     //the accuracy will be between 0 and 100%, so 0 to 1
     //the ideal target is the user's position itself (100% accuracy), so multiply the user's position by a certain amount
     if (this.targetSet === false){
-      this.cannonTargetx = user.x * precision;
-      this.cannonTargety = user.y * precision;
+      this.cannonTargetx = user.x * this.precision;
+      this.cannonTargety = user.y * this.precision;
       this.cannons[this.cannonNumber].xi = this.x;
       this.cannons[this.cannonNumber].yi = this.y;
       this.cannons[this.cannonNumber].xf = this.cannonTargetx;
@@ -96,6 +96,7 @@ class Enemy extends Boat{
       this.targetSet = true;
     }
 
+    //This function animates the canon launching
     this.cannons[this.cannonNumber].launchEnemyCannon(i);
 
 

@@ -32,16 +32,17 @@ class UserBoat extends Boat {
 
   }
 
-  display(){
+  //displays the user's image on the canvas
+  display() {
     push();
     imageMode(CENTER);
-    image(this.image,this.x,this.y,this.size,this.size);
+    image(this.image, this.x, this.y, this.size, this.size);
     //circle(this.x,this.y,this.size);
     pop();
 
   }
 
-
+  //displays a dotted line that helps the user guide their cannon
   displayAim() {
     push();
     strokeWeight(5);
@@ -55,6 +56,7 @@ class UserBoat extends Boat {
 
   }
 
+  //moves the user on the canvas
   move() {
     //start the moving sound effect
     if (!shipMoveSFX.isPlaying()) {
@@ -62,8 +64,8 @@ class UserBoat extends Boat {
     }
 
     //create an animation to move the user from their tile to the one chosen
-    //final position
-    if (this.tileSelected === false){
+    //calculate the final position of the user
+    if (this.tileSelected === false) {
       this.chosenTile = this.selectTile();
       this.tileSelected = true;
       this.finalPositionX = this.chosenTile.x;
@@ -80,28 +82,25 @@ class UserBoat extends Boat {
     this.tileRightIndex = this.currentTileIndex + 1;
 
 
-    //animate the movement of the ship, don't let the boat go through the land
+    //animate the movement of the ship, (don't let the boat go through the land)
     if (this.x < this.finalPositionX) {
-      //if the tile to the right is land or port, go opposite direction
-      if (this.lives === 2){
+
+      if (this.lives === 2) {
+        //change the user image depending on if they're moving left or right
         this.image = boatImageRight;
-      }
-      else if (this.lives === 1){
+      } else if (this.lives === 1) {
         this.image = boatDamaged1;
-      }
-      else if (this.lives === 0){
+      } else if (this.lives === 0) {
         this.image = boatDamaged2;
       }
       this.x += this.vx;
 
     } else if (this.x > this.finalPositionX) {
-      if (this.lives === 2){
+      if (this.lives === 2) {
         this.image = boatImageLeft;
-      }
-      else if (this.lives === 1){
+      } else if (this.lives === 1) {
         this.image = boatDamaged1Left;
-      }
-      else if (this.lives === 0){
+      } else if (this.lives === 0) {
         this.image = boatDamaged2Left;
       }
       this.x -= this.vx;
@@ -124,8 +123,9 @@ class UserBoat extends Boat {
 
   }
 
+  //launches cannons from the user boat
   shoot() {
-    //launch the first cannon that appears in the array
+    //launch the first cannon that appears in the array, set its final and initial locations on the map
     if (this.cannonAnimated === false) {
       this.Cannonxf = mouseX;
       this.Cannonyf = mouseY;
@@ -136,16 +136,18 @@ class UserBoat extends Boat {
       this.cannonAnimated = true;
     }
 
+    //animate the movement of the cannon
     this.cannons[this.cannonNumber].launch();
   }
 
+  //show the range of the cannon the user can launch
   showCannonRange() {
-    //the user can only move one tile away from where they are currently
     fill(255, 0, 0, 150);
     this.cannonRange = 2 * grid[0].width;
     circle(this.x, this.y, 2 * this.cannonRange);
   }
 
+  //chooses a tile if the user clicks on the map
   selectTile() {
     //let the user select a tile for where they want to move
     //let the tile be only two blocks away from where they are
@@ -168,6 +170,7 @@ class UserBoat extends Boat {
     }
   }
 
+  //resets boolean values for the user at the end of their turn
   endTurn() {
     userMoveDone = true;
     shootDone = true;
@@ -181,6 +184,7 @@ class UserBoat extends Boat {
     this.state = 'atSea';
   }
 
+  //highlights the tiles surrounding the user that they can move to
   hightlightTile() {
     //method to highlight the tiles the user can move their boat to
     //create an array of the tiles we're going to need to highlight
@@ -194,15 +198,15 @@ class UserBoat extends Boat {
         this.adjacentTiles.push(grid[tileIndex]);
       } else if (tileIndex === this.currentTile + 10) {
         this.adjacentTiles.push(grid[tileIndex]);
-      } else if (tileIndex === this.currentTile + 11){
+      } else if (tileIndex === this.currentTile + 11) {
         this.adjacentTiles.push(grid[tileIndex]);
-      } else if (tileIndex === this.currentTile + 9){
+      } else if (tileIndex === this.currentTile + 9) {
         this.adjacentTiles.push(grid[tileIndex]);
-      } else if (tileIndex === this.currentTile - 9){
+      } else if (tileIndex === this.currentTile - 9) {
         this.adjacentTiles.push(grid[tileIndex]);
-      } else if (tileIndex === this.currentTile - 10){
+      } else if (tileIndex === this.currentTile - 10) {
         this.adjacentTiles.push(grid[tileIndex]);
-      } else if (tileIndex === this.currentTile - 11){
+      } else if (tileIndex === this.currentTile - 11) {
         this.adjacentTiles.push(grid[tileIndex]);
       }
 
@@ -215,28 +219,27 @@ class UserBoat extends Boat {
     }
   }
 
-  findTile(){
+  //finds the current tile of the user
+  findTile() {
     //get the current tile of the user
     for (let i = 0; i < grid.length; i++) {
       let tile = grid[i];
       let d = dist(tile.x, tile.y, user.x, user.y);
 
       if (d <= tile.width / 2) {
-        this.currentTile = i
+        this.currentTile = i;
         return i;
       };
     }
   }
 
-  removeHighlightedTiles(){
+  //takes away the highlighted property of the tiles
+  removeHighlightedTiles() {
     //remove the highlighted tiles
     for (let i = 0; i < this.adjacentTiles.length; i++) {
-      console.log(this.adjacentTiles.length)
       let tile = this.adjacentTiles[i];
       tile.image = waterImage;
     }
-
   }
-
 
 }

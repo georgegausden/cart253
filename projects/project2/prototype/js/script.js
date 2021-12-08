@@ -1,15 +1,15 @@
 "use strict";
 
 /**************************************************
-Project 2 Prototype
+Project 2
 George Gausden
 
-In this prototype I want to create the skeleton of the moving character and the user being able to control it
+Pirates: The Sequel
 **************************************************/
-//create the character class
+//create the character that the user controls
 let user;
 
-let numEnemyBoats = 2;
+let numEnemyBoats = 10;
 let enemyBoats = [];
 let randomSeedArray = [];
 let numberOfPossibleComputerMoves = 1000;
@@ -23,6 +23,8 @@ let userMoveDone = false;
 let shootDone = false;
 let enemyTurnDone = false;
 let computerTurnOver = false;
+let mousePressedBoolean = false;
+let boatHit = false;
 
 //sound effects in the game
 let shipMoveSFX = undefined;
@@ -35,12 +37,11 @@ let grid = [];
 let waterTiles = [];
 let numColumns = 10;
 let numRows = 10;
+
 //amount of grass (0 to 1)
 let amountOfGrass = 0.3;
 let amountOfPorts = 0.2;
 
-let mousePressedBoolean = false;
-let boatHit = false;
 
 //load the images in the game
 let landImage = undefined;
@@ -242,7 +243,7 @@ function simulation() {
   displaySimulation();
   //create the turn based system of the program
   //the turns are defined by states ("user turn", and "computer turn")
-  console.log(simulationState)
+
   if (simulationState === 'userTurn') {
     userTurn();
   } else if (simulationState === 'computerTurn') {
@@ -267,13 +268,15 @@ function userTurn() {
 //this function is the computer's turn in the game
 function computerTurn() {
 
+  //if there are no more enemy boats left, end the game
   if (enemyBoats.length === 0){
     simulationState = 'end';
   };
 
+  //Make each enemy boat play their turn
   for (let i = 0; i<enemyBoats.length; i++){
     let enemy = enemyBoats[i];
-    console.log(enemy.moveDone)
+
     if (enemy.moveDone === false){
       enemy.move(i);
     }
@@ -328,11 +331,8 @@ function displaySimulation() {
 //this function is called when the user is at sea, includes all the possible actions (moving, shooting)
 function userAtSea() {
   //user.hightlightTile();
-
-
   //let the user choose where they want to move initially
   //user.selectTile();
-
   //show where the user can move
   user.showCannonRange();
   user.displayAim();
@@ -362,6 +362,7 @@ function userShipDocked() {
   user.chosenTile.shipDocked();
 }
 
+//Function to check if an object is touched by another object
 function checkTouch(object1x,object1y,object1size, object2){
 
   let d = dist(object1x, object1y, object2.x, object2.y);
@@ -371,6 +372,7 @@ function checkTouch(object1x,object1y,object1size, object2){
   }
 }
 
+//Function to reset the Boolean values of the enemy boats
 function resetEnemies(){
   for (let i =0; i<enemyBoats.length; i++){
     let enemy = enemyBoats[i];
@@ -381,5 +383,14 @@ function resetEnemies(){
     enemy.positionSet = false;
     enemyShootsFinished = 0;
 
+  }
+}
+
+//Function to check if the user boat was hit by a canon
+function userHit(cannonx,cannony,cannonSize){
+  let d = dist(user.x, user.y, cannonx, cannony);
+
+  if (d < (user.size/2 + cannonSize.size/2)){
+    return true;
   }
 }

@@ -5,6 +5,7 @@ class PortTile extends LandTile {
     this.portImage = portDisplayImage;
   }
 
+  //displays the port tile on the canvas
   display() {
     imageMode(CENTER);
     image(portImage, this.x, this.y, this.width, this.height);
@@ -44,6 +45,7 @@ class PortTile extends LandTile {
     }
   }
 
+  //This function reloads the cannons of the user if they select the button
   reloadCannons(){
     push();
     fill(255);
