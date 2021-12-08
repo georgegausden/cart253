@@ -81,6 +81,7 @@ class Cannon {
       this.calculated = false;
       user.cannonAnimated = false;
       user.cannonNumber += 1;
+      user.tileSelected = false;
       cannonSoundPlayed = false;
       shootDone = true;
       boatHit = false;
@@ -115,13 +116,15 @@ class Cannon {
 
     this.move();
 
-    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0 || (boatHit === true && i === enemyBoats.length - 1)){
+    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0){
       //let the program know the user has shot the cannon and that the animation is over, so reset all the boolean variables
       this.calculated = false;
       enemyBoat.shootDone = true;
       boatHit = false;
       enemyBoat.targetSet = false;
       enemyBoat.cannonNumber += 1;
+      enemyBoat.positionSet = false;
+      enemyShootsFinished += 1;
     }
   }
 

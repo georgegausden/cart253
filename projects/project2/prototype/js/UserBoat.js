@@ -28,6 +28,7 @@ class UserBoat extends Boat {
     this.currentTileIndex = undefined;
     this.size = 50;
     this.image = boatImageRight;
+    this.tileSelected = false;
 
   }
 
@@ -62,7 +63,13 @@ class UserBoat extends Boat {
 
     //create an animation to move the user from their tile to the one chosen
     //final position
-    this.chosenTile = this.selectTile()
+    if (this.tileSelected === false){
+      this.chosenTile = this.selectTile();
+      this.tileSelected = true;
+    }
+
+
+
     this.finalPositionX = this.chosenTile.x;
     this.finalPositionY = this.chosenTile.y;
 
@@ -74,8 +81,6 @@ class UserBoat extends Boat {
     this.tileDownIndex = this.currentTileIndex + 10;
     this.tileLeftIndex = this.currentTileIndex - 1;
     this.tileRightIndex = this.currentTileIndex + 1;
-
-
 
 
     //animate the movement of the ship, don't let the boat go through the land
@@ -157,8 +162,8 @@ class UserBoat extends Boat {
         return tile;
         mousePressedBoolean = false;
       } else if (d <= (1.4 * tile.width / 2) && mousePressedBoolean && tile.type === 'land') {
-        //end the user's turn if they decide to go on land
-        this.endTurn();
+        //if the user touches land, don't do anything
+        mousePressedBoolean = false;
       } else if (d <= (1.4 * tile.width / 2) && mousePressedBoolean && tile.type === 'port') {
         //the boat is moving to a port, change the value to arriving at port and return the tile that we're headed towards
         this.arrivedAtPort = true;

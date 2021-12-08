@@ -9,11 +9,12 @@ In this prototype I want to create the skeleton of the moving character and the 
 //create the character class
 let user;
 
-let numEnemyBoats = 2;
+let numEnemyBoats = 5;
 let enemyBoats = [];
 let randomSeedArray = [];
-let numberOfPossibleComputerMoves = 500;
+let numberOfPossibleComputerMoves = 1000;
 let numberOfMovesPlayed = 0;
+let enemyShootsFinished = 0;
 
 //set the intial state of the game
 let state = 'title';
@@ -267,7 +268,7 @@ function computerTurn() {
     simulationState = 'end';
   };
 
-  console.log(user.lives);
+
 
   for (let i = 0; i<enemyBoats.length; i++){
     let enemy = enemyBoats[i];
@@ -281,10 +282,9 @@ function computerTurn() {
       }
       enemy.shoot(i);
     }
-    else if (enemy.moveDone === true && enemy.shootDone === true && i === enemyBoats.length - 1){
+    else if (enemy.moveDone === true && enemy.shootDone === true && (enemyShootsFinished === enemyBoats.length)){
       //now it is the user's turn
       simulationState = "userTurn";
-
     }
   }
 
@@ -326,8 +326,9 @@ function displaySimulation() {
 function userAtSea() {
   //user.hightlightTile();
 
+
   //let the user choose where they want to move initially
-  user.selectTile();
+  //user.selectTile();
 
   //show where the user can move
   user.showCannonRange();

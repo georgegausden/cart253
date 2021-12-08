@@ -17,6 +17,7 @@ class Enemy extends Boat{
     this.cannonTargety = undefined;
     this.cannons = [];
     this.cannonNumber = 0;
+    this.positionSet = false;
 
   }
 
