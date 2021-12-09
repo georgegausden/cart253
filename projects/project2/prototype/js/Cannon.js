@@ -15,7 +15,7 @@ class Cannon {
   display(){
     push();
     fill(0);
-    circle(this.xi,this.yi,this.size);
+    image(cannonBall,this.xi,this.yi,this.size,this.size);
     pop();
   }
 
@@ -99,9 +99,13 @@ class Cannon {
       this.calculated = true;
     }
 
+
     //check to see if the enemy touched the user's boat
-    if (userHit(this.x,this.y,this.size)){
-      console.log("yep")
+
+    let d = dist(this.xi,this.yi,user.x,user.y);
+
+    if (d<(this.size/2+user.size/2) && boatHit === false){
+
       if (!explosionSFX.isPlaying()){
         explosionSFX.play();
       }

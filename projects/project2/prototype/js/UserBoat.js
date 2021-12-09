@@ -2,7 +2,7 @@ class UserBoat extends Boat {
 
   constructor(x, y) {
     super(x, y);
-    this.lives = 2;
+    this.lives = 5;
     this.numCannons = 5;
     this.cannons = [];
     this.moveDistance = 3;

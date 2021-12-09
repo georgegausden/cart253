@@ -64,8 +64,10 @@ let palm1 = undefined;
 let palm2 = undefined;
 let palm3 = undefined;
 let beach = undefined;
+let heart = undefined;
 let boatDamaged1 = undefined;
 let boatDamaged2 = undefined;
+let cannonBall = undefined;
 
 //create the cannons that the user can use in the game
 let userCannons = [];
@@ -103,10 +105,12 @@ function preload() {
   boatDamaged2 = loadImage('assets/images/boatdestroyed2.png');
   boatDamaged1Left = loadImage('assets/images/boatdestroyed1left.png');
   boatDamaged2Left = loadImage('assets/images/boatdestroyed2left.png');
+  cannonBall = loadImage('assets/images/cannonball.png');
   palm1 = loadImage('assets/images/palm1.png');
   palm2 = loadImage('assets/images/palm2.png');
   palm3 = loadImage('assets/images/palm3.png');
   beach = loadImage('assets/images/beach.jpg');
+  heart = loadImage('assets/images/heart.png');
   medievalFont = loadFont('assets/fonts/OldLondon.ttf');
   pirateFont = loadFont('assets/fonts/PirateScroll.otf');
   portMusic = loadSound('assets/sounds/portMusic.mov');
@@ -241,6 +245,8 @@ function title() {
 function simulation() {
   //display all the elements in the simulation
   displaySimulation();
+  checkLives();
+
   //create the turn based system of the program
   //the turns are defined by states ("user turn", and "computer turn")
 
@@ -250,14 +256,18 @@ function simulation() {
     computerTurn();
   } else if (simulationState === 'end'){
     end();
-  };
+  } else if (simulationState === 'endLost'){
+    endLost();
+  }
 
 }
 
 //this function is the user's round of the game
 function userTurn() {
   //check to see whether the user is at sea, or is docked at a port
+  console.log(user.lives)
   resetEnemies();
+
   if (user.state === "atSea") {
     userAtSea();
   } else if (user.state === "shipDocked") {
@@ -308,6 +318,23 @@ function end() {
   pop();
 }
 
+function checkLives(){
+  if (user.lives <= 0){
+    simulationState = "endLost";
+  }
+}
+
+function endLost(){
+  background(0);
+  push();
+  textAlign(CENTER);
+  textSize(50);
+  textFont(pirateFont);
+  fill(255);
+  text("Your ship sank!", width / 2, height / 2 - 200);
+  pop();
+}
+
 //if the mouse is released, the variable switches to true, this is used in multiple functions
 function mouseReleased() {
   mousePressedBoolean = true;
@@ -326,6 +353,20 @@ function displaySimulation() {
   for (let i = 0; i < enemyBoats.length; i++) {
     enemyBoats[i].display();
   }
+
+  //display the user lives in the game
+  for (let i = 0; i<user.lives; i++){
+    imageMode(CENTER);
+    image(heart,width/2+100+40*i,height/2-270,40,40);
+  }
+
+  //display the user cannons in the game
+  for (let i = 0; i<user.cannons.length; i++){
+    imageMode(CENTER);
+    image(cannonBall,width/2-40+20*i,height/2-270,20,20);
+  }
+
+
 }
 
 //this function is called when the user is at sea, includes all the possible actions (moving, shooting)
