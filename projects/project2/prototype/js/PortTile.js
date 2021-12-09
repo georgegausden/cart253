@@ -120,6 +120,7 @@ class PortTile extends LandTile {
         treasureSFX.play();
       }
       user.treasure += this.treasure;
+      this.treasure = 0;
     }
   }
 

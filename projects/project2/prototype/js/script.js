@@ -9,12 +9,13 @@ Pirates: The Sequel
 //create the character that the user controls
 let user;
 
-let numEnemyBoats = 1;
+let numEnemyBoats = 4;
 let enemyBoats = [];
 let randomSeedArray = [];
 let numberOfPossibleComputerMoves = 1000;
 let numberOfMovesPlayed = 0;
 let enemyShootsFinished = 0;
+let treasureToWin = 500;
 
 //set the intial state of the game
 let state = 'title';
@@ -71,6 +72,9 @@ let heart = undefined;
 let boatDamaged1 = undefined;
 let boatDamaged2 = undefined;
 let cannonBall = undefined;
+let treasure = undefined;
+let wonImage = undefined;
+let lostImage = undefined;
 
 //create the cannons that the user can use in the game
 let userCannons = [];
@@ -83,6 +87,8 @@ let portMusic2 = undefined;
 let portMusic3 = undefined;
 let portMusic4 = undefined;
 let portMusics = undefined;
+let endWon = undefined;
+let endLostMusic = undefined;
 
 //load the fonts
 let medievalFont = undefined;
@@ -113,6 +119,7 @@ function preload() {
   pirateImage = loadImage('assets/images/pirate.png');
   boatDamaged1 = loadImage('assets/images/boatdestroyed1.png');
   boatDamaged2 = loadImage('assets/images/boatdestroyed2.png');
+  treasure = loadImage('assets/images/treasure.png');
   boatDamaged1Left = loadImage('assets/images/boatdestroyed1left.png');
   boatDamaged2Left = loadImage('assets/images/boatdestroyed2left.png');
   cannonBall = loadImage('assets/images/cannonball.png');
@@ -127,6 +134,10 @@ function preload() {
   portMusic2 = loadSound('assets/sounds/portMusic2.mov');
   portMusic3 = loadSound('assets/sounds/portMusic3.mov');
   portMusic4 = loadSound('assets/sounds/portMusic4.mov');
+  endWon = loadSound('assets/sounds/endWon.mov');
+  endLostMusic = loadSound('assets/sounds/endLost.mov');
+  lostImage = loadImage('assets/images/lostImage.jpg');
+  wonImage = loadImage('assets/images/wonImage.png');
 
 
 }
@@ -153,7 +164,7 @@ function setup() {
       if (r < amountOfGrass) {
         let r2 = random(0, 1);
         if (r2 < amountOfPorts) {
-          grid.push(new PortTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'port', random(portNames), random(portDisplayImages), random(portMusics),random(40,200)));
+          grid.push(new PortTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'port', random(portNames), random(portDisplayImages), random(portMusics),int(random(250,350))));
         } else {
           grid.push(new LandTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'land'));
         }
@@ -264,6 +275,7 @@ function simulation() {
   //display all the elements in the simulation
   displaySimulation();
   checkLives();
+  checkTreasure();
 
   //create the turn based system of the program
   //the turns are defined by states ("user turn", and "computer turn")
@@ -283,9 +295,7 @@ function simulation() {
 //this function is the user's round of the game
 function userTurn() {
   //check to see whether the user is at sea, or is docked at a port
-  console.log(user.lives)
   resetEnemies();
-
   if (user.state === "atSea") {
     userAtSea();
   } else if (user.state === "shipDocked") {
@@ -324,15 +334,28 @@ function computerTurn() {
 
 };
 
+function checkTreasure(){
+  if (user.treasure >= treasureToWin){
+    simulationState = 'end';
+  };
+}
+
 //display the end state of the program
 function end() {
-  background(0);
+  if (!endWon.isPlaying()){
+    endWon.play();
+  }
+  background(0,0,200);
+  imageMode(CENTER);
+  image(wonImage,width/2,height/2,width,height);
+
+
   push();
   textAlign(CENTER);
   textSize(50);
   textFont(pirateFont);
   fill(255);
-  text("The End!", width / 2, height / 2 - 200);
+  text("You Won!", width / 2, height / 2 - 200);
   pop();
 }
 
@@ -343,7 +366,15 @@ function checkLives(){
 }
 
 function endLost(){
-  background(0);
+  if (!endLostMusic.isPlaying()){
+    endLostMusic.play();
+  }
+
+  imageMode(CENTER);
+  image(lostImage,width/2,height/2,width,height);
+
+
+
   push();
   textAlign(CENTER);
   textSize(50);
@@ -383,6 +414,18 @@ function displaySimulation() {
     imageMode(CENTER);
     image(cannonBall,width/2-40+20*i,height/2-270,20,20);
   }
+
+  //display the treasure the user currently has
+  //display it as a number
+  push();
+  textSize(32);
+  fill(255);
+  textAlign(CENTER);
+  text(user.treasure+"/"+treasureToWin,width/2+180,height/2+275);
+  pop();
+
+  imageMode(CENTER);
+  image(treasure,width/2+270,height/2+270,40,40);
 
 
 }
