@@ -1,12 +1,12 @@
-class LandTile extends Tile{
-  constructor(x,y,r,g,b,transparency,type){
-    super(x,y,r,g,b,transparency,type);
+class LandTile extends Tile {
+  constructor(x, y, r, g, b, transparency, type) {
+    super(x, y, r, g, b, transparency, type);
   }
 
 
   //displays the landtile on the canvas
-  display(){
+  display() {
     imageMode(CENTER);
-    image(landImage,this.x, this.y,  this.width, this.height);
+    image(landImage, this.x, this.y, this.width, this.height);
   }
 }

@@ -148,7 +148,7 @@ function preload() {
 function setup() {
   createCanvas(600, 600);
 
-  portMusics = [portMusic,portMusic2,portMusic3,portMusic4];
+  portMusics = [portMusic, portMusic2, portMusic3, portMusic4];
 
   //add all the port images into the array of port images
   portDisplayImages.push(portDisplayImage1);
@@ -164,7 +164,7 @@ function setup() {
       if (r < amountOfGrass) {
         let r2 = random(0, 1);
         if (r2 < amountOfPorts) {
-          grid.push(new PortTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'port', random(portNames), random(portDisplayImages), random(portMusics),int(random(250,350))));
+          grid.push(new PortTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'port', random(portNames), random(portDisplayImages), random(portMusics), int(random(250, 350))));
         } else {
           grid.push(new LandTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'land'));
         }
@@ -179,7 +179,7 @@ function setup() {
 
   //create the user's cannons
   for (let i = 0; i < numberOfUserCannons; i++) {
-    let cannon = new Cannon(undefined,undefined,undefined,undefined);
+    let cannon = new Cannon(undefined, undefined, undefined, undefined);
     user.cannons.push(cannon);
   };
 
@@ -193,7 +193,7 @@ function setup() {
   };
 
   //add the indices to the tiles
-  for (let i = 0; i<grid.length; i++){
+  for (let i = 0; i < grid.length; i++) {
     let tile = grid[i];
 
     tile.addIndex(i);
@@ -210,8 +210,8 @@ function setup() {
   for (let i = 0; i < enemyBoats.length; i++) {
     let enemy = enemyBoats[i];
 
-    for (let j = 0; j<numberOfEnemyCannons; j++){
-      let cannon = new Cannon(undefined,undefined,undefined,undefined);
+    for (let j = 0; j < numberOfEnemyCannons; j++) {
+      let cannon = new Cannon(undefined, undefined, undefined, undefined);
       enemy.cannons.push(cannon);
     };
   };
@@ -244,11 +244,11 @@ function draw() {
 function title() {
   //add the background images
   imageMode(CENTER);
-  image(beach, width/2, height/2, width+500, height);
-  image(palm1, width/2-200, height/2+200 - 125, 300, 200);
-  image(palm2, width/2+50, height/2-50 - 125, 500, 400);
-  image(palm3, width/2, height/2, width, height);
-  image(pirateImage, width/2, height/2 - 100, 150, 100);
+  image(beach, width / 2, height / 2, width + 500, height);
+  image(palm1, width / 2 - 200, height / 2 + 200 - 125, 300, 200);
+  image(palm2, width / 2 + 50, height / 2 - 50 - 125, 500, 400);
+  image(palm3, width / 2, height / 2, width, height);
+  image(pirateImage, width / 2, height / 2 - 100, 150, 100);
 
   noStroke();
 
@@ -260,7 +260,7 @@ function title() {
   fill(255);
   text("Pirates: The Sequel", width / 2, height / 2 - 200);
   textSize(25);
-  text("Press 'Enter' to start the game", width/2, height/2 + 100);
+  text("Press 'Enter' to start the game", width / 2, height / 2 + 100);
   pop();
 
 
@@ -284,9 +284,9 @@ function simulation() {
     userTurn();
   } else if (simulationState === 'computerTurn') {
     computerTurn();
-  } else if (simulationState === 'end'){
+  } else if (simulationState === 'end') {
     end();
-  } else if (simulationState === 'endLost'){
+  } else if (simulationState === 'endLost') {
     endLost();
   }
 
@@ -307,24 +307,22 @@ function userTurn() {
 function computerTurn() {
 
   //if there are no more enemy boats left, end the game
-  if (enemyBoats.length === 0){
+  if (enemyBoats.length === 0) {
     simulationState = 'end';
   };
 
   //Make each enemy boat play their turn
-  for (let i = 0; i<enemyBoats.length; i++){
+  for (let i = 0; i < enemyBoats.length; i++) {
     let enemy = enemyBoats[i];
 
-    if (enemy.moveDone === false){
+    if (enemy.moveDone === false) {
       enemy.move(i);
-    }
-    else if (enemy.moveDone === true && enemy.shootDone === false){
-      if (!cannonShootSFX.isPlaying()){
+    } else if (enemy.moveDone === true && enemy.shootDone === false) {
+      if (!cannonShootSFX.isPlaying()) {
         cannonShootSFX.play();
       }
       enemy.shoot(i);
-    }
-    else if (enemyShootsFinished === enemyBoats.length){
+    } else if (enemyShootsFinished === enemyBoats.length) {
       simulationState = "userTurn";
 
     }
@@ -334,20 +332,20 @@ function computerTurn() {
 
 };
 
-function checkTreasure(){
-  if (user.treasure >= treasureToWin){
+function checkTreasure() {
+  if (user.treasure >= treasureToWin) {
     simulationState = 'end';
   };
 }
 
 //display the end state of the program
 function end() {
-  if (!endWon.isPlaying()){
+  if (!endWon.isPlaying()) {
     endWon.play();
   }
-  background(0,0,200);
+  background(0, 0, 200);
   imageMode(CENTER);
-  image(wonImage,width/2,height/2,width,height);
+  image(wonImage, width / 2, height / 2, width, height);
 
 
   push();
@@ -359,19 +357,19 @@ function end() {
   pop();
 }
 
-function checkLives(){
-  if (user.lives <= 0){
+function checkLives() {
+  if (user.lives <= 0) {
     simulationState = "endLost";
   }
 }
 
-function endLost(){
-  if (!endLostMusic.isPlaying()){
+function endLost() {
+  if (!endLostMusic.isPlaying()) {
     endLostMusic.play();
   }
 
   imageMode(CENTER);
-  image(lostImage,width/2,height/2,width,height);
+  image(lostImage, width / 2, height / 2, width, height);
 
 
 
@@ -404,15 +402,15 @@ function displaySimulation() {
   }
 
   //display the user lives in the game
-  for (let i = 0; i<user.lives; i++){
+  for (let i = 0; i < user.lives; i++) {
     imageMode(CENTER);
-    image(heart,width/2+100+40*i,height/2-270,40,40);
+    image(heart, width / 2 + 100 + 40 * i, height / 2 - 270, 40, 40);
   }
 
   //display the user cannons in the game
-  for (let i = 0; i<user.cannons.length - user.cannonNumber; i++){
+  for (let i = 0; i < user.cannons.length - user.cannonNumber; i++) {
     imageMode(CENTER);
-    image(cannonBall,width/2-40+20*i,height/2-270,20,20);
+    image(cannonBall, width / 2 - 40 + 20 * i, height / 2 - 270, 20, 20);
   }
 
   //display the treasure the user currently has
@@ -421,11 +419,11 @@ function displaySimulation() {
   textSize(32);
   fill(255);
   textAlign(CENTER);
-  text(user.treasure+"/"+treasureToWin,width/2+180,height/2+275);
+  text(user.treasure + "/" + treasureToWin, width / 2 + 180, height / 2 + 275);
   pop();
 
   imageMode(CENTER);
-  image(treasure,width/2+270,height/2+270,40,40);
+  image(treasure, width / 2 + 270, height / 2 + 270, 40, 40);
 
 
 }
@@ -437,7 +435,7 @@ function userAtSea() {
   //user.selectTile();
   //show where the user can move
 
-  if (user.cannons.length>0){
+  if (user.cannons.length > 0) {
     user.showCannonRange();
     user.displayAim();
   }
@@ -449,7 +447,7 @@ function userAtSea() {
   }
   //shoot the cannon
   else if (shootDone === false && mousePressedBoolean === true && user.cannonNumber <= numberOfUserCannons - 1) {
-    if (cannonSoundPlayed === false){
+    if (cannonSoundPlayed === false) {
       cannonShootSFX.play();
       cannonSoundPlayed = true;
     }
@@ -468,18 +466,18 @@ function userShipDocked() {
 }
 
 //Function to check if an object is touched by another object
-function checkTouch(object1x,object1y,object1size, object2){
+function checkTouch(object1x, object1y, object1size, object2) {
 
   let d = dist(object1x, object1y, object2.x, object2.y);
 
-  if (d < (object1size/2 + object2.size/2)){
+  if (d < (object1size / 2 + object2.size / 2)) {
     return true;
   }
 }
 
 //Function to reset the Boolean values of the enemy boats
-function resetEnemies(){
-  for (let i =0; i<enemyBoats.length; i++){
+function resetEnemies() {
+  for (let i = 0; i < enemyBoats.length; i++) {
     let enemy = enemyBoats[i];
 
     //reset all the parameters
@@ -492,10 +490,10 @@ function resetEnemies(){
 }
 
 //Function to check if the user boat was hit by a canon
-function userHit(cannonx,cannony,cannonSize){
+function userHit(cannonx, cannony, cannonSize) {
   let d = dist(user.x, user.y, cannonx, cannony);
 
-  if (d < (user.size/2 + cannonSize.size/2)){
+  if (d < (user.size / 2 + cannonSize.size / 2)) {
     return true;
   }
 }

@@ -116,9 +116,9 @@ class PortTile extends LandTile {
 
     if (collectTreasureButton.checkInButton()){
       //collect the treasure
-      if (!treasureSFX.isPlaying()){
-        treasureSFX.play();
-      }
+      if (!treasureSFX.isPlaying()) {
+    treasureSFX.play();
+  }
       user.treasure += this.treasure;
       this.treasure = 0;
     }

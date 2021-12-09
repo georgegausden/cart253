@@ -1,5 +1,5 @@
 class Cannon {
-  constructor(x,y,xf,yf){
+  constructor(x, y, xf, yf) {
     this.xi = x;
     this.yi = y;
     this.xf = xf;
@@ -12,28 +12,28 @@ class Cannon {
 
   }
 
-  display(){
+  display() {
     push();
     fill(0);
-    image(cannonBall,this.xi,this.yi,this.size,this.size);
+    image(cannonBall, this.xi, this.yi, this.size, this.size);
     pop();
   }
 
-  move(){
+  move() {
     this.xi += this.vx;
     this.yi += this.vy;
   }
 
-  calculateVelocityVectors(){
-    this.vx = (this.xf - this.xi)/this.time;
-    this.vy = (this.yf - this.yi)/this.time;
+  calculateVelocityVectors() {
+    this.vx = (this.xf - this.xi) / this.time;
+    this.vy = (this.yf - this.yi) / this.time;
   }
 
   //launch contains all the elements to shoot the cannon on the screen, basically a function that encapsulates everything
-  launch(){
+  launch() {
     this.display();
 
-    if (this.calculated === false){
+    if (this.calculated === false) {
       this.calculateVelocityVectors();
       this.calculated = true;
     }
@@ -41,40 +41,38 @@ class Cannon {
     this.move();
 
     //check if the cannon hits an enemy ship
-    for (let i = 0; i<enemyBoats.length; i++){
+    for (let i = 0; i < enemyBoats.length; i++) {
       let boat = enemyBoats[i];
       let cannon = user.cannons[user.cannonNumber];
 
-      if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 2 && boatHit === false){
+      if (checkTouch(cannon.xi, cannon.yi, cannon.size, boat) && boat.lives === 2 && boatHit === false) {
         //the cannon hit the user ship, so make it lose a life and change the image of the boat as well
-        if (!explosionSFX.isPlaying()){
+        if (!explosionSFX.isPlaying()) {
           explosionSFX.play();
         }
         boat.image = boatDamaged1;
         boat.lives -= 1;
         boatHit = true;
 
-      }
-      else if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 1 && boatHit === false){
+      } else if (checkTouch(cannon.xi, cannon.yi, cannon.size, boat) && boat.lives === 1 && boatHit === false) {
         //the cannon hit the user ship, so make it lose a life and change the image of the boat as well
-        if (!explosionSFX.isPlaying()){
+        if (!explosionSFX.isPlaying()) {
           explosionSFX.play();
         }
         boat.image = boatDamaged2;
         boat.lives -= 1;
         boatHit = true;
-      }
-      else if (checkTouch(cannon.xi,cannon.yi,cannon.size,boat) && boat.lives === 0 && boatHit === false){
+      } else if (checkTouch(cannon.xi, cannon.yi, cannon.size, boat) && boat.lives === 0 && boatHit === false) {
         //remove the boat from the list of enemy boats, splice it out
-        if (!explosionSFX.isPlaying()){
+        if (!explosionSFX.isPlaying()) {
           explosionSFX.play();
         }
-        enemyBoats.splice(i,1);
+        enemyBoats.splice(i, 1);
         boatHit = true;
       }
     }
 
-    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0 || boatHit === true){
+    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0 || boatHit === true) {
       //let the program know the user has shot the cannon and that the animation is over, so reset all the boolean variables
       this.calculated = false;
       user.cannonAnimated = false;
@@ -87,12 +85,12 @@ class Cannon {
     }
   }
 
-  launchEnemyCannon(i){
+  launchEnemyCannon(i) {
 
     let enemyBoat = enemyBoats[i]
 
     this.display();
-    if (this.calculated === false){
+    if (this.calculated === false) {
       this.calculateVelocityVectors();
       this.calculated = true;
     }
@@ -100,17 +98,16 @@ class Cannon {
 
     //check to see if the enemy touched the user's boat
 
-    let d = dist(this.xi,this.yi,user.x,user.y);
+    let d = dist(this.xi, this.yi, user.x, user.y);
 
-    if (d<(this.size/2+user.size/2) && boatHit === false){
+    if (d < (this.size / 2 + user.size / 2) && boatHit === false) {
 
-      if (!explosionSFX.isPlaying()){
+      if (!explosionSFX.isPlaying()) {
         explosionSFX.play();
       }
-      if (user.lives === 2){
+      if (user.lives === 2) {
         user.image = boatDamaged1;
-      }
-      else if (user.lives === 1){
+      } else if (user.lives === 1) {
         user.image = boatDamaged2Left;
       }
       boatHit = true;
@@ -119,7 +116,7 @@ class Cannon {
 
     this.move();
 
-    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0){
+    if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0) {
       //let the program know the user has shot the cannon and that the animation is over, so reset all the boolean variables
       this.calculated = false;
       enemyBoat.shootDone = true;

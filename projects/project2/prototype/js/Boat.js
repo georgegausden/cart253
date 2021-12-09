@@ -1,5 +1,5 @@
 class Boat {
-  constructor(x,y){
+  constructor(x, y) {
     this.x = x;
     this.y = y;
     this.size = 50;
@@ -7,10 +7,10 @@ class Boat {
   }
 
   //displays the boat on the canvas
-  display(){
+  display() {
     push();
     imageMode(CENTER);
-    image(boatImageRight,this.x,this.y,this.size,this.size);
+    image(boatImageRight, this.x, this.y, this.size, this.size);
     pop();
 
   }
