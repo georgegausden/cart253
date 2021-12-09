@@ -1,0 +1,3 @@
+# Artistic Statement
+
+The main goal of this project was to see if I could create a tile based, turn based strategy game where the user must accomplish a certain goal (collecting treasure or destroying all the enemy ships). I think the turn based aspect of the game worked really well and I am very pleased with the result. It's the first time I've attempted making a tile based game with turns and I feel a lot more confident in my abilities to make a game. If given more time, I would extend the features of the game to create scenarios or missions to make the experience even more enjoyable. 
