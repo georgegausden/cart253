@@ -9,7 +9,7 @@ Pirates: The Sequel
 //create the character that the user controls
 let user;
 
-let numEnemyBoats = 10;
+let numEnemyBoats = 1;
 let enemyBoats = [];
 let randomSeedArray = [];
 let numberOfPossibleComputerMoves = 1000;
@@ -31,6 +31,9 @@ let shipMoveSFX = undefined;
 let cannonShootSFX = undefined;
 let cannonSoundPlayed = false;
 let explosionSFX = undefined;
+let treasureSFX = undefined;
+let repairSFX = undefined;
+let rearmSFX = undefined;
 
 //create the grid of the game
 let grid = [];
@@ -76,6 +79,10 @@ let numberOfEnemyCannons = 100;
 
 //load the music
 let portMusic = undefined;
+let portMusic2 = undefined;
+let portMusic3 = undefined;
+let portMusic4 = undefined;
+let portMusics = undefined;
 
 //load the fonts
 let medievalFont = undefined;
@@ -88,6 +95,9 @@ let portNames = ['Silvercreek Harbor', 'Stormbreaker Harbor', 'Whisperwind Port'
 function preload() {
   shipMoveSFX = loadSound('assets/sounds/shipMoveSFX.mov');
   cannonShootSFX = loadSound('assets/sounds/cannonShootSFX.mov');
+  treasureSFX = loadSound('assets/sounds/treasureSFX.mov');
+  repairSFX = loadSound('assets/sounds/repairSFX.mov');
+  rearmSFX = loadSound('assets/sounds/rearmSFX.mov');
   explosionSFX = loadSound('assets/sounds/explosion.mov');
   boatImageRight = loadImage('assets/images/ship.png');
   boatImageLeft = loadImage('assets/images/shipleft.png');
@@ -114,6 +124,11 @@ function preload() {
   medievalFont = loadFont('assets/fonts/OldLondon.ttf');
   pirateFont = loadFont('assets/fonts/PirateScroll.otf');
   portMusic = loadSound('assets/sounds/portMusic.mov');
+  portMusic2 = loadSound('assets/sounds/portMusic2.mov');
+  portMusic3 = loadSound('assets/sounds/portMusic3.mov');
+  portMusic4 = loadSound('assets/sounds/portMusic4.mov');
+
+
 }
 
 // setup()
@@ -121,6 +136,8 @@ function preload() {
 // Creates the canvas, the grid, the user boat and the enemy boats and an array of possible enemy moves
 function setup() {
   createCanvas(600, 600);
+
+  portMusics = [portMusic,portMusic2,portMusic3,portMusic4];
 
   //add all the port images into the array of port images
   portDisplayImages.push(portDisplayImage1);
@@ -136,7 +153,7 @@ function setup() {
       if (r < amountOfGrass) {
         let r2 = random(0, 1);
         if (r2 < amountOfPorts) {
-          grid.push(new PortTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'port', random(portNames), random(portDisplayImages)));
+          grid.push(new PortTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'port', random(portNames), random(portDisplayImages), random(portMusics),random(40,200)));
         } else {
           grid.push(new LandTile(width / numColumns * i + width / (2 * numColumns), height / numRows * j + height / (2 * numRows), 0, 0, random(0, 100), 255, 'land'));
         }
@@ -234,6 +251,7 @@ function title() {
   textSize(25);
   text("Press 'Enter' to start the game", width/2, height/2 + 100);
   pop();
+
 
   //if enter is pressed, move to simulation
   if (keyIsDown(13)) {
@@ -361,7 +379,7 @@ function displaySimulation() {
   }
 
   //display the user cannons in the game
-  for (let i = 0; i<user.cannons.length; i++){
+  for (let i = 0; i<user.cannons.length - user.cannonNumber; i++){
     imageMode(CENTER);
     image(cannonBall,width/2-40+20*i,height/2-270,20,20);
   }
@@ -375,13 +393,16 @@ function userAtSea() {
   //let the user choose where they want to move initially
   //user.selectTile();
   //show where the user can move
-  user.showCannonRange();
-  user.displayAim();
 
+  if (user.cannons.length>0){
+    user.showCannonRange();
+    user.displayAim();
+  }
 
   //the sequence of actions that the user does, choose where to move, move, shoot cannon
   if (mousePressedBoolean === true && userMoveDone === false && shootDone === false) {
     user.move();
+
   }
   //shoot the cannon
   else if (shootDone === false && mousePressedBoolean === true && user.cannonNumber <= numberOfUserCannons - 1) {

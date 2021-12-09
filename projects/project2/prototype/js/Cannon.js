@@ -72,8 +72,6 @@ class Cannon {
         enemyBoats.splice(i,1);
         boatHit = true;
       }
-
-
     }
 
     if (this.xi > width || this.xi < 0 || this.yi > height || this.yi < 0 || boatHit === true){

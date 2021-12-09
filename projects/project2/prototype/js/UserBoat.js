@@ -29,6 +29,7 @@ class UserBoat extends Boat {
     this.size = 50;
     this.image = boatImageRight;
     this.tileSelected = false;
+    this.treasure = 0;
 
   }
 
