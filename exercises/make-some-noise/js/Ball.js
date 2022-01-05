@@ -1,4 +1,4 @@
-class Ball {
+`class Ball {
 
   constructor(x, y, vy) {
     this.x = x;
