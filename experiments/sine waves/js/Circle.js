@@ -1,11 +1,15 @@
 class Circle{
-  constructor(x,y,vy,identifier){
+  constructor(x,y,vy,identifier,r,g,b,a){
     this.x=x;
     this.y=y;
     this.vy = vy;
     this.vx = 0;
     this.size = 50;
     this.randomness = 0.01;
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.a = a;
     this.identifier = identifier;
   }
 
@@ -14,7 +18,7 @@ class Circle{
     push();
     stroke(0);
     strokeWeight(0.2);
-    fill(255);
+    fill(this.r,this.g,this.b, this.a);
     circle(this.x,this.y,this.size);
     pop();
   }

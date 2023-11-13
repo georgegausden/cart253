@@ -1,6 +1,6 @@
 
 let circles = [];
-let numberCircles = 5;
+let numberCircles = 100;
 let time = 0;
 
 function setup(){
